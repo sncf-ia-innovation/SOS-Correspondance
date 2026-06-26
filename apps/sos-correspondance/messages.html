@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votre demande — SOS Correspondance — SNCF Voyageurs</title>
+
+  <!-- Tokens design-system -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <!-- Layout écran d'entrée (header / footer / conteneur mobile) -->
+  <link rel="stylesheet" href="client.css">
+  <!-- Layout écrans de réponse -->
+  <link rel="stylesheet" href="messages.css">
+</head>
+<body>
+  <main class="sos" aria-labelledby="msg-title">
+
+    <!-- En-tête teal commun (logo plaque, repris de client.html) -->
+    <header class="sos-header">
+      <div class="sos-header__bar">
+        <a class="sos-header__logo" href="client.html" aria-label="SNCF Voyageurs — accueil" style="align-self:flex-start">
+          <span class="sos-header__logo-plate" style="display:inline-flex;align-items:center;justify-content:center;margin-top:calc(-1 * var(--space-16,16px));padding:var(--space-16,16px) var(--space-12,12px) var(--space-12,12px);background:var(--color-white,#fff);border-radius:0 0 var(--radius-r8,16px) var(--radius-r8,16px)">
+            <svg viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false"><use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/></svg>
+          </span>
+        </a>
+        <div class="sos-header__actions">
+          <button type="button" class="sos-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="sos-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="sos-header__stripes" aria-hidden="true"></div>
+    </header>
+
+    <!-- Corps : message injecté selon ?m=... -->
+    <div class="sos-body msg-body">
+
+      <!-- m=merci (défaut) — prise en compte -->
+      <section class="msg msg--merci" data-variant="merci" hidden aria-labelledby="msg-title">
+        <h1 class="msg__title" id="msg-title">
+          Merci pour votre confiance ! Votre demande a bien été prise en compte. Elle est en cours de traitement.
+        </h1>
+        <p class="msg__text">
+          Nous vous informerons de la <strong>solution</strong> pour poursuivre votre voyage directement
+          <strong>par SMS et / ou mail</strong>, à l'approche de votre arrivée en gare de correspondance.
+        </p>
+        <p class="msg__text">
+          Votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.
+        </p>
+        <p class="msg__signature">L'équipe SNCF Voyageurs</p>
+      </section>
+
+      <!-- m=prise-en-charge — prise en charge en gare (IHM 7) -->
+      <section class="msg msg--prise-en-charge" data-variant="prise-en-charge" hidden aria-labelledby="msg-title">
+        <h1 class="msg__title" id="msg-title">Vous bénéficiez d'une prise en charge en gare.</h1>
+        <p class="msg__text">
+          Compte-tenu des informations transmises,
+          <strong>votre chef de bord ou le personnel en gare vous aidera</strong>
+          pour trouver une solution adaptée.
+        </p>
+        <p class="msg__signature">L'équipe SNCF Voyageurs</p>
+      </section>
+
+      <!-- m=deja — demande déjà enregistrée -->
+      <section class="msg msg--deja" data-variant="deja" hidden aria-labelledby="msg-title">
+        <h1 class="msg__title" id="msg-title">
+          Votre demande a déjà été enregistrée ; elle est en cours de traitement.
+        </h1>
+        <p class="msg__text">
+          Nous vous invitons à <strong>consulter vos mails et SMS</strong>.
+        </p>
+        <p class="msg__text">
+          Votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.
+        </p>
+        <p class="msg__signature">L'équipe SNCF Voyageurs</p>
+      </section>
+
+      <!-- m=indispo — site momentanément indisponible (crise, encadré orange) -->
+      <section class="msg msg--indispo" data-variant="indispo" hidden aria-labelledby="msg-title">
+        <div class="msg-alert" role="alert">
+          <h1 class="msg-alert__title" id="msg-title">Le site est momentanément indisponible.</h1>
+          <p class="msg-alert__text">
+            Suite à un événement majeur, le trafic est fortement perturbé. Nos équipes sont
+            pleinement mobilisées pour identifier les meilleures solutions d'accompagnement, et
+            pourront à nouveau répondre à vos sollicitations très prochainement.
+          </p>
+          <p class="msg-alert__text">
+            Dans cette attente, <strong>votre chef de bord ou le personnel en gare reste à votre disposition</strong>
+            pour vous informer et vous accompagner.
+          </p>
+          <p class="msg-alert__text">Merci de votre compréhension.</p>
+          <p class="msg-alert__signature">L'équipe SNCF Voyageurs</p>
+        </div>
+      </section>
+
+      <!-- Aperçu : bascule entre variantes -->
+      <nav class="msg-switch" aria-label="Aperçu des variantes de message">
+        <span class="msg-switch__heading">Aperçu des réponses :</span>
+        <a class="msg-switch__link" href="?m=merci">Prise en compte</a>
+        <a class="msg-switch__link" href="?m=prise-en-charge">Prise en charge</a>
+        <a class="msg-switch__link" href="?m=deja">Déjà enregistrée</a>
+        <a class="msg-switch__link" href="?m=indispo">Indisponible</a>
+      </nav>
+
+    </div>
+
+    <!-- Footer commun "Demande et déclaration" -->
+    <footer class="sos-footer">
+      <p class="sos-footer__heading">Demande et déclaration :</p>
+      <nav class="sos-footer__links" aria-label="Informations légales">
+        <a class="sos-footer__link" href="#">CGU</a>
+        <span class="sos-footer__sep" aria-hidden="true">|</span>
+        <a class="sos-footer__link" href="#">Données personnelles
+          <svg class="sos-footer__arrow" viewBox="0 0 8 8" width="8" height="8" aria-hidden="true" focusable="false">
+            <path d="M1 7 L7 1 M3 1 L7 1 L7 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="sos-footer__link sos-footer__link--block" href="#">Déclaration d'accessibilité
+          <svg class="sos-footer__arrow" viewBox="0 0 8 8" width="8" height="8" aria-hidden="true" focusable="false">
+            <path d="M1 7 L7 1 M3 1 L7 1 L7 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </nav>
+    </footer>
+
+  </main>
+
+  <!-- Sélection de la variante selon ?m=... (défaut : merci) -->
+  <script>
+    (function () {
+      var allowed = ['merci', 'prise-en-charge', 'deja', 'indispo'];
+      var params = new URLSearchParams(window.location.search);
+      var m = params.get('m');
+      if (allowed.indexOf(m) === -1) { m = 'merci'; }
+
+      document.querySelectorAll('.msg').forEach(function (sec) {
+        sec.hidden = sec.getAttribute('data-variant') !== m;
+      });
+
+      // Marque le lien d'aperçu courant
+      document.querySelectorAll('.msg-switch__link').forEach(function (a) {
+        if (a.getAttribute('href') === '?m=' + m) {
+          a.setAttribute('aria-current', 'page');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

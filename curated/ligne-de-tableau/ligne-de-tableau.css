@@ -1,0 +1,121 @@
+/* Ligne de tableau — table row, 3 variants: Entête / Ligne claire / Ligne foncée */
+
+.ds-ligne-tableau {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-family: var(--font-sans);
+  table-layout: auto;
+}
+
+/* --- Cellule (base) : Tableau / En-tête + Tableau / Ligne --- */
+.ds-ligne-tableau__cell {
+  padding: var(--space-8) var(--space-16);
+  text-align: left;
+  vertical-align: middle;
+  font-size: var(--text-md);
+  white-space: nowrap;
+}
+
+.ds-ligne-tableau__cell--handle {
+  width: var(--space-48);
+  text-align: center;
+}
+
+/* --- Variant : Entête (header row, fond brand, texte blanc) --- */
+.ds-ligne-tableau__row--entete > .ds-ligne-tableau__cell {
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-weight: 500;
+  height: var(--space-48); /* 56px de haut avec le padding vertical */
+}
+
+.ds-ligne-tableau__row--entete > .ds-ligne-tableau__cell:first-child {
+  border-top-left-radius: var(--radius-r6);
+  border-bottom-left-radius: var(--radius-r6);
+}
+
+.ds-ligne-tableau__row--entete > .ds-ligne-tableau__cell:last-child {
+  border-top-right-radius: var(--radius-r6);
+  border-bottom-right-radius: var(--radius-r6);
+}
+
+/* --- Variant : Ligne claire (fond clair) --- */
+.ds-ligne-tableau__row--claire > .ds-ligne-tableau__cell {
+  background: var(--color-gray-98);
+  color: var(--color-gray-31);
+}
+
+/* --- Variant : Ligne foncée (fond vert pâle, zébrage) --- */
+.ds-ligne-tableau__row--foncee > .ds-ligne-tableau__cell {
+  background: var(--color-gray-94); /* #e5f4e8 ≈ token #e7f3e8 */
+  color: var(--color-gray-31);
+}
+
+/* Coins arrondis sur les lignes de données */
+.ds-ligne-tableau__row--claire > .ds-ligne-tableau__cell:first-child,
+.ds-ligne-tableau__row--foncee > .ds-ligne-tableau__cell:first-child {
+  border-top-left-radius: var(--radius-r6);
+  border-bottom-left-radius: var(--radius-r6);
+}
+
+.ds-ligne-tableau__row--claire > .ds-ligne-tableau__cell:last-child,
+.ds-ligne-tableau__row--foncee > .ds-ligne-tableau__cell:last-child {
+  border-top-right-radius: var(--radius-r6);
+  border-bottom-right-radius: var(--radius-r6);
+}
+
+/* --- Poignée de déplacement (drag handle) --- */
+.ds-ligne-tableau__drag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-16);
+  height: var(--space-16);
+  cursor: grab;
+}
+
+.ds-ligne-tableau__drag-icon {
+  width: var(--space-16);
+  height: var(--space-16);
+  fill: var(--color-gray-46);
+}
+
+/* --- Badge statut (instance Tableau / Statut) --- */
+.ds-ligne-tableau__statut {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-2) var(--space-8);
+  border-radius: var(--radius-2xl);
+  font-size: var(--text-base);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.ds-ligne-tableau__statut-dot {
+  width: var(--space-8);
+  height: var(--space-8);
+  border-radius: var(--radius-r12);
+  flex: 0 0 auto;
+}
+
+.ds-ligne-tableau__statut-label {
+  color: var(--color-gray-31);
+}
+
+/* Couleur "Vert pomme" — En ligne */
+.ds-ligne-tableau__statut--vert {
+  background: #f2f9e5; /* TODO: pas de token (fond statut vert) */
+}
+.ds-ligne-tableau__statut--vert .ds-ligne-tableau__statut-dot {
+  background: #82be00; /* TODO: pas de token (vert pomme) */
+}
+
+/* Couleur "Jaune safran" — Brouillon */
+.ds-ligne-tableau__statut--safran {
+  background: #fff8e7; /* TODO: pas de token (fond statut safran) */
+}
+.ds-ligne-tableau__statut--safran .ds-ligne-tableau__statut-dot {
+  background: #ffb612; /* TODO: pas de token (jaune safran) */
+}

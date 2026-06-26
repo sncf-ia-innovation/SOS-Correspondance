@@ -1,0 +1,83 @@
+/* Boutons INOUI — 1 base .ds-bouton + modifiers (variant / état / icône) */
+/* Couleurs source Figma : #9b2743 → --color-accent-4 · #6e031b → --color-accent-9 · #ffffff → --color-white */
+
+.ds-bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  box-sizing: border-box;
+  height: var(--space-48);
+  padding: 0 var(--space-24);
+  border: 2px solid transparent;
+  border-radius: var(--radius-r10); /* 24px = pill sur hauteur 48 */
+  font-family: var(--font-1); /* Bariol Serif Bold */
+  font-weight: 700;
+  font-size: var(--text-xl); /* 18px */
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.ds-bouton:focus-visible {
+  outline: 2px solid var(--color-accent-9);
+  outline-offset: 2px;
+}
+
+/* --- Variant : Primaire (fond plein) --- */
+.ds-bouton--primary {
+  background-color: var(--color-accent-4);
+  border-color: var(--color-accent-4);
+  color: var(--color-white);
+}
+
+.ds-bouton--primary:hover {
+  background-color: var(--color-accent-9);
+  border-color: var(--color-accent-9);
+}
+
+/* --- Variant : Secondaire (contour) --- */
+.ds-bouton--secondary {
+  background-color: transparent;
+  border-color: var(--color-accent-4);
+  color: var(--color-accent-4);
+}
+
+.ds-bouton--secondary:hover {
+  background-color: var(--color-accent-9);
+  border-color: var(--color-accent-9);
+  color: var(--color-white);
+}
+
+/* --- État désactivé (Figma : couleur de base @ 30% d'opacité) --- */
+.ds-bouton:disabled,
+.ds-bouton--disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ds-bouton:disabled:hover,
+.ds-bouton--disabled:hover {
+  background-color: var(--color-accent-4);
+  border-color: var(--color-accent-4);
+}
+
+.ds-bouton--secondary:disabled:hover,
+.ds-bouton--secondary.ds-bouton--disabled:hover {
+  background-color: transparent;
+  border-color: var(--color-accent-4);
+  color: var(--color-accent-4);
+}
+
+/* --- Icône (lien externe) : prend la couleur du texte --- */
+.ds-bouton__icon {
+  width: var(--space-16);
+  height: var(--space-16);
+  flex: 0 0 auto;
+  fill: currentColor;
+}
+
+/* Type=Icône (gauche) : icône avant le label (ordre DOM) */
+/* Type=Icône (droite) : icône après le label (ordre DOM) */
+/* Aucun style supplémentaire requis : le gap gère l'espacement. */

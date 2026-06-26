@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réclamation contravention — SNCF Voyageurs</title>
+
+  <!-- Thème teal SNCF Voyageurs (cf. frames de référence). -->
+
+  <!-- Tokens design-system -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <!-- Layout écran -->
+  <link rel="stylesheet" href="contravention.css">
+</head>
+<body>
+  <main class="contrav" aria-label="Réclamation suite à une contravention">
+
+    <!-- En-tête teal + plaque logo SNCF Voyageurs (pattern .sos-header__logo-plate) -->
+    <header class="contrav-header">
+      <div class="contrav-header__bar">
+        <a class="contrav-header__logo" href="reclamation.html" aria-label="SNCF Voyageurs — accueil">
+          <span class="contrav-header__logo-plate">
+            <svg class="contrav-header__logo-svg" viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false">
+              <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+            </svg>
+          </span>
+        </a>
+        <div class="contrav-header__actions">
+          <button type="button" class="contrav-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="contrav-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ ÉCRAN INTRO CONTRAVENTION ============ -->
+    <div class="contrav-body">
+      <h1 class="contrav-titre">Vous souhaitez faire une réclamation suite à une contravention ?</h1>
+
+      <p class="contrav-text">Pendant un <strong>délai de 3 mois</strong> après la date d'infraction, vous pouvez :</p>
+
+      <ul class="contrav-list">
+        <li>soit déposer une réclamation sur le site dédié (lien ci-dessous)</li>
+        <li>soit émettre une <strong>protestation écrite adressée à SNCF Voyageurs</strong> à l'adresse du centre de recouvrement figurant sur la fiche de règlement du procès-verbal ou à l'adresse indiquée sur la lettre de relance.</li>
+      </ul>
+
+      <p class="contrav-text">Après avoir été transmise au procureur de la République (article 529-5 du code de Procédure), ce dernier statuera sur la validité de votre demande. En cas de rejet et de non-règlement de la transaction dans le temps imparti, <strong>vous ferez l'objet de poursuites pénales</strong>.</p>
+
+      <button type="button" class="contrav-cta" id="open-attention">
+        Faire une réclamation en ligne
+        <svg class="contrav-cta__icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+          <path d="M5 11 11 5 M6 5 H11 V10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <a class="contrav-back" href="reclamation.html">
+        <svg class="contrav-back__icon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false">
+          <path d="M12 4 6 10 12 16 M6 10 H16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Retour
+      </a>
+    </div>
+
+    <!-- ============ POPIN "Attention" ============ -->
+    <div class="contrav-modal" id="attention-modal" role="dialog" aria-modal="true"
+         aria-labelledby="attention-title" aria-describedby="attention-text" hidden>
+      <div class="contrav-modal__dialog">
+        <button type="button" class="contrav-modal__close" id="close-attention" aria-label="Fermer">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M3 3 13 13 M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <h2 class="contrav-modal__title" id="attention-title">Attention</h2>
+        <p class="contrav-modal__text" id="attention-text">Si votre réclamation concerne un TGV Inoui, ou un TER en correspondance avec un TGV Inoui, il vous sera demandé de vous identifier en fin de parcours. Souhaitez-vous poursuivre sans connexion ?</p>
+
+        <div class="contrav-modal__actions">
+          <a class="contrav-modal__btn contrav-modal__btn--secondary" href="connexion.html">Revenir à la connexion</a>
+          <a class="contrav-modal__btn contrav-modal__btn--primary" href="formulaire.html">Poursuivre</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    (function () {
+      var modal = document.getElementById('attention-modal');
+      var openBtn = document.getElementById('open-attention');
+      var closeBtn = document.getElementById('close-attention');
+      var lastFocus = null;
+
+      function focusables() {
+        return modal.querySelectorAll('a[href], button:not([disabled])');
+      }
+
+      function openModal() {
+        lastFocus = document.activeElement;
+        modal.hidden = false;
+        document.body.classList.add('contrav-modal-open');
+        var f = focusables();
+        if (f.length) f[0].focus();
+        document.addEventListener('keydown', onKeydown);
+      }
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.classList.remove('contrav-modal-open');
+        document.removeEventListener('keydown', onKeydown);
+        if (lastFocus) lastFocus.focus();
+      }
+
+      function onKeydown(e) {
+        if (e.key === 'Escape') { closeModal(); return; }
+        if (e.key === 'Tab') {
+          var f = focusables();
+          if (!f.length) return;
+          var first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault(); last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault(); first.focus();
+          }
+        }
+      }
+
+      openBtn.addEventListener('click', openModal);
+      closeBtn.addEventListener('click', closeModal);
+      // Fermeture au clic sur le backdrop (hors dialog)
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+      });
+    })();
+  </script>
+</body>
+</html>

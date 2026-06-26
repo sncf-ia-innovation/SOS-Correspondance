@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOS Correspondance — SNCF Voyageurs</title>
+
+  <!-- Tokens design-system -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <!-- CSS curated réutilisés -->
+  <link rel="stylesheet" href="../../curated/radio/radio.css">
+  <link rel="stylesheet" href="../../curated/suggestion-liste/suggestion-liste.css">
+  <!-- Layout écran -->
+  <link rel="stylesheet" href="client.css">
+</head>
+<body>
+  <main class="sos sos--client" aria-labelledby="sos-section-titre">
+
+    <!-- 1. En-tête teal + plaque logo SNCF Voyageurs -->
+    <header class="sos-header">
+      <div class="sos-header__bar">
+        <a class="sos-header__logo" href="#" aria-label="SNCF Voyageurs — accueil">
+          <span class="sos-header__logo-plate">
+            <svg class="sos-header__logo-svg" viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false">
+              <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+            </svg>
+          </span>
+        </a>
+        <div class="sos-header__actions">
+          <button type="button" class="sos-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="sos-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="sos-header__stripes" aria-hidden="true"></div>
+    </header>
+
+    <div class="sos-body">
+
+      <!-- 2. Bandeau vert dépliable -->
+      <section class="sos-bandeau" id="bandeau">
+        <div class="sos-bandeau__head">
+          <h2 class="sos-bandeau__title">Votre voyage en toute sérénité</h2>
+          <button type="button" class="sos-bandeau__toggle"
+                  aria-expanded="false" aria-controls="bandeau-body">
+            <span class="is-more">Lire plus</span>
+            <span class="is-less">Lire moins</span>
+          </button>
+        </div>
+        <div class="sos-bandeau__body" id="bandeau-body">
+          <p>Votre voyage est composé d'un <strong>TGV INOUI, OUIGO, INTERCITÉS, TGV Lyria</strong> et d'un train <strong>ZOU!</strong> ou d'une correspondance <strong>entre 2 trains ZOU!</strong> ?</p>
+          <p>SNCF Voyageurs est à vos côtés pour trouver une solution adaptée et assurer votre correspondance.</p>
+          <p>Nous vous invitons à remplir ce formulaire. Nous vous guidons pas à pas pour vous orienter vers les meilleures options (confirmation de la correspondance, billet pour un autre train, prise en charge en gare…)</p>
+        </div>
+      </section>
+
+      <!-- 3. Titre de section -->
+      <h2 class="sos-section-titre" id="sos-section-titre">Dans quel sens voyagez-vous ?</h2>
+
+      <!-- 4. Cartes-options radio -->
+      <form class="sos-form-entry" id="sos-form" action="form.html" method="get">
+        <div class="sos-options">
+
+          <label class="ds-radio sos-option">
+            <input class="ds-radio__input" type="radio" name="sens" value="zou-vers-gl">
+            <span class="ds-radio__control" aria-hidden="true">
+              <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none"><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
+              <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none"><path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor"/><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
+            </span>
+            <span class="sos-option__body">
+              <span class="sos-logos" aria-hidden="true">
+                <span class="sos-logo sos-logo--zou">ZOU!</span>
+                <span class="sos-arrow">&rarr;</span>
+                <span class="sos-logo sos-logo--inoui">inOui</span>
+                <span class="sos-logo sos-logo--ouigo">OUIGO</span>
+                <span class="sos-logo sos-logo--ic">INTERCITÉS</span>
+                <span class="sos-logo sos-logo--lyria">TGV Lyria</span>
+              </span>
+              <span class="ds-radio__label sos-option__label">Train ZOU! vers TGV INOUI, OUIGO, INTERCITÉS, TGV Lyria</span>
+            </span>
+          </label>
+
+          <label class="ds-radio sos-option">
+            <input class="ds-radio__input" type="radio" name="sens" value="gl-vers-zou">
+            <span class="ds-radio__control" aria-hidden="true">
+              <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none"><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
+              <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none"><path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor"/><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
+            </span>
+            <span class="sos-option__body">
+              <span class="sos-logos" aria-hidden="true">
+                <span class="sos-logo sos-logo--inoui">inOui</span>
+                <span class="sos-logo sos-logo--ouigo">OUIGO</span>
+                <span class="sos-logo sos-logo--ic">INTERCITÉS</span>
+                <span class="sos-logo sos-logo--lyria">TGV Lyria</span>
+                <span class="sos-arrow">&rarr;</span>
+                <span class="sos-logo sos-logo--zou">ZOU!</span>
+              </span>
+              <span class="ds-radio__label sos-option__label">TGV INOUI, OUIGO, INTERCITÉS, TGV Lyria vers train ZOU!</span>
+            </span>
+          </label>
+
+          <label class="ds-radio sos-option">
+            <input class="ds-radio__input" type="radio" name="sens" value="zou-vers-zou">
+            <span class="ds-radio__control" aria-hidden="true">
+              <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none"><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
+              <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none"><path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor"/><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
+            </span>
+            <span class="sos-option__body">
+              <span class="sos-logos" aria-hidden="true">
+                <span class="sos-logo sos-logo--zou">ZOU!</span>
+                <span class="sos-arrow">&rarr;</span>
+                <span class="sos-logo sos-logo--zou">ZOU!</span>
+              </span>
+              <span class="ds-radio__label sos-option__label">Train ZOU! vers train ZOU!</span>
+            </span>
+          </label>
+
+          <label class="ds-radio sos-option sos-option--simple">
+            <input class="ds-radio__input" type="radio" name="sens" value="autres">
+            <span class="ds-radio__control" aria-hidden="true">
+              <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none"><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
+              <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none"><path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor"/><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
+            </span>
+            <span class="ds-radio__label sos-option__label">Autres cas</span>
+          </label>
+
+        </div>
+
+        <!-- 4b. Sections de formulaire révélées au choix d'un sens -->
+        <div class="sos-reveal" id="sos-reveal" aria-hidden="true">
+
+          <p class="sos-asterisk-note">*champs obligatoires</p>
+
+          <!-- Bloc TGV INOUI / OUIGO / INTERCITÉS / TGV Lyria -->
+          <div class="sos-fieldblock">
+            <h3 class="sos-block-titre">Informations sur votre voyage en TGV INOUI, OUIGO, INTERCITÉS ou TGV Lyria</h3>
+
+            <div class="sos-field">
+              <label class="sos-field__label" for="ref-dossier">Référence de dossier voyage<span class="sos-req">*</span></label>
+              <input class="sos-field__input" type="text" id="ref-dossier" name="ref-dossier"
+                     placeholder="Ex : ABC5DE" maxlength="6" autocomplete="off"
+                     aria-describedby="ref-help">
+              <p class="sos-field__help" id="ref-help">La référence de dossier voyage est constituée de 6 caractères (lettres et chiffres)</p>
+              <button type="button" class="sos-help-link" id="open-popin" aria-haspopup="dialog">
+                <span class="sos-help-link__icon" aria-hidden="true">i</span>
+                Où trouver la référence dossier ?
+              </button>
+            </div>
+
+            <div class="sos-field">
+              <label class="sos-field__label" for="nom">Nom de famille utilisé lors de la commande<span class="sos-req">*</span></label>
+              <input class="sos-field__input" type="text" id="nom" name="nom"
+                     placeholder="Ex : Dupont" autocomplete="family-name">
+            </div>
+          </div>
+
+          <!-- Bloc train ZOU! -->
+          <div class="sos-fieldblock">
+            <h3 class="sos-block-titre">Informations sur votre voyage en train ZOU!</h3>
+
+            <div class="sos-field">
+              <label class="sos-field__label" for="gare-dest">Gare de destination de votre voyage<span class="sos-req">*</span></label>
+              <div class="sos-autocomplete">
+                <input class="sos-field__input" type="text" id="gare-dest" name="gare-dest"
+                       placeholder="Ex : Cannes, Marseille Saint-Charles…" autocomplete="off"
+                       role="combobox" aria-expanded="false" aria-autocomplete="list"
+                       aria-controls="gare-suggestions" aria-describedby="gare-help">
+                <ul class="ds-suggestion-liste" id="gare-suggestions" role="listbox" aria-label="Suggestions de gares" hidden>
+                  <li class="ds-suggestion-liste__item" role="option" tabindex="0" aria-selected="false">
+                    <span class="ds-suggestion-liste__label">Cannes</span>
+                    <span class="ds-suggestion-liste__detail">(Provence-Alpes-Côte d'Azur)</span>
+                  </li>
+                  <li class="ds-suggestion-liste__item" role="option" tabindex="0" aria-selected="false">
+                    <span class="ds-suggestion-liste__label">Marseille Saint-Charles</span>
+                    <span class="ds-suggestion-liste__detail">(Provence-Alpes-Côte d'Azur)</span>
+                  </li>
+                  <li class="ds-suggestion-liste__item" role="option" tabindex="0" aria-selected="false">
+                    <span class="ds-suggestion-liste__label">Nice-Ville</span>
+                    <span class="ds-suggestion-liste__detail">(Provence-Alpes-Côte d'Azur)</span>
+                  </li>
+                </ul>
+              </div>
+              <p class="sos-field__help" id="gare-help">Saisissez au moins 2 lettres pour afficher la liste déroulante</p>
+            </div>
+          </div>
+
+          <button type="submit" class="sos-cta">Valider</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 6. Footer -->
+    <footer class="sos-footer">
+      <p class="sos-footer__heading">Demande et déclaration :</p>
+      <nav class="sos-footer__links" aria-label="Informations légales">
+        <a class="sos-footer__link" href="#">CGU
+          <svg class="sos-footer__arrow" viewBox="0 0 8 8" width="8" height="8" aria-hidden="true" focusable="false"><path d="M1 7 L7 1 M3 1 L7 1 L7 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <span class="sos-footer__sep" aria-hidden="true">|</span>
+        <a class="sos-footer__link" href="#">Données personnelles
+          <svg class="sos-footer__arrow" viewBox="0 0 8 8" width="8" height="8" aria-hidden="true" focusable="false"><path d="M1 7 L7 1 M3 1 L7 1 L7 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="sos-footer__link sos-footer__link--block" href="#">Déclaration d'accessibilité
+          <svg class="sos-footer__arrow" viewBox="0 0 8 8" width="8" height="8" aria-hidden="true" focusable="false"><path d="M1 7 L7 1 M3 1 L7 1 L7 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </nav>
+    </footer>
+  </main>
+
+  <!-- 5. Popin "Où trouver la référence dossier ?" -->
+  <div class="sos-modal" id="popin-ref" role="dialog" aria-modal="true"
+       aria-labelledby="popin-title" hidden>
+    <div class="sos-modal__dialog">
+      <button type="button" class="sos-modal__close" id="close-popin" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+          <path d="M5 5 19 19 M19 5 5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <h2 class="sos-modal__title" id="popin-title">Où trouver la référence dossier ?</h2>
+      <p class="sos-modal__text">La référence de dossier voyage se trouve dans le mail de confirmation d'achat de votre billet. Elle est également affichée sur votre e-billet (PDF) :</p>
+
+      <!-- Illustration billet schématique (placeholder propre) -->
+      <figure class="sos-ticket" role="img"
+              aria-label="E-billet TGV INOUI : la référence Voyage dossier Y6876Q est indiquée en haut à droite">
+        <span class="sos-ticket__head">Mon billet</span>
+        <svg class="sos-ticket__arrow" viewBox="0 0 24 32" aria-hidden="true" focusable="false">
+          <path d="M12 0 V24 M12 24 L5 16 M12 24 L19 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="sos-ticket__row">
+          <svg class="sos-ticket__qr" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../dist/icons.sprite.svg#qrcode"/></svg>
+          <div class="sos-ticket__lines">
+            <span class="sos-ticket__ref">Voyage dossier : Y6876Q</span>
+            <span>Nom : RAB</span>
+            <span>Prénom : Nicolas</span>
+            <span>Voyageur : Adulte</span>
+          </div>
+        </div>
+      </figure>
+
+      <button type="button" class="sos-modal__cta" id="close-popin-2">Fermer</button>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* --- 2. Bandeau dépliable --- */
+    var bandeau = document.getElementById('bandeau');
+    var bToggle = bandeau.querySelector('.sos-bandeau__toggle');
+    bToggle.addEventListener('click', function () {
+      var open = bandeau.classList.toggle('is-open');
+      bToggle.setAttribute('aria-expanded', String(open));
+    });
+
+    /* --- 4b. Révélation du formulaire au choix d'un sens --- */
+    var reveal = document.getElementById('sos-reveal');
+    document.querySelectorAll('input[name="sens"]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        reveal.classList.add('is-visible');
+        reveal.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    /* --- Autocomplete : ≥2 lettres -> liste visible --- */
+    var gare = document.getElementById('gare-dest');
+    var sugg = document.getElementById('gare-suggestions');
+    function toggleSugg() {
+      var show = gare.value.trim().length >= 2;
+      sugg.hidden = !show;
+      gare.setAttribute('aria-expanded', String(show));
+    }
+    gare.addEventListener('input', toggleSugg);
+    sugg.querySelectorAll('.ds-suggestion-liste__item').forEach(function (item) {
+      function pick() {
+        gare.value = item.querySelector('.ds-suggestion-liste__label').textContent;
+        sugg.hidden = true;
+        gare.setAttribute('aria-expanded', 'false');
+        gare.focus();
+      }
+      item.addEventListener('click', pick);
+      item.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.sos-autocomplete')) {
+        sugg.hidden = true;
+        gare.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    /* --- 5. Popin "Où trouver la référence dossier ?" --- */
+    var popin = document.getElementById('popin-ref');
+    var openBtn = document.getElementById('open-popin');
+    var lastFocus = null;
+
+    function openPopin() {
+      lastFocus = document.activeElement;
+      popin.hidden = false;
+      popin.classList.add('is-open');
+      document.body.classList.add('sos-modal-open');
+      document.getElementById('close-popin').focus();
+    }
+    function closePopin() {
+      popin.classList.remove('is-open');
+      popin.hidden = true;
+      document.body.classList.remove('sos-modal-open');
+      if (lastFocus) lastFocus.focus();
+    }
+
+    openBtn.addEventListener('click', openPopin);
+    document.getElementById('close-popin').addEventListener('click', closePopin);
+    document.getElementById('close-popin-2').addEventListener('click', closePopin);
+    popin.addEventListener('click', function (e) {
+      if (e.target === popin) closePopin(); /* clic backdrop */
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && popin.classList.contains('is-open')) closePopin();
+    });
+    /* Piège de focus simple */
+    popin.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var f = popin.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  })();
+  </script>
+</body>
+</html>

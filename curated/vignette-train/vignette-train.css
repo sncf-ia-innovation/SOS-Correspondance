@@ -1,0 +1,111 @@
+/* Vignette train — base + modifiers. Tokens design-system, aucun hex hors TODO. */
+
+.ds-vignette-train {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* primaryAxisAlignItems SPACE_BETWEEN */
+  gap: var(--space-24); /* itemSpacing 24 */
+  width: 328px; /* width fixe Figma */
+  padding: var(--space-24); /* padding 24 */
+  border-radius: var(--radius-r8); /* cornerRadius 16 */
+  border: var(--space-2) solid transparent; /* strokeWeight 2 (réservé survol/sélection) */
+  background-color: var(--color-gray-98); /* #f1fcf0 */
+  font-family: var(--font-sans);
+  color: var(--color-black); /* #000000 */
+}
+
+/* --- Corps : header + journey + passagers --- */
+.ds-vignette-train__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16); /* itemSpacing 16 */
+}
+
+.ds-vignette-train__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12); /* itemSpacing 12 */
+}
+
+.ds-vignette-train__reference {
+  margin: 0;
+  font-size: var(--text-base); /* 14px */
+  font-weight: 400; /* Avenir Book */
+  line-height: 1.35;
+}
+
+.ds-vignette-train__checkbox {
+  flex: none;
+  width: var(--space-16); /* 16 */
+  height: var(--space-16);
+  border-radius: var(--radius-xl); /* cornerRadius 4 */
+  background-color: var(--color-white); /* #ffffff */
+}
+
+/* Bloc trajet (horaires / gares / durée) — conteneur, contenu fourni à l'usage */
+.ds-vignette-train__journey {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12); /* itemSpacing 12 */
+}
+
+.ds-vignette-train__passengers {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-12); /* itemSpacing 12 */
+  margin: 0;
+}
+
+.ds-vignette-train__passengers-icon {
+  flex: none;
+  width: var(--space-24); /* 24 */
+  height: var(--space-24);
+}
+
+.ds-vignette-train__passengers-label {
+  font-size: var(--text-base); /* 14px */
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+/* --- Badge "Train supprimé" --- */
+.ds-vignette-train__badge {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-8); /* itemSpacing 8 */
+  align-self: flex-start;
+  margin: 0;
+  padding: var(--space-4) var(--space-12); /* padding 4 12 */
+  border-radius: var(--radius-r11); /* cornerRadius 40 */
+  background-color: var(--color-accent-15); /* #840062 */
+  color: var(--color-white); /* #ffffff */
+}
+
+.ds-vignette-train__badge-icon {
+  flex: none;
+  width: var(--space-16); /* 16 */
+  height: var(--space-16);
+  fill: currentColor;
+}
+
+.ds-vignette-train__badge-label {
+  font-size: var(--text-md); /* 16px */
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+/* --- Modifier : Sélectionné (fond brand, texte clair) --- */
+.ds-vignette-train--selected {
+  background-color: var(--color-brand); /* #065654 */
+  color: var(--color-accent-7); /* #bbffbe */
+}
+
+/* --- Modifier : Survol (bordure brand) --- */
+.ds-vignette-train--hover {
+  border-color: var(--color-brand); /* stroke #065654 */
+}

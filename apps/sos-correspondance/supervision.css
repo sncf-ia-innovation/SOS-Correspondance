@@ -1,0 +1,429 @@
+/* SOS Correspondance — écran Supervision.
+   App layout only. 100% via tokens (var(--...)). Aucun hex hors TODO commenté. */
+
+.sos {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-brand);
+  background: var(--color-gray-98); /* #f1fcf0 — fond app vert très clair */
+  min-height: 100vh;
+}
+.sos *, .sos *::before, .sos *::after { box-sizing: border-box; }
+
+/* ---------- 1. Header teal pleine largeur ---------- */
+.sos-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-16) var(--space-24);
+  background: var(--color-brand);
+  width: 100%;
+}
+.sos-header__logo { display: inline-flex; align-self: flex-start; }
+.sos-header__logo-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* La plaque blanche colle au bord supérieur du header (annule le padding-top du header) */
+  margin-top: calc(-1 * var(--space-16));
+  padding: var(--space-16) var(--space-12) var(--space-12);
+  background: var(--color-white);
+  /* Haut carré (collé au bord), bas arrondi (plaque SNCF qui pend du bandeau) */
+  border-radius: 0 0 var(--radius-r8) var(--radius-r8);
+}
+.sos-header__logo-svg { display: block; color: var(--color-accent-4); }
+.sos-header__account {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--color-white);
+  border-radius: var(--radius-r10);
+  background: transparent;
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 800;
+  cursor: pointer;
+}
+.sos-header__account svg { fill: currentColor; }
+.sos-header__account:hover { background: var(--color-accent-2); }
+
+/* ---------- Main ---------- */
+.sos-main {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--space-24) var(--space-32) var(--space-48);
+}
+
+/* ---------- 2. Titre + actions ---------- */
+.sos-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+}
+.sos-title {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-brand);
+}
+.sos-titlebar__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+
+/* Switch (formulaire client activé) */
+.sos-switch { display: inline-flex; align-items: center; gap: var(--space-8); cursor: pointer; }
+.sos-switch__input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip: rect(0 0 0 0); overflow: hidden; }
+.sos-switch__track {
+  position: relative;
+  width: 40px; height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-1); /* off */
+  transition: background 120ms ease;
+  flex: 0 0 auto;
+}
+.sos-switch__thumb {
+  position: absolute; top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  border-radius: var(--radius-r12);
+  background: var(--color-white);
+  transition: transform 120ms ease;
+}
+.sos-switch__input:checked + .sos-switch__track { background: var(--color-accent-16); /* #00997c — vert ON */ }
+.sos-switch__input:checked + .sos-switch__track .sos-switch__thumb { transform: translateX(18px); }
+.sos-switch__input:focus-visible + .sos-switch__track { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+.sos-switch__label { font-size: var(--text-base); color: var(--color-gray-31); }
+
+/* Bouton Rafraîchir : compact, police sans (override du Bariol des boutons) */
+.sos-btn-refresh {
+  height: var(--space-32);
+  padding: 0 var(--space-16);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 800;
+  border-radius: var(--radius-r10);
+}
+.sos-btn-refresh .ds-bouton__icon { fill: none; }
+
+/* ---------- 3. Onglets ---------- */
+.sos-tabs {
+  display: flex;
+  gap: var(--space-24);
+  margin-top: var(--space-20);
+  border-bottom: 1px solid var(--color-gray-94);
+}
+.sos-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-10) var(--space-4) var(--space-12);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--color-gray-46);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 800;
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+.sos-tab--active { color: var(--color-brand); border-bottom-color: var(--color-brand); }
+.sos-tab__count {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 22px; height: 20px; padding: 0 var(--space-6);
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+.sos-tab__count--muted { background: var(--color-accent-1); }
+
+/* ---------- 4. Filtres ---------- */
+.sos-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-16) var(--space-16);
+  margin-top: var(--space-20);
+}
+.sos-field { display: flex; flex-direction: column; gap: var(--space-6); min-width: 120px; flex: 1 1 150px; }
+.sos-field--sm { flex: 0 1 110px; min-width: 90px; }
+.sos-field--actions { flex: 0 0 auto; flex-direction: row; align-items: center; gap: var(--space-16); }
+.sos-field--grow { flex: 1 1 240px; }
+.sos-field__label { font-size: var(--text-sm); font-weight: 500; color: var(--color-gray-46); }
+
+/* Inputs tokenisés */
+.sos-input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  height: var(--space-48);
+  padding: 0 var(--space-12);
+  border: 1px solid var(--color-accent-1);
+  border-radius: var(--radius-r6);
+  background: var(--color-white);
+}
+.sos-input--area { height: auto; align-items: stretch; padding: var(--space-8) var(--space-12); }
+.sos-input__el {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0; outline: 0;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-brand);
+}
+.sos-input__el::placeholder { color: var(--color-gray-46); }
+.sos-input__el:focus { outline: 0; }
+.sos-input:focus-within { border-color: var(--color-brand); }
+textarea.sos-input__el { resize: vertical; line-height: 1.4; }
+.sos-input__icon { flex: 0 0 auto; width: 18px; height: 18px; fill: var(--color-brand); }
+.sos-input__caret { width: 12px; height: 12px; color: var(--color-gray-46); flex: 0 0 auto; margin-left: auto; }
+.sos-input--select { cursor: pointer; }
+.sos-perpage { height: var(--space-32); padding: 0 var(--space-8); }
+.sos-perpage__select { cursor: pointer; appearance: auto; }
+
+/* Chip (valeur sélectionnée dans un champ) */
+.sos-input--chips { gap: var(--space-6); }
+.sos-chip {
+  display: inline-flex; align-items: center; gap: var(--space-6);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-r9);
+  background: var(--color-accent-8); /* #0656541a — voile brand */
+  color: var(--color-brand);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+.sos-chip__close {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; padding: 0;
+  border: 0; border-radius: var(--radius-r12);
+  background: var(--color-brand); color: var(--color-white);
+  cursor: pointer;
+}
+.sos-chip__close svg { width: 9px; height: 9px; }
+
+.sos-btn-filter {
+  height: var(--space-48);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  font-weight: 800;
+  border-radius: var(--radius-r6);
+  background-color: var(--color-brand);
+  border-color: var(--color-brand);
+}
+.sos-btn-filter:hover { background-color: var(--color-accent-2); border-color: var(--color-accent-2); }
+.sos-link-reset {
+  border: 0; background: transparent;
+  color: var(--color-brand);
+  font-family: var(--font-sans); font-size: var(--text-base); font-weight: 800;
+  cursor: pointer;
+}
+.sos-link-reset:hover { text-decoration: underline; }
+
+.sos-legend { margin: var(--space-12) 0 0; font-size: var(--text-sm); color: var(--color-gray-46); }
+
+/* ---------- 5. Barre table ---------- */
+.sos-tablebar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: var(--space-20);
+}
+.sos-count { margin: 0; font-size: var(--text-xl); font-weight: 800; color: var(--color-brand); }
+.sos-link-columns {
+  display: inline-flex; align-items: center; gap: var(--space-6);
+  border: 0; background: transparent; cursor: pointer;
+  color: var(--color-brand);
+  font-family: var(--font-sans); font-size: var(--text-base); font-weight: 500;
+}
+.sos-link-columns svg { fill: currentColor; }
+.sos-link-columns:hover { text-decoration: underline; }
+
+/* ---------- 6. Tableau ---------- */
+.sos-table-wrap { margin-top: var(--space-12); overflow-x: auto; }
+.sos-table { table-layout: auto; }
+/* En-tête : on neutralise les coins arrondis hérités pour un look pleine largeur app */
+.sos-table .ds-ligne-tableau__row--entete > .ds-ligne-tableau__cell:first-child { border-radius: 0; }
+.sos-table .ds-ligne-tableau__row--entete > .ds-ligne-tableau__cell:last-child { border-radius: 0; }
+
+/* Lignes data (override du gabarit clair/foncé) */
+.sos-row > .ds-ligne-tableau__cell {
+  background: var(--color-white);
+  color: var(--color-gray-31);
+  border-bottom: 1px solid var(--color-gray-94);
+  border-radius: 0;
+  font-size: var(--text-base);
+}
+/* Ligne sélectionnée = voile bleu/teal clair */
+.sos-row--selected > .ds-ligne-tableau__cell {
+  background: var(--color-gray-94); /* #e7f3e8 — voile vert/teal clair sélection */
+  color: var(--color-brand);
+}
+.sos-cell-num { text-align: right; }
+.sos-cell-check { width: var(--space-48); }
+
+/* Tri en-tête */
+.sos-sort {
+  display: inline-flex; align-items: center; gap: var(--space-6);
+  border: 0; background: transparent; cursor: pointer;
+  color: inherit; font: inherit; font-weight: 500;
+}
+.sos-sort svg { width: 10px; height: 10px; }
+
+/* Checkbox (réutilise géométrie check-on/off du sprite) */
+.sos-check { display: inline-flex; cursor: pointer; }
+.sos-check__input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip: rect(0 0 0 0); overflow: hidden; }
+.sos-check__box { display: inline-flex; width: 18px; height: 18px; }
+.sos-check__icon { width: 18px; height: 18px; }
+.sos-check__icon--on { display: none; color: var(--color-brand); }
+.sos-check__icon--off { display: block; color: var(--color-accent-1); }
+.sos-check__input:checked + .sos-check__box .sos-check__icon--on { display: block; }
+.sos-check__input:checked + .sos-check__box .sos-check__icon--off { display: none; }
+/* En-tête : checkbox blanche sur fond brand */
+.ds-ligne-tableau__row--entete .sos-check__icon--on { color: var(--color-white); }
+.ds-ligne-tableau__row--entete .sos-check__icon--off { color: var(--color-accent-6); }
+.sos-check__input:focus-visible + .sos-check__box { outline: 2px solid var(--color-brand); outline-offset: 2px; border-radius: var(--radius-md); }
+
+/* ---------- 7. Pagination ---------- */
+.sos-pagination {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  margin-top: var(--space-16);
+  font-size: var(--text-base);
+  color: var(--color-gray-31);
+}
+.sos-pagination__left { display: inline-flex; align-items: center; gap: var(--space-8); }
+.sos-pagination__txt { color: var(--color-gray-46); }
+.sos-pagination__center { text-align: center; color: var(--color-gray-46); }
+.sos-pagination__right { display: inline-flex; align-items: center; gap: var(--space-4); justify-self: end; }
+.sos-pagination__cur { padding: 0 var(--space-8); }
+.sos-page-btn {
+  width: var(--space-32); height: var(--space-32);
+  border: 1px solid var(--color-gray-94);
+  border-radius: var(--radius-r6);
+  background: var(--color-white);
+  color: var(--color-gray-46);
+  cursor: pointer;
+}
+.sos-page-btn:disabled { opacity: 0.5; cursor: default; }
+.sos-page-btn:not(:disabled):hover { border-color: var(--color-brand); color: var(--color-brand); }
+
+/* ---------- 8. Barre d'action collante (étend ds-sticky) ---------- */
+.sos-sticky {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-16) var(--space-20);
+  padding: var(--space-20) var(--space-32);
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-gray-94);
+}
+.sos-sticky--hidden { display: none; }
+.sos-sticky__close {
+  position: absolute; top: var(--space-12); right: var(--space-16);
+  width: var(--space-24); height: var(--space-24);
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; background: transparent; color: var(--color-gray-31);
+  cursor: pointer;
+}
+.sos-sticky__close svg { width: 14px; height: 14px; }
+.sos-sticky__close:hover { color: var(--color-brand); }
+
+.sos-sticky__summary {
+  flex: 1 1 100%;
+  display: flex; align-items: center; gap: var(--space-20);
+}
+.sos-sticky__stat {
+  display: inline-flex; align-items: center; gap: var(--space-6);
+  font-size: var(--text-base); color: var(--color-gray-31);
+}
+.sos-sticky__stat strong { color: var(--color-brand); font-weight: 800; }
+.sos-sticky__stat svg { fill: var(--color-brand); }
+
+.sos-sticky__options {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(170px, 1fr));
+  gap: var(--space-12);
+}
+/* Cartes radio compactes */
+.sos-option { padding: var(--space-10) var(--space-12); gap: var(--space-10); }
+.sos-option .ds-radio__label { font-size: var(--text-base); font-weight: 700; }
+.sos-option .ds-radio__trailing { width: var(--space-20); height: var(--space-20); }
+.sos-option .ds-radio__trailing { fill: currentColor; }
+
+.sos-sticky__form {
+  flex: 1 1 420px;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-16);
+}
+.sos-sticky__form .sos-field { flex: 0 1 150px; }
+.sos-sticky__form .sos-field--grow { flex: 1 1 220px; }
+.sos-sticky__form .sos-field--actions { flex: 0 0 auto; }
+
+.sos-btn-validate {
+  height: var(--space-48);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  font-weight: 800;
+  border-radius: var(--radius-r6);
+  background-color: var(--color-brand);
+  border-color: var(--color-brand);
+}
+.sos-btn-validate:hover { background-color: var(--color-accent-2); border-color: var(--color-accent-2); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .sos-main { padding: var(--space-16) var(--space-16) var(--space-32); }
+  .sos-header { padding: var(--space-12) var(--space-16); }
+
+  /* Titre + actions empilés */
+  .sos-titlebar { flex-direction: column; align-items: flex-start; gap: var(--space-12); }
+  .sos-titlebar__actions { flex-wrap: wrap; gap: var(--space-12) var(--space-16); }
+
+  /* Onglets défilables horizontalement (pas écrasés) */
+  .sos-tabs { gap: var(--space-16); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .sos-tab { white-space: nowrap; }
+
+  /* Filtres en pleine largeur, empilés */
+  .sos-field, .sos-field--sm, .sos-field--grow { flex: 1 1 100%; min-width: 0; }
+  .sos-field--actions { flex: 1 1 100%; justify-content: space-between; }
+  .sos-btn-filter { flex: 1 1 auto; }
+
+  /* Barre table empilée */
+  .sos-tablebar { flex-direction: column; align-items: flex-start; gap: var(--space-8); }
+
+  /* Tableau : défilement horizontal plutôt qu'écrasement (le wrap a overflow-x:auto) */
+  .sos-table { min-width: 680px; }
+
+  /* Barre d'action collante */
+  .sos-sticky { padding: var(--space-16); gap: var(--space-12) var(--space-16); }
+  .sos-sticky__summary { flex-wrap: wrap; gap: var(--space-8) var(--space-16); }
+  .sos-sticky__options { grid-template-columns: 1fr 1fr; }
+  .sos-sticky__form { flex: 1 1 100%; flex-wrap: wrap; }
+  .sos-sticky__form .sos-field,
+  .sos-sticky__form .sos-field--grow { flex: 1 1 100%; }
+  .sos-btn-validate { width: 100%; }
+}
+
+@media (max-width: 560px) {
+  .sos-sticky__options { grid-template-columns: 1fr; }
+  .sos-pagination { grid-template-columns: 1fr; justify-items: start; gap: var(--space-8); }
+  .sos-pagination__center, .sos-pagination__right { justify-self: start; }
+  .sos-header__account { padding: var(--space-8); }
+}
+
+/* ---------- Garde anti-débordement horizontal (mobile) ----------
+   N.B. : n'empêche pas le scroll interne de .sos-table-wrap (overflow-x:auto)
+   ni des .sos-tabs (overflow-x:auto) — défilements VOULUS conservés. */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }

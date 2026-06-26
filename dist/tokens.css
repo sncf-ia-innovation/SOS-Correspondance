@@ -1,0 +1,98 @@
+:root {
+  /* Couleurs — dérivées des composants (par fréquence d'usage) */
+  --color-brand: #065654; /* brand · 1255× */
+  --color-accent-1: #749998; /* accent · 781× */
+  --color-accent-2: #002b28; /* accent · 175× */
+  --color-accent-3: #0656540d; /* accent · 64× */
+  --color-accent-4: #9b2743; /* accent · 43× */
+  --color-accent-5: #0656544d; /* accent · 33× */
+  --color-accent-6: #cddddd; /* accent · 28× */
+  --color-accent-7: #bbffbe; /* accent · 21× */
+  --color-accent-8: #0656541a; /* accent · 17× */
+  --color-accent-9: #6e031b; /* accent · 15× */
+  --color-accent-10: #34e88e; /* accent · 11× */
+  --color-accent-11: #9b27434d; /* accent · 8× */
+  --color-accent-12: #a6093d; /* accent · 7× */
+  --color-accent-13: #9c2842; /* accent · 4× */
+  --color-accent-14: #9e2944; /* accent · 3× */
+  --color-accent-15: #840062; /* accent · 3× */
+  --color-accent-16: #00997c; /* accent · 2× */
+  --color-accent-17: #ff3c00; /* accent · 2× */
+  --color-accent-18: #e3f3ef; /* accent · 2× */
+  --color-white: #ffffff; /* neutral · 318× */
+  --color-white-2: #fffffff2; /* neutral · 3× */
+  --color-gray-98: #f1fcf0; /* neutral · 885× */
+  --color-gray-97: #f7f7f7; /* neutral · 8× */
+  --color-gray-95: #f3f2ef; /* neutral · 4× */
+  --color-gray-94: #e7f3e8; /* neutral · 127× */
+  --color-gray-85: #d9d9d9; /* neutral · 7× */
+  --color-gray-85-2: #d8d8d8; /* neutral · 3× */
+  --color-gray-84: #d7d7d7; /* neutral · 3× */
+  --color-gray-81: #cecece; /* neutral · 4× */
+  --color-gray-51: #838383; /* neutral · 6× */
+  --color-gray-46: #747678; /* neutral · 30× */
+  --color-gray-31: #4d4f53; /* neutral · 12× */
+  --color-gray-26: #434343; /* neutral · 2× */
+  --color-gray-25: #414042; /* neutral · 3× */
+  --color-gray-24: #3c3c3c; /* neutral · 3× */
+  --color-gray-20: #333333; /* neutral · 35× */
+  --color-gray-20-2: #33333399; /* neutral · 2× */
+  --color-black: #000000; /* neutral · 97× */
+
+  /* Typographie */
+  --font-sans: 'Avenir', system-ui, sans-serif;
+  --font-1: 'Bariol Serif', system-ui, sans-serif; /* 29× */
+  --font-2: 'Varta', system-ui, sans-serif; /* 6× */
+  --font-3: 'Inter', system-ui, sans-serif; /* 3× */
+  --text-xs: 10px;
+  --text-sm: 12px;
+  --text-base: 14px;
+  --text-md: 16px;
+  --text-lg: 16.5px;
+  --text-xl: 18px;
+  --text-2xl: 20px;
+
+  /* Radius */
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
+  --radius-xl: 4px;
+  --radius-2xl: 5px;
+  --radius-3xl: 6px;
+  --radius-r6: 8px;
+  --radius-r7: 12px;
+  --radius-r8: 16px;
+  --radius-r9: 20px;
+  --radius-r10: 24px;
+  --radius-r11: 40px;
+  --radius-r12: 50px;
+  --radius-r13: 90px;
+  --radius-pill: 104px;
+
+  /* Spacing */
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-5: 5px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-9: 9px;
+  --space-10: 10px;
+  --space-11: 11px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-15: 15px;
+  --space-16: 16px;
+  --space-17: 17px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-21: 21px;
+  --space-24: 24px;
+  --space-27: 27px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-50: 50px;
+  --space-83: 83px;
+  --space-136: 136px;
+  --space-12_5: 12.5px;
+}

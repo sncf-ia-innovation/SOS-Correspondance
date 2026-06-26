@@ -1,0 +1,48 @@
+/* Status badge — pastille de statut billet. 5 variants : couleur du dot = état. */
+
+.ds-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-family: var(--font-sans);
+  font-size: var(--text-base); /* 14px */
+  line-height: 1.35;
+  color: var(--color-accent-2); /* #002b28 — couleur label tous variants */
+}
+
+.ds-status-badge__dot {
+  flex: 0 0 auto;
+  width: var(--space-10); /* 10px */
+  height: var(--space-10);
+  border-radius: var(--radius-r12); /* 50px → cercle */
+  background: var(--color-accent-6); /* #cddddd — fallback neutre */
+}
+
+.ds-status-badge__label {
+  display: inline-block;
+}
+
+/* Default — à venir (jaune) */
+.ds-status-badge--upcoming .ds-status-badge__dot {
+  background: #ffd245; /* TODO: pas de token */
+}
+
+/* Variant2 — valide (vert) */
+.ds-status-badge--valid .ds-status-badge__dot {
+  background: var(--color-accent-10); /* #34e88e */
+}
+
+/* Variant3 — expirée (orange-rouge) */
+.ds-status-badge--expired .ds-status-badge__dot {
+  background: var(--color-accent-17); /* #ff3c00 */
+}
+
+/* Variant4 — suspendue (orange-rouge) */
+.ds-status-badge--suspended .ds-status-badge__dot {
+  background: var(--color-accent-17); /* #ff3c00 */
+}
+
+/* Variant5 — remboursée (gris) */
+.ds-status-badge--refunded .ds-status-badge__dot {
+  background: var(--color-accent-6); /* #cddddd */
+}

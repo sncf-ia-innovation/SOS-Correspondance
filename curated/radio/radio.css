@@ -1,0 +1,97 @@
+/* Radio — groupe radio tokenisé. 3 états : Default / Hover / Selected (:checked). */
+
+.ds-radio {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-12) var(--space-16);
+  border: 1px solid var(--color-gray-84); /* #d7d7d7 */
+  border-radius: var(--radius-r6); /* 8px */
+  background: transparent;
+  color: var(--color-gray-31); /* #4d4f53 — couleur label Default */
+  font-family: var(--font-sans);
+  font-size: var(--text-md); /* 16px */
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* input réel masqué visuellement, focus géré via .ds-radio__control */
+.ds-radio__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ds-radio__control {
+  flex: 0 0 auto;
+  display: inline-flex;
+  width: var(--space-16); /* 16px */
+  height: var(--space-16);
+  color: var(--color-gray-46); /* #747678 — radio off Default */
+}
+
+.ds-radio__icon {
+  width: 100%;
+  height: 100%;
+}
+
+.ds-radio__icon--on {
+  display: none;
+}
+
+.ds-radio__label {
+  flex: 1 1 auto;
+  line-height: 1.375;
+}
+
+.ds-radio__trailing {
+  flex: 0 0 auto;
+  width: var(--space-24); /* 24px */
+  height: var(--space-24);
+  color: var(--color-gray-46); /* #747678 — icône compte Default */
+}
+
+/* Hover : fond vert clair, bordure + contenu brand */
+.ds-radio:hover {
+  background: var(--color-accent-18); /* #e3f3ef */
+  border-color: var(--color-brand); /* #065654 */
+  color: var(--color-brand);
+}
+
+.ds-radio:hover .ds-radio__control,
+.ds-radio:hover .ds-radio__trailing {
+  color: var(--color-brand);
+}
+
+/* Selected (:checked, ex State3) : fond brand plein, contenu blanc */
+.ds-radio:has(.ds-radio__input:checked) {
+  background: var(--color-brand); /* #065654 */
+  border-color: var(--color-brand);
+  color: var(--color-white); /* #ffffff */
+}
+
+.ds-radio:has(.ds-radio__input:checked) .ds-radio__control,
+.ds-radio:has(.ds-radio__input:checked) .ds-radio__trailing {
+  color: var(--color-white);
+}
+
+.ds-radio:has(.ds-radio__input:checked) .ds-radio__icon--off {
+  display: none;
+}
+
+.ds-radio:has(.ds-radio__input:checked) .ds-radio__icon--on {
+  display: block;
+}
+
+/* Focus clavier visible */
+.ds-radio:focus-within {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}

@@ -1,0 +1,202 @@
+/* Contact PCDU — écran « Renseignez vos coordonnées » (parcours réclamation).
+   Layout + responsive uniquement. 100% via tokens (var(--...)). Aucun hex hors TODO commenté.
+   Patterns réutilisés : en-tête + plaque logo (.sos-header*), inputs/fields (.sos-*), boutons teal. */
+
+.pcdu {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-brand);
+  background: var(--color-white);
+  min-height: 100vh;
+}
+.pcdu *, .pcdu *::before, .pcdu *::after { box-sizing: border-box; }
+
+/* ---------- 1. En-tête teal (repris de .sos-header) ---------- */
+.pcdu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-12) var(--space-16);
+  background: var(--color-brand);
+  width: 100%;
+}
+.pcdu-header__logo { display: inline-flex; align-self: flex-start; }
+.pcdu-header__logo-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Plaque blanche collée au bord supérieur (annule le padding-top du header) */
+  margin-top: calc(-1 * var(--space-12));
+  padding: var(--space-12) var(--space-12) var(--space-10);
+  background: var(--color-white);
+  /* Haut carré (collé au bord), bas arrondi (plaque SNCF qui pend du bandeau) */
+  border-radius: 0 0 var(--radius-r8) var(--radius-r8);
+}
+.pcdu-header__logo-svg { display: block; color: var(--color-accent-4); }
+
+/* Actions mobile : recherche + menu (icônes inline) */
+.pcdu-header__mobile-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+.pcdu-header__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-32);
+  height: var(--space-32);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-white);
+  cursor: pointer;
+}
+.pcdu-header__icon-btn:hover { color: var(--color-gray-94); }
+
+/* Bouton Mon compte (desktop) — repris de .sos-header__account */
+.pcdu-header__account {
+  display: none; /* masqué en mobile */
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--color-white);
+  border-radius: var(--radius-r10);
+  background: transparent;
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 800;
+  cursor: pointer;
+}
+.pcdu-header__account svg { fill: currentColor; }
+.pcdu-header__account:hover { background: var(--color-accent-2); }
+
+/* ---------- 2. Contenu ---------- */
+.pcdu-main {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: var(--space-20) var(--space-16) var(--space-48);
+}
+.pcdu-title {
+  margin: 0 0 var(--space-16);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-brand);
+}
+.pcdu-required-note {
+  margin: 0 0 var(--space-20);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+/* ---------- 3. Formulaire ---------- */
+.pcdu-form { width: 100%; }
+.pcdu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-20) var(--space-24);
+}
+.pcdu-field { display: flex; flex-direction: column; gap: var(--space-6); }
+.pcdu-label {
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-brand);
+}
+.pcdu-asterisk { color: var(--color-accent-4); font-weight: 800; }
+
+/* Input tokenisé (repris de .sos-input + .sos-input__el fusionnés) */
+.pcdu-input {
+  display: block;
+  width: 100%;
+  height: var(--space-48);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-accent-1);
+  border-radius: var(--radius-r6);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  color: var(--color-brand);
+}
+.pcdu-input::placeholder { color: var(--color-gray-46); }
+.pcdu-input:focus { outline: 0; border-color: var(--color-brand); }
+.pcdu-input:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 1px; }
+
+.pcdu-help {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-brand);
+}
+
+/* ---------- 4. Actions ---------- */
+.pcdu-actions {
+  margin-top: var(--space-32);
+}
+.pcdu-btn-next {
+  display: block;
+  width: 100%;
+  height: var(--space-48);
+  padding: 0 var(--space-32);
+  border: 1px solid var(--color-brand);
+  border-radius: var(--radius-r6);
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  font-weight: 800;
+  cursor: pointer;
+}
+.pcdu-btn-next:hover { background: var(--color-accent-2); border-color: var(--color-accent-2); }
+.pcdu-btn-next:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+
+.pcdu-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-top: var(--space-24);
+  color: var(--color-brand);
+  font-size: var(--text-md);
+  font-weight: 800;
+  text-decoration: none;
+}
+.pcdu-back__icon { flex: 0 0 auto; }
+.pcdu-back:hover { text-decoration: underline; }
+
+/* ---------- Responsive : ≥768px = 2 colonnes ---------- */
+@media (min-width: 768px) {
+  .pcdu-header { padding: var(--space-16) var(--space-32); }
+  .pcdu-header__logo-plate { margin-top: calc(-1 * var(--space-16)); }
+  .pcdu-header__mobile-actions { display: none; }
+  .pcdu-header__account { display: inline-flex; }
+
+  .pcdu-main {
+    max-width: 1180px;
+    padding: var(--space-32) var(--space-32) var(--space-48);
+  }
+  /* Décalage interne pour aligner le contenu sous le logo (cf. maquette desktop) */
+  .pcdu-title { margin-left: var(--space-32); }
+  .pcdu-required-note { margin-left: var(--space-32); }
+  .pcdu-form { margin-left: var(--space-32); }
+  .pcdu-back { margin-left: var(--space-32); }
+
+  .pcdu-grid {
+    grid-template-columns: 1fr 1fr;
+    max-width: 800px;
+  }
+  .pcdu-actions {
+    max-width: 800px;
+    margin-left: var(--space-32);
+    text-align: right;
+  }
+  .pcdu-btn-next {
+    display: inline-block;
+    width: auto;
+    min-width: var(--space-136);
+  }
+}
+
+/* ---------- Garde anti-débordement horizontal (mobile) ---------- */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }

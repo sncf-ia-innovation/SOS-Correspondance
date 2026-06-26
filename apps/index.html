@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apps — Patrick DS</title>
+<link rel="stylesheet" href="../dist/tokens.css">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;padding:var(--space-48,48px) var(--space-24,24px);font-family:var(--font-sans,system-ui,sans-serif);background:var(--color-gray-98,#f1fcf0);color:var(--color-brand,#065654)}
+  .wrap{max-width:960px;margin:0 auto}
+  h1{font-size:var(--text-2xl,20px);margin:0 0 var(--space-8,8px)}
+  p.lead{color:var(--color-accent-2,#002b28);margin:0 0 var(--space-32,32px);font-size:var(--text-base,14px)}
+  h2{font-size:var(--text-md,16px);margin:var(--space-24,24px) 0 var(--space-12,12px)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--space-16,16px)}
+  a.card{display:block;text-decoration:none;background:var(--color-white,#fff);border:1px solid var(--color-accent-1,#749998);border-radius:var(--radius-r8,16px);padding:var(--space-24,24px);transition:border-color .15s,transform .15s}
+  a.card:hover{border-color:var(--color-brand,#065654);transform:translateY(-2px)}
+  a.card b{display:block;font-size:var(--text-md,16px);color:var(--color-brand,#065654);margin-bottom:var(--space-4,4px)}
+  a.card span{font-size:var(--text-sm,12px);color:var(--color-accent-2,#002b28)}
+  .tag{display:inline-block;margin-top:var(--space-12,12px);font-size:var(--text-xs,10px);background:var(--color-accent-7,#bbffbe);color:var(--color-accent-2,#002b28);padding:2px 8px;border-radius:var(--radius-pill,104px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Apps — parcours SNCF</h1>
+  <p class="lead">Prototypes Figma reconstruits avec le design system Patrick DS (composants curated).</p>
+
+  <h2>🆘 SOS Correspondance</h2>
+  <div class="grid">
+    <a class="card" href="sos-correspondance/client.html"><b>Client — demande</b><span>Page progressive : sens + formulaire</span><span class="tag">mobile</span></a>
+    <a class="card" href="sos-correspondance/form.html"><b>Client — votre train</b><span>Confirmez votre train ZOU!</span><span class="tag">mobile</span></a>
+    <a class="card" href="sos-correspondance/messages.html?m=merci"><b>Client — réponses</b><span>merci / prise en charge / déjà / indispo</span><span class="tag">mobile</span></a>
+    <a class="card" href="sos-correspondance/supervision.html"><b>Supervision</b><span>Traitement des demandes</span><span class="tag">desktop</span></a>
+    <a class="card" href="sos-correspondance/consultation.html"><b>Consultation</b><span>Suivi des statuts</span><span class="tag">desktop</span></a>
+  </div>
+
+  <h2>📨 Formulaires de contact</h2>
+  <div class="grid">
+    <a class="card" href="contact-pcdu/pcdu.html"><b>Contact PCDU</b><span>Renseignez vos coordonnées</span><span class="tag">mobile + desktop</span></a>
+    <a class="card" href="contact-ouigo/ouigo.html"><b>Contact OUIGO</b><span>Réservation → questions → coordonnées</span><span class="tag">mobile</span></a>
+  </div>
+
+  <h2>📝 Réclamation</h2>
+  <div class="grid">
+    <a class="card" href="reclamation/reclamation.html"><b>Hub — motif</b><span>Quel est le motif de votre demande ? (9 motifs)</span><span class="tag">mobile</span></a>
+    <a class="card" href="reclamation/train-retarde.html"><b>Train retardé</b><span>Type trajet → réservation → coordonnées</span><span class="tag">mobile</span></a>
+    <a class="card" href="reclamation/contravention.html"><b>Contravention</b><span>Intro + popin « Attention »</span><span class="tag">mobile</span></a>
+  </div>
+</div>
+</body>
+</html>

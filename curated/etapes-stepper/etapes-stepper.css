@@ -1,0 +1,68 @@
+.ds-stepper {
+  display: flex;
+  gap: var(--space-12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-sans);
+}
+
+.ds-stepper__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.ds-stepper__indicator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 6px;
+  border-radius: var(--radius-r11);
+  background: var(--color-gray-85);
+}
+
+.ds-stepper__step:not(:last-child) .ds-stepper__indicator::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: var(--space-12);
+  height: 6px;
+  background: inherit;
+}
+
+.ds-stepper__icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin-top: -5px;
+}
+
+.ds-stepper__label {
+  font-size: var(--text-base);
+  line-height: 19px;
+  color: var(--color-gray-20);
+}
+
+.ds-stepper__step--complete .ds-stepper__indicator {
+  background: var(--color-gray-85);
+}
+
+.ds-stepper__step--active .ds-stepper__indicator {
+  background: var(--color-brand);
+}
+
+.ds-stepper__step--active .ds-stepper__label {
+  font-weight: 500;
+}
+
+.ds-stepper__step--avenir .ds-stepper__indicator {
+  background: var(--color-gray-98);
+}
+
+.ds-stepper__step--avenir .ds-stepper__label {
+  color: var(--color-gray-97); /* TODO: source #f4f5f6, pas de token exact (gray-97 #f7f7f7 le plus proche) */
+}

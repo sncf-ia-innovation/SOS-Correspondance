@@ -1,0 +1,143 @@
+/* SOS Correspondance — écran Consultation.
+   Surcharges au-dessus de supervision.css. 100% via tokens (var(--...)).
+   Aucun hex hors TODO commenté. */
+
+/* ---------- Bouton Exporter (réutilise sos-btn-refresh) ---------- */
+.sos-btn-export .ds-bouton__icon { width: 16px; height: 16px; fill: none; }
+
+/* ---------- Compteur : "200 demandes / 215 passagers" ---------- */
+.sos-count__sub {
+  font-weight: 500;
+  color: var(--color-gray-46);
+}
+
+/* ---------- Tableau de consultation ---------- */
+/* En-tête : on garde le gabarit ligne-de-tableau (fond brand, texte blanc). */
+.sos-table--consult .ds-ligne-tableau__row--entete > .ds-ligne-tableau__cell {
+  white-space: nowrap;
+}
+/* Lignes data : pas de sélection ici → fond blanc uniforme + survol léger. */
+.sos-table--consult .sos-row > .ds-ligne-tableau__cell {
+  background: var(--color-white);
+  color: var(--color-gray-31);
+}
+.sos-table--consult .sos-row:hover > .ds-ligne-tableau__cell {
+  background: var(--color-accent-18); /* #e3f3ef — voile teal très clair au survol */
+}
+.sos-cell-type { color: var(--color-gray-46); }
+.sos-cell-com  { color: var(--color-gray-46); }
+.sos-cell-statut { white-space: nowrap; }
+
+/* ---------- Status badges : variants spécifiques Consultation ---------- */
+/* Le label tous variants hérite de component-1 (color-accent-2). */
+/* report → vert clair */
+.ds-status-badge--report .ds-status-badge__dot {
+  background: var(--color-accent-10); /* #34e88e */
+}
+/* corresp. OK = ds-status-badge--valid (déjà vert accent-10) → on le distingue en teal soutenu */
+.sos .ds-status-badge--valid .ds-status-badge__dot {
+  background: var(--color-accent-16); /* #00997c — vert teal soutenu */
+}
+/* poursuite voy. TGV → teal/bleu doux */
+.ds-status-badge--pursuit .ds-status-badge__dot {
+  background: var(--color-accent-1); /* #749998 */
+}
+/* à traiter supervision → jaune */
+.ds-status-badge--todo-sup .ds-status-badge__dot {
+  background: #ffd245; /* TODO: pas de token (repris de component-1 --upcoming) */
+}
+/* à traiter escale → orange-rouge */
+.ds-status-badge--todo-esc .ds-status-badge__dot {
+  background: var(--color-accent-17); /* #ff3c00 */
+}
+
+/* ---------- Barre Récapitulatif (override sos-sticky) ---------- */
+.sos-recap {
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24) var(--space-32);
+  flex-wrap: wrap;
+}
+
+.sos-recap__total {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
+  flex: 0 0 auto;
+}
+.sos-recap__total-label {
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-gray-46);
+}
+.sos-recap__total-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-8);
+}
+.sos-recap__total-value strong {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-brand);
+}
+.sos-recap__amount {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--color-brand);
+}
+.sos-recap__euro {
+  width: 16px; height: 16px;
+  fill: var(--color-brand);
+}
+
+/* Liste des compteurs par statut */
+.sos-recap__stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-16) var(--space-24);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+.sos-recap__stat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  font-size: var(--text-base);
+  color: var(--color-gray-31);
+}
+.sos-recap__stat .ds-status-badge { gap: 0; }
+.sos-recap__stat strong {
+  font-weight: 800;
+  color: var(--color-brand);
+}
+
+/* Lien Retour → */
+.sos-recap__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex: 0 0 auto;
+  text-decoration: none;
+  font-size: var(--text-base);
+  font-weight: 800;
+  color: var(--color-brand);
+}
+.sos-recap__back svg { width: 16px; height: 16px; }
+.sos-recap__back:hover { text-decoration: underline; }
+
+/* ---------- Responsive léger ---------- */
+@media (max-width: 900px) {
+  .sos-recap { justify-content: flex-start; }
+  .sos-recap__stats { justify-content: flex-start; }
+}
+
+/* ---------- Garde anti-débordement horizontal (mobile) ----------
+   Le tableau reste dans .sos-table-wrap (overflow-x:auto) — scroll interne conservé. */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }

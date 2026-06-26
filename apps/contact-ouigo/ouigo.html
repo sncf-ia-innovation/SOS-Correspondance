@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulaire de contact OUIGO — SNCF Voyageurs</title>
+
+  <!-- NOTE THÈME : la marque OUIGO 🔴 est rouge dans Figma, mais les frames
+       rendues de ce parcours utilisent le thème teal SNCF Voyageurs. On suit
+       les frames → thème teal (--color-brand). -->
+
+  <!-- Tokens design-system -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <!-- Layout écran -->
+  <link rel="stylesheet" href="ouigo.css">
+</head>
+<body>
+  <main class="ouigo" aria-label="Formulaire de contact OUIGO">
+
+    <!-- En-tête teal + plaque logo SNCF Voyageurs -->
+    <header class="ouigo-header">
+      <div class="ouigo-header__bar">
+        <a class="ouigo-header__logo" href="#" aria-label="SNCF Voyageurs — accueil">
+          <span class="ouigo-header__logo-plate">
+            <svg class="ouigo-header__logo-svg" viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false">
+              <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+            </svg>
+          </span>
+        </a>
+        <div class="ouigo-header__actions">
+          <button type="button" class="ouigo-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="ouigo-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ ÉCRAN 1 : RECHERCHE RÉSERVATION ============ -->
+    <section class="ouigo-screen is-active" id="screen-recherche" aria-labelledby="titre-recherche">
+      <div class="ouigo-body">
+        <h1 class="ouigo-titre" id="titre-recherche">Renseignez votre numéro de réservation</h1>
+        <p class="ouigo-asterisk-note"><span class="ouigo-req">*</span>champs obligatoires</p>
+
+        <div class="ouigo-field">
+          <label class="ouigo-field__label" for="ref-dossier">Référence de dossier<span class="ouigo-req">*</span></label>
+          <input class="ouigo-field__input" type="text" id="ref-dossier" name="ref-dossier"
+                 placeholder="Ex : 1EPOKL" maxlength="6" autocomplete="off"
+                 aria-describedby="ref-help">
+          <p class="ouigo-field__help" id="ref-help">La référence dossier est constituée de 6 caractères.</p>
+        </div>
+
+        <button type="button" class="ouigo-cta" data-goto="screen-question">Rechercher</button>
+
+        <button type="button" class="ouigo-back" data-back>
+          <svg class="ouigo-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 2 : QUESTION À CHOIX (réutilisable) ============ -->
+    <section class="ouigo-screen" id="screen-question" aria-labelledby="titre-question">
+      <div class="ouigo-body">
+        <h1 class="ouigo-titre" id="titre-question">Êtes-vous une personne à mobilité réduite ?</h1>
+
+        <div class="ouigo-options" role="group" aria-labelledby="titre-question">
+          <!-- Carte-choix Oui (✓) -->
+          <button type="button" class="ouigo-option" data-goto="screen-precisez" data-value="oui">
+            <svg class="ouigo-option__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="ouigo-option__label">Oui, je suis une personne à mobilité réduite</span>
+          </button>
+          <!-- Carte-choix Non (✗) -->
+          <button type="button" class="ouigo-option" data-goto="screen-precisez" data-value="non">
+            <svg class="ouigo-option__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span class="ouigo-option__label">Non, je ne suis pas une personne à mobilité réduite</span>
+          </button>
+        </div>
+
+        <button type="button" class="ouigo-back" data-back>
+          <svg class="ouigo-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 3 : PRÉCISEZ VOTRE DEMANDE (liste de sujets) ============ -->
+    <section class="ouigo-screen" id="screen-precisez" aria-labelledby="titre-precisez">
+      <div class="ouigo-body">
+        <h1 class="ouigo-titre" id="titre-precisez">Précisez votre demande</h1>
+
+        <div class="ouigo-subjects" role="group" aria-labelledby="titre-precisez">
+
+          <!-- Tarifs OUIGO — étiquette / tag -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12.6 3H5a2 2 0 0 0-2 2v7.6a2 2 0 0 0 .59 1.42l6.4 6.4a2 2 0 0 0 2.82 0l6.6-6.6a2 2 0 0 0 0-2.82l-6.4-6.4A2 2 0 0 0 12.6 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <circle cx="7.5" cy="7.5" r="1.4" fill="currentColor"/>
+            </svg>
+            <span class="ouigo-subject__label">J'ai une question sur les tarifs OUIGO</span>
+          </button>
+
+          <!-- Conditions échange / remboursement — étiquette % -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12.6 3H5a2 2 0 0 0-2 2v7.6a2 2 0 0 0 .59 1.42l6.4 6.4a2 2 0 0 0 2.82 0l6.6-6.6a2 2 0 0 0 0-2.82l-6.4-6.4A2 2 0 0 0 12.6 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M14.5 8.5 9 14M9.4 9.6h.01M14.1 13.3h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Je souhaite avoir des informations supplémentaires sur les conditions d'échange et/ou de remboursement</span>
+          </button>
+
+          <!-- Moyens de paiement — euro -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M15 8.5a4 4 0 0 0-3-1.3c-2.4 0-4 2.1-4 4.8s1.6 4.8 4 4.8a4 4 0 0 0 3-1.3M6.5 10.8h6M6.5 13.2h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Quels sont les moyens de paiement acceptés ?</span>
+          </button>
+
+          <!-- Option Flex — étiquette % -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12.6 3H5a2 2 0 0 0-2 2v7.6a2 2 0 0 0 .59 1.42l6.4 6.4a2 2 0 0 0 2.82 0l6.6-6.6a2 2 0 0 0 0-2.82l-6.4-6.4A2 2 0 0 0 12.6 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M14.5 8.5 9 14M9.4 9.6h.01M14.1 13.3h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Qu'est-ce que l'option Flex ?</span>
+          </button>
+
+          <!-- Gares desservies — bâtiment gare -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 3 3 8h18L12 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M5 8v9M9 8v9M15 8v9M19 8v9M3 21h18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Quelles sont les gares desservies?</span>
+          </button>
+
+          <!-- Date de mise en vente — calendrier -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M3.5 9h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M7 13h2v2H7zM11 13h2v2h-2zM15 13h2v2h-2z" fill="currentColor"/>
+            </svg>
+            <span class="ouigo-subject__label">Quelle est la prochaine date de mise en vente des billets?</span>
+          </button>
+
+          <!-- Bagages — valise -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="4" y="7" width="16" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M9 11v5M15 11v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Quels sont les bagages autorisés?</span>
+          </button>
+
+          <!-- Choisir sa place — siège -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M7 4v8a2 2 0 0 0 2 2h6M7 14l-1 6M15 14l1 6M6 8h2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 9h2a2 2 0 0 1 2 2v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Peut-on choisir sa place à bord du train ?</span>
+          </button>
+
+          <!-- Offre OUIFUN — wifi -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 9.5a12 12 0 0 1 16 0M6.7 13a8 8 0 0 1 10.6 0M9.3 16.3a4 4 0 0 1 5.4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="12" cy="19" r="1.2" fill="currentColor"/>
+            </svg>
+            <span class="ouigo-subject__label">J'ai une question sur l'offre OUIFUN à bord</span>
+          </button>
+
+          <!-- Voyage avec un animal — chien -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 8 5.5 5l2 2.5M20 8l-1.5-3-2 2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 8c0 3 1.5 5 1.5 7V20h2v-3h9v3h2v-5c1-1 2-2.5 2-4.5V8l-2 1.5h-4L11 8H8L4 8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Comment se passe un voyage avec un animal ?</span>
+          </button>
+
+          <!-- Offre groupes — groupe de personnes -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="8" cy="8" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="16" cy="8" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M3.5 20v-1.5a4 4 0 0 1 4-4h1a4 4 0 0 1 4 4V20M14 14.5h.5a4 4 0 0 1 4 4V20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Existe-il une offre pour les groupes?</span>
+          </button>
+
+          <!-- Tarifs spéciaux — étiquette % -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12.6 3H5a2 2 0 0 0-2 2v7.6a2 2 0 0 0 .59 1.42l6.4 6.4a2 2 0 0 0 2.82 0l6.6-6.6a2 2 0 0 0 0-2.82l-6.4-6.4A2 2 0 0 0 12.6 3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M14.5 8.5 9 14M9.4 9.6h.01M14.1 13.3h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Existe-il des tarifs spéciaux (Militaire, police, ayant droit) ?</span>
+          </button>
+
+          <!-- Accueil embarquement — agent / casquette -->
+          <button type="button" class="ouigo-subject" data-goto="screen-coordonnees">
+            <svg class="ouigo-subject__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M5 8.5h14M9 6.2a4 4 0 0 1 6 0M5.5 20v-1a4 4 0 0 1 4-4h5a4 4 0 0 1 4 4v1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="ouigo-subject__label">Je souhaite en savoir plus sur l'accueil embarquement</span>
+          </button>
+
+        </div>
+
+        <button type="button" class="ouigo-back" data-back>
+          <svg class="ouigo-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 4 : COORDONNÉES ============ -->
+    <section class="ouigo-screen" id="screen-coordonnees" aria-labelledby="titre-coordonnees">
+      <div class="ouigo-body">
+        <h1 class="ouigo-titre" id="titre-coordonnees">Renseignez vos coordonnées</h1>
+        <p class="ouigo-asterisk-note"><span class="ouigo-req">*</span>champs obligatoires</p>
+
+        <div class="ouigo-grid">
+          <div class="ouigo-field">
+            <label class="ouigo-field__label" for="nom">Nom<span class="ouigo-req">*</span></label>
+            <input class="ouigo-field__input" type="text" id="nom" name="nom" placeholder="Ex : Dupont" autocomplete="family-name">
+          </div>
+
+          <div class="ouigo-field">
+            <label class="ouigo-field__label" for="prenom">Prénom<span class="ouigo-req">*</span></label>
+            <input class="ouigo-field__input" type="text" id="prenom" name="prenom" placeholder="Ex : Jeanne" autocomplete="given-name">
+          </div>
+
+          <div class="ouigo-field">
+            <label class="ouigo-field__label" for="email">Adresse email<span class="ouigo-req">*</span></label>
+            <input class="ouigo-field__input" type="email" id="email" name="email" placeholder="Ex : email@email.fr" autocomplete="email">
+          </div>
+
+          <div class="ouigo-field">
+            <label class="ouigo-field__label" for="email-confirm">Confirmez votre adresse email<span class="ouigo-req">*</span></label>
+            <input class="ouigo-field__input" type="email" id="email-confirm" name="email-confirm" placeholder="Ex : email@email.fr" autocomplete="email">
+          </div>
+
+          <div class="ouigo-field">
+            <label class="ouigo-field__label" for="indicatif">Indicatif téléphonique<span class="ouigo-req">*</span></label>
+            <select class="ouigo-field__input ouigo-field__select" id="indicatif" name="indicatif" autocomplete="tel-country-code">
+              <option value="+33">France +33</option>
+            </select>
+          </div>
+
+          <div class="ouigo-field">
+            <label class="ouigo-field__label" for="telephone">Téléphone<span class="ouigo-req">*</span></label>
+            <input class="ouigo-field__input" type="tel" id="telephone" name="telephone" placeholder="Ex : 6 00 00 00 00" autocomplete="tel-national" inputmode="tel">
+          </div>
+        </div>
+
+        <div class="ouigo-actions">
+          <button type="button" class="ouigo-cta" data-goto="screen-coordonnees">Suivant</button>
+        </div>
+
+        <button type="button" class="ouigo-back" data-back>
+          <svg class="ouigo-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Navigation simple entre écrans : pile d'historique pour le Retour.
+    (function () {
+      var order = ['screen-recherche', 'screen-question', 'screen-precisez', 'screen-coordonnees'];
+      var history = ['screen-recherche'];
+
+      function show(id) {
+        document.querySelectorAll('.ouigo-screen').forEach(function (s) {
+          s.classList.toggle('is-active', s.id === id);
+        });
+        window.scrollTo(0, 0);
+      }
+
+      function goto(id) {
+        if (history[history.length - 1] !== id) history.push(id);
+        show(id);
+      }
+
+      function back() {
+        if (history.length > 1) {
+          history.pop();
+          show(history[history.length - 1]);
+        }
+      }
+
+      document.querySelectorAll('[data-goto]').forEach(function (el) {
+        el.addEventListener('click', function () { goto(el.getAttribute('data-goto')); });
+      });
+      document.querySelectorAll('[data-back]').forEach(function (el) {
+        el.addEventListener('click', back);
+      });
+    })();
+  </script>
+</body>
+</html>

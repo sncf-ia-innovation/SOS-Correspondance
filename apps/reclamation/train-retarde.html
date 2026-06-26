@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train retardé — Réclamation — SNCF Voyageurs</title>
+
+  <!-- Tokens design-system -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <!-- Layout (réutilisé du HUB : .recl-*) -->
+  <link rel="stylesheet" href="reclamation.css">
+</head>
+<body>
+  <main class="recl" aria-label="Réclamation — Train retardé">
+
+    <!-- En-tête teal + plaque logo SNCF Voyageurs -->
+    <header class="recl-header">
+      <div class="recl-header__bar">
+        <a class="recl-header__logo" href="reclamation.html" aria-label="SNCF Voyageurs — accueil">
+          <span class="recl-header__logo-plate">
+            <svg class="recl-header__logo-svg" viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false">
+              <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+            </svg>
+          </span>
+        </a>
+        <div class="recl-header__actions">
+          <button type="button" class="recl-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="recl-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ ÉCRAN 1 : TYPE DE TRAJET ============ -->
+    <section class="recl-screen is-active" id="screen-trajet" aria-labelledby="titre-trajet">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-trajet">Quel est le type de trajet concerné par votre demande ?</h1>
+
+        <div class="recl-choices" role="group" aria-labelledby="titre-trajet">
+
+          <!-- Trains régionaux & Grandes lignes -->
+          <button type="button" class="recl-choice" data-goto="screen-reservation">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="6" y="4" width="12" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M6 11h12M9.5 14.2v.01M14.5 14.2v.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M8 17l-2 3M16 17l2 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">Trains régionaux &amp; Grandes lignes</span>
+              <span class="recl-choice__desc">TGV INOUI, TER, Intercités, Ouigo, et Eurostar</span>
+            </span>
+          </button>
+
+          <!-- Transports en Île-de-France -->
+          <button type="button" class="recl-choice" data-goto="screen-reservation">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 3c-4 0-6 1-6 4v8a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V7c0-3-2-4-6-4Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M6 11h12M9.5 14.5v.01M14.5 14.5v.01M9 18l-2 3M15 18l2 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">Transports en Île-de-France</span>
+              <span class="recl-choice__desc">Transilien, RER et tramways</span>
+            </span>
+          </button>
+
+        </div>
+
+        <!-- 1er écran : retour vers le HUB -->
+        <a class="recl-back" href="reclamation.html">
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 2 : NUMÉRO DE RÉSERVATION ============ -->
+    <section class="recl-screen" id="screen-reservation" aria-labelledby="titre-reservation">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-reservation">Renseignez votre numéro de réservation</h1>
+        <p class="recl-asterisk-note"><span class="recl-req">*</span>champs obligatoires</p>
+
+        <div class="recl-field">
+          <label class="recl-field__label" for="ref-dossier">Référence de dossier<span class="recl-req">*</span></label>
+          <input class="recl-field__input" type="text" id="ref-dossier" name="ref-dossier"
+                 placeholder="Ex : 1EPOKL" maxlength="6" autocomplete="off"
+                 aria-describedby="ref-help">
+          <p class="recl-field__help" id="ref-help">La référence dossier est constituée de 6 caractères.</p>
+        </div>
+
+        <button type="button" class="recl-cta" data-goto="screen-coordonnees">Rechercher</button>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 3 : COORDONNÉES ============ -->
+    <section class="recl-screen" id="screen-coordonnees" aria-labelledby="titre-coordonnees">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-coordonnees">Renseignez vos coordonnées</h1>
+        <p class="recl-asterisk-note"><span class="recl-req">*</span>champs obligatoires</p>
+
+        <div class="recl-grid">
+          <div class="recl-field">
+            <label class="recl-field__label" for="nom">Nom<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="text" id="nom" name="nom" placeholder="Ex : Dupont" autocomplete="family-name">
+          </div>
+
+          <div class="recl-field">
+            <label class="recl-field__label" for="prenom">Prénom<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="text" id="prenom" name="prenom" placeholder="Ex : Jeanne" autocomplete="given-name">
+          </div>
+
+          <div class="recl-field">
+            <label class="recl-field__label" for="naissance">Date de naissance<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="text" id="naissance" name="naissance"
+                   placeholder="jj/mm/aaaa" inputmode="numeric" autocomplete="bday"
+                   aria-describedby="naissance-help">
+            <p class="recl-field__help" id="naissance-help">Format : jour/mois/année</p>
+          </div>
+
+          <div class="recl-field">
+            <label class="recl-field__label" for="email">Adresse email<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="email" id="email" name="email" placeholder="Ex : email@email.fr" autocomplete="email">
+          </div>
+        </div>
+
+        <div class="recl-actions">
+          <button type="button" class="recl-cta" data-goto="screen-coordonnees">Suivant</button>
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Navigation simple entre écrans : pile d'historique pour le Retour.
+    (function () {
+      var history = ['screen-trajet'];
+
+      function show(id) {
+        document.querySelectorAll('.recl-screen').forEach(function (s) {
+          s.classList.toggle('is-active', s.id === id);
+        });
+        window.scrollTo(0, 0);
+      }
+      function goto(id) {
+        if (history[history.length - 1] !== id) history.push(id);
+        show(id);
+      }
+      function back() {
+        if (history.length > 1) {
+          history.pop();
+          show(history[history.length - 1]);
+        }
+      }
+      document.querySelectorAll('[data-goto]').forEach(function (el) {
+        el.addEventListener('click', function () { goto(el.getAttribute('data-goto')); });
+      });
+      document.querySelectorAll('[data-back]').forEach(function (el) {
+        el.addEventListener('click', back);
+      });
+    })();
+  </script>
+</body>
+</html>

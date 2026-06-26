@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmez votre train ZOU! — SOS Correspondance — SNCF Voyageurs</title>
+
+  <!-- Tokens design-system -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <!-- CSS curated réutilisés -->
+  <link rel="stylesheet" href="../../curated/etapes-stepper/etapes-stepper.css">
+  <link rel="stylesheet" href="../../curated/vignette-train/vignette-train.css">
+  <!-- Layout écran d'entrée (header / footer / conteneur mobile) -->
+  <link rel="stylesheet" href="client.css">
+  <!-- Layout écran "Votre train" -->
+  <link rel="stylesheet" href="form.css">
+</head>
+<body>
+  <main class="sos" aria-labelledby="sos-titre">
+
+    <!-- En-tête teal (repris de client.html, logo plaque) -->
+    <header class="sos-header">
+      <div class="sos-header__bar">
+        <a class="sos-header__logo" href="client.html" aria-label="SNCF Voyageurs — accueil" style="align-self:flex-start">
+          <span class="sos-header__logo-plate" style="display:inline-flex;align-items:center;justify-content:center;margin-top:calc(-1 * var(--space-16,16px));padding:var(--space-16,16px) var(--space-12,12px) var(--space-12,12px);background:var(--color-white,#fff);border-radius:0 0 var(--radius-r8,16px) var(--radius-r8,16px)">
+            <svg viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false"><use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/></svg>
+          </span>
+        </a>
+        <div class="sos-header__actions">
+          <button type="button" class="sos-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="sos-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="sos-header__stripes" aria-hidden="true"></div>
+    </header>
+
+    <!-- Indicateur d'étapes : seule l'étape "Votre train" est active -->
+    <ol class="ds-stepper sos-stepper" aria-label="Progression de la demande">
+      <li class="ds-stepper__step ds-stepper__step--complete" data-step="1">
+        <span class="ds-stepper__indicator" aria-hidden="true"></span>
+        <span class="ds-stepper__label">Votre voyage</span>
+      </li>
+      <li class="ds-stepper__step ds-stepper__step--active" data-step="2" aria-current="step">
+        <span class="ds-stepper__indicator" aria-hidden="true"></span>
+        <span class="ds-stepper__label">Votre train</span>
+      </li>
+      <li class="ds-stepper__step" data-step="3">
+        <span class="ds-stepper__indicator" aria-hidden="true"></span>
+        <span class="ds-stepper__label">Confirmation</span>
+      </li>
+    </ol>
+
+    <!-- Titre principal -->
+    <h1 class="sos-titre" id="sos-titre">Confirmez votre train ZOU!</h1>
+
+    <div class="sos-body">
+
+      <!-- Liste de cartes train sélectionnables (curated vignette-train + radio réel) -->
+      <form class="sos-form" id="form-train" action="messages.html" method="get">
+        <fieldset class="sos-trains" style="border:0;margin:0;padding:0">
+          <legend class="sr-only">Choisissez votre train ZOU!</legend>
+
+          <!-- Carte 1 -->
+          <label class="sos-train">
+            <input class="sos-train__radio" type="radio" name="train" value="17468">
+            <article class="ds-vignette-train">
+              <div class="ds-vignette-train__body">
+                <header class="ds-vignette-train__header">
+                  <span class="sos-train__pip" aria-hidden="true"></span>
+                  <p class="sos-train__title">ZOU ! N&deg;17468</p>
+                </header>
+                <div class="ds-vignette-train__journey">
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">06:02</span>
+                    <span class="sos-train__rail sos-train__rail--top" aria-hidden="true"></span>
+                    <span class="sos-train__station">Cannes</span>
+                  </div>
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">08:03</span>
+                    <span class="sos-train__rail sos-train__rail--bottom" aria-hidden="true"></span>
+                    <span class="sos-train__station">Marseille Saint-Charles</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </label>
+
+          <!-- Carte 2 (présélectionnée — fond teal plein, comme la maquette) -->
+          <label class="sos-train">
+            <input class="sos-train__radio" type="radio" name="train" value="17132" checked>
+            <article class="ds-vignette-train">
+              <div class="ds-vignette-train__body">
+                <header class="ds-vignette-train__header">
+                  <span class="sos-train__pip" aria-hidden="true"></span>
+                  <p class="sos-train__title">ZOU ! N&deg;17132</p>
+                </header>
+                <div class="ds-vignette-train__journey">
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">06:59</span>
+                    <span class="sos-train__rail sos-train__rail--top" aria-hidden="true"></span>
+                    <span class="sos-train__station">Cannes</span>
+                  </div>
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">09:57</span>
+                    <span class="sos-train__rail sos-train__rail--bottom" aria-hidden="true"></span>
+                    <span class="sos-train__station">Marseille Saint-Charles</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </label>
+
+          <!-- Carte 3 -->
+          <label class="sos-train">
+            <input class="sos-train__radio" type="radio" name="train" value="17109">
+            <article class="ds-vignette-train">
+              <div class="ds-vignette-train__body">
+                <header class="ds-vignette-train__header">
+                  <span class="sos-train__pip" aria-hidden="true"></span>
+                  <p class="sos-train__title">ZOU ! N&deg;17109</p>
+                </header>
+                <div class="ds-vignette-train__journey">
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">07:59</span>
+                    <span class="sos-train__rail sos-train__rail--top" aria-hidden="true"></span>
+                    <span class="sos-train__station">Cannes</span>
+                  </div>
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">10:03</span>
+                    <span class="sos-train__rail sos-train__rail--bottom" aria-hidden="true"></span>
+                    <span class="sos-train__station">Marseille Saint-Charles</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </label>
+
+          <!-- Carte 4 -->
+          <label class="sos-train">
+            <input class="sos-train__radio" type="radio" name="train" value="17481-1">
+            <article class="ds-vignette-train">
+              <div class="ds-vignette-train__body">
+                <header class="ds-vignette-train__header">
+                  <span class="sos-train__pip" aria-hidden="true"></span>
+                  <p class="sos-train__title">ZOU ! N&deg;17481</p>
+                </header>
+                <div class="ds-vignette-train__journey">
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">08:59</span>
+                    <span class="sos-train__rail sos-train__rail--top" aria-hidden="true"></span>
+                    <span class="sos-train__station">Cannes</span>
+                  </div>
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">11:05</span>
+                    <span class="sos-train__rail sos-train__rail--bottom" aria-hidden="true"></span>
+                    <span class="sos-train__station">Marseille Saint-Charles</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </label>
+
+          <!-- Carte 5 -->
+          <label class="sos-train">
+            <input class="sos-train__radio" type="radio" name="train" value="17481-2">
+            <article class="ds-vignette-train">
+              <div class="ds-vignette-train__body">
+                <header class="ds-vignette-train__header">
+                  <span class="sos-train__pip" aria-hidden="true"></span>
+                  <p class="sos-train__title">ZOU ! N&deg;17481</p>
+                </header>
+                <div class="ds-vignette-train__journey">
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">09:59</span>
+                    <span class="sos-train__rail sos-train__rail--top" aria-hidden="true"></span>
+                    <span class="sos-train__station">Cannes</span>
+                  </div>
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">12:05</span>
+                    <span class="sos-train__rail sos-train__rail--bottom" aria-hidden="true"></span>
+                    <span class="sos-train__station">Marseille Saint-Charles</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </label>
+
+          <!-- Carte 6 -->
+          <label class="sos-train">
+            <input class="sos-train__radio" type="radio" name="train" value="17481-3">
+            <article class="ds-vignette-train">
+              <div class="ds-vignette-train__body">
+                <header class="ds-vignette-train__header">
+                  <span class="sos-train__pip" aria-hidden="true"></span>
+                  <p class="sos-train__title">ZOU ! N&deg;17481</p>
+                </header>
+                <div class="ds-vignette-train__journey">
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">10:59</span>
+                    <span class="sos-train__rail sos-train__rail--top" aria-hidden="true"></span>
+                    <span class="sos-train__station">Cannes</span>
+                  </div>
+                  <div class="sos-train__leg">
+                    <span class="sos-train__time">13:05</span>
+                    <span class="sos-train__rail sos-train__rail--bottom" aria-hidden="true"></span>
+                    <span class="sos-train__station">Marseille Saint-Charles</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </label>
+        </fieldset>
+
+        <div class="sos-links">
+          <a class="sos-link" href="#">
+            Je ne trouve pas mon trajet
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h9M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="sos-link" href="client.html">
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M13 8H4M7 4 3 8l4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Retour
+          </a>
+        </div>
+
+        <div class="sos-actions">
+          <!-- Valide le trajet → page de réponse (message par défaut : prise en compte) -->
+          <a class="sos-btn" href="messages.html?m=merci">Valider ce trajet</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer (repris de client.html) -->
+    <footer class="sos-footer">
+      <p class="sos-footer__heading">Demande et déclaration :</p>
+      <nav class="sos-footer__links" aria-label="Informations légales">
+        <a class="sos-footer__link" href="#">CGU</a>
+        <span class="sos-footer__sep" aria-hidden="true">|</span>
+        <a class="sos-footer__link" href="#">Données personnelles
+          <svg class="sos-footer__arrow" viewBox="0 0 8 8" width="8" height="8" aria-hidden="true" focusable="false">
+            <path d="M1 7 L7 1 M3 1 L7 1 L7 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="sos-footer__link sos-footer__link--block" href="#">Déclaration d'accessibilité
+          <svg class="sos-footer__arrow" viewBox="0 0 8 8" width="8" height="8" aria-hidden="true" focusable="false">
+            <path d="M1 7 L7 1 M3 1 L7 1 L7 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </nav>
+    </footer>
+
+  </main>
+</body>
+</html>

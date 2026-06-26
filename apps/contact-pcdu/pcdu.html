@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Renseignez vos coordonnées — Réclamation SNCF</title>
+  <link rel="stylesheet" href="../../dist/tokens.css" />
+  <link rel="stylesheet" href="pcdu.css" />
+</head>
+<body class="pcdu">
+
+  <!-- ============ En-tête teal ============ -->
+  <header class="pcdu-header">
+    <a class="pcdu-header__logo" href="#" aria-label="SNCF Voyageurs — accueil">
+      <span class="pcdu-header__logo-plate">
+        <svg class="pcdu-header__logo-svg" viewBox="0 0 44 32" width="56" height="40" aria-hidden="true" focusable="false">
+          <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs" />
+        </svg>
+      </span>
+    </a>
+
+    <!-- Mobile : recherche + menu (icônes inline, absentes du sprite) -->
+    <div class="pcdu-header__mobile-actions">
+      <button type="button" class="pcdu-header__icon-btn" aria-label="Rechercher">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+          <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <button type="button" class="pcdu-header__icon-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+          <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Desktop : bouton Mon compte -->
+    <button type="button" class="pcdu-header__account">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <use href="../../dist/icons.sprite.svg#compte" />
+      </svg>
+      Mon compte
+    </button>
+  </header>
+
+  <!-- ============ Contenu ============ -->
+  <main class="pcdu-main">
+    <h1 class="pcdu-title">Renseignez vos coordonnées</h1>
+    <p class="pcdu-required-note">*champs obligatoires</p>
+
+    <form class="pcdu-form" novalidate>
+      <div class="pcdu-grid">
+
+        <!-- Nom -->
+        <div class="pcdu-field">
+          <label class="pcdu-label" for="nom">Nom <span class="pcdu-asterisk" aria-hidden="true">*</span></label>
+          <input class="pcdu-input" id="nom" name="nom" type="text" placeholder="Ex : Dupont"
+                 autocomplete="family-name" required />
+        </div>
+
+        <!-- Prénom -->
+        <div class="pcdu-field">
+          <label class="pcdu-label" for="prenom">Prénom <span class="pcdu-asterisk" aria-hidden="true">*</span></label>
+          <input class="pcdu-input" id="prenom" name="prenom" type="text" placeholder="Ex : Jeanne"
+                 autocomplete="given-name" required />
+        </div>
+
+        <!-- Date de naissance -->
+        <div class="pcdu-field">
+          <label class="pcdu-label" for="naissance">Date de naissance <span class="pcdu-asterisk" aria-hidden="true">*</span></label>
+          <input class="pcdu-input" id="naissance" name="naissance" type="text" inputmode="numeric"
+                 placeholder="jj/mm/aaaa" autocomplete="bday" aria-describedby="naissance-aide" required />
+          <p class="pcdu-help" id="naissance-aide">Format : jour/mois/année</p>
+        </div>
+
+        <!-- Adresse email -->
+        <div class="pcdu-field">
+          <label class="pcdu-label" for="email">Adresse email <span class="pcdu-asterisk" aria-hidden="true">*</span></label>
+          <input class="pcdu-input" id="email" name="email" type="email" placeholder="Ex : email@email.fr"
+                 autocomplete="email" required />
+        </div>
+
+        <!-- Référence de dossier -->
+        <div class="pcdu-field">
+          <label class="pcdu-label" for="ref-dossier">Référence de dossier <span class="pcdu-asterisk" aria-hidden="true">*</span></label>
+          <input class="pcdu-input" id="ref-dossier" name="ref-dossier" type="text" placeholder="Ex : SNMXZD"
+                 aria-describedby="ref-dossier-aide" required />
+          <p class="pcdu-help" id="ref-dossier-aide">La référence dossier est constituée de 6 à 10 caractères.</p>
+        </div>
+
+        <!-- Référence de réclamation -->
+        <div class="pcdu-field">
+          <label class="pcdu-label" for="ref-reclam">Référence de réclamation <span class="pcdu-asterisk" aria-hidden="true">*</span></label>
+          <input class="pcdu-input" id="ref-reclam" name="ref-reclam" type="text" placeholder="Ex : R29008688"
+                 aria-describedby="ref-reclam-aide" required />
+          <p class="pcdu-help" id="ref-reclam-aide">La référence de réclamation est constituée de la lettre R puis de 8 chiffres</p>
+        </div>
+
+      </div>
+
+      <!-- Actions -->
+      <div class="pcdu-actions">
+        <button type="submit" class="pcdu-btn-next">Suivant</button>
+      </div>
+    </form>
+
+    <a class="pcdu-back" href="#">
+      <svg class="pcdu-back__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <line x1="20" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        <polyline points="11 6 5 12 11 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      Retour
+    </a>
+  </main>
+
+</body>
+</html>
