@@ -1,25 +1,69 @@
 # SOS Correspondance — écrans
 
-Prototypes d'écrans SNCF reconstruits en HTML/CSS purs à partir des maquettes Figma,
-en réutilisant les composants du design system (tokens + composants tokenisés).
+Prototypes d'écrans SNCF reconstruits en **HTML / CSS purs** (aucun framework, aucun build)
+à partir des maquettes Figma et des présentations projet, en réutilisant les composants
+et tokens du design system. Police **Avenir** (avec fallback système).
+
+Le projet **SOS Correspondance** vise à limiter les conséquences des **ruptures de
+correspondance** (TER/ZOU! ↔ TGV INOUI / OUIGO / INTERCITÉS) lors de la mise en place du
+SIBR Région Sud : fournir au client un titre de report digital et organiser la prise en
+charge en gare.
 
 ## Lancer en local
-Servez la racine avec n'importe quel serveur statique, puis ouvrez `apps/index.html` :
+Servez la racine du dépôt avec n'importe quel serveur statique, puis ouvrez `apps/index.html` :
 ```bash
+git clone https://github.com/sncf-ia-innovation/SOS-Correspondance.git
+cd SOS-Correspondance
 python3 -m http.server 8080
-# http://localhost:8080/apps/index.html
+# → http://localhost:8080/apps/index.html
 ```
 
-## Contenu (`apps/`)
-- **sos-correspondance/** — parcours SOS Correspondance : `client` (demande), `form` (train),
-  `messages` (réponses ?m=merci|prise-en-charge|deja|indispo), `supervision`, `consultation`.
-- **contact-pcdu/** — formulaire de contact PCDU (coordonnées).
-- **contact-ouigo/** — contact OUIGO (réservation → questions → coordonnées).
-- **reclamation/** — `reclamation` (hub motif), `train-retarde`, `contravention`.
+## Écrans (`apps/`)
 
-## Assets
+### 🆘 SOS Correspondance — `apps/sos-correspondance/`
+- **`client.html`** — parcours client (mobile), page progressive unique : bandeau dépliable,
+  choix du sens du voyage (4 sens), révélation du formulaire (réf. dossier, nom, gare),
+  **état d'erreur IHM 3** (DV/nom invalide → message, données conservées, « Modifier ma demande » ;
+  déclencheur démo : Référence = `ERREUR`). Au « Valider », **routage selon le sens** :
+  - ZOU! → TGV\*  → `form.html`
+  - TGV\* → ZOU!  → `messages.html?m=tgv-zou`
+  - ZOU! → ZOU!  → `messages.html?m=zou-zou`
+  - Autres cas    → `messages.html?m=autres`
+- **`form.html`** — « Confirmez votre train ZOU! » (liste de trains sélectionnables).
+- **`messages.html?m=…`** — écrans de réponse (IHM). Variantes :
+  `merci`, `prise-en-charge`, `deja`, `indispo` (crise), `zou-zou` (IHM 11), `tgv-zou`,
+  `autres` (IHM 1), `introuvable` (IHM 5), `service-client` (3635, bouton `tel:`).
+- **`notifications.html`** — aperçu des notifications client : **e-mails (Mail 1-4)** et
+  **SMS (SMS 1-4)** : correspondance maintenue / nouveau billet / report sans garantie / PEC en gare.
+- **`supervision.html`** — back-office (desktop) : onglets, filtres, tableau des demandes,
+  sélection multiple, barre d'action collante (report / renvoi escale / corresp. OK / non traitable).
+- **`consultation.html`** — back-office (desktop) : suivi des statuts + récapitulatif.
+
+### 📨 Formulaires de contact
+- **`apps/contact-pcdu/pcdu.html`** — « Renseignez vos coordonnées » (mobile + desktop 2 colonnes).
+- **`apps/contact-ouigo/ouigo.html`** — réservation → questions → « Précisez votre demande » → coordonnées.
+
+### 📝 Réclamation — `apps/reclamation/`
+- **`reclamation.html`** — hub « Quel est le motif de votre demande ? » (9 motifs).
+- **`train-retarde.html`** — type de trajet → réservation → coordonnées.
+- **`contravention.html`** — intro + popin « Attention ».
+
+## Assets (self-contained)
 - `dist/tokens.css` — variables du design system (couleurs, espacements, radius, typo).
-- `dist/icons.sprite.svg` — sprite d'icônes (référencé via `<use href>`).
-- `curated/<composant>/<composant>.css` — CSS des composants réutilisés.
+- `dist/icons.sprite.svg` — sprite d'icônes (référencé via `<use href>`), incl. logos
+  `#logo-sncf-voyageurs` et `#logo-ouigo`.
+- `curated/<composant>/<composant>.css` — CSS des composants réutilisés
+  (boutons-inoui, radio, vignette-train, ligne-de-tableau, etapes-stepper, sticky-desktop,
+  suggestion-liste, component-1).
 
-100% HTML + CSS + JS inline (aucun framework, aucun build). Police Avenir avec fallback système.
+## Notes / à confirmer avec Figma
+- Thème teal SNCF (les frames Figma OUIGO sont en teal, pas magenta).
+- Quelques valeurs hors design system, marquées `/* TODO */` : orange de crise
+  (`--color-accent-17`), bande bleue décorative du header (`#2d7bd6`), QR-code du mail (placeholder).
+- Les ~15 « IHM » numérotés des présentations se réduisent à ~9 textes distincts (les autres
+  numéros sont le même écran réutilisé selon la branche) — les contenus distincts sont couverts.
+- Restant (nécessite Figma) : autres motifs du hub réclamation (Train supprimé, Objet perdu,
+  Paiement, Confort, Échange/annulation, Cartes/passes, Compte/Fidélité).
+
+---
+Reconstruit avec le design system **Patrick DS** (tokens + composants tokenisés). HTML + CSS + JS inline.
