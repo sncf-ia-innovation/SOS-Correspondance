@@ -101,6 +101,82 @@
         </div>
       </section>
 
+      <!-- m=zou-zou — ZOU! vers ZOU! (IHM 11) -->
+      <section class="msg msg--zou-zou" data-variant="zou-zou" hidden aria-labelledby="msg-title">
+        <h1 class="msg__title" id="msg-title">
+          Votre titre ZOU! vous permet de voyager sur le prochain train ZOU! desservant votre destination.
+        </h1>
+        <p class="msg__text">
+          Il reste également <strong>valable demain</strong>, si plus aucun train ZOU! ne dessert votre destination ce jour.
+        </p>
+        <p class="msg__text">
+          Votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.
+        </p>
+        <p class="msg__signature">L'équipe SNCF Voyageurs</p>
+      </section>
+
+      <!-- m=tgv-zou — TGV* vers ZOU! -->
+      <!-- TODO : pas d'IHM dédiée dans les slides (image95/image104 = écrans de sélection). Texte issu de la consigne. -->
+      <section class="msg msg--tgv-zou" data-variant="tgv-zou" hidden aria-labelledby="msg-title">
+        <h1 class="msg__title" id="msg-title">
+          Votre billet ZOU! vous permet de voyager sur le prochain train ZOU! desservant votre destination.
+        </h1>
+        <p class="msg__text">
+          Votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.
+        </p>
+        <p class="msg__signature">L'équipe SNCF Voyageurs</p>
+      </section>
+
+      <!-- m=autres — autres cas / voyage perturbé (IHM 1, cf. image105) -->
+      <section class="msg msg--autres" data-variant="autres" hidden aria-labelledby="msg-title">
+        <h1 class="msg__title" id="msg-title">Votre voyage est perturbé ?</h1>
+        <p class="msg__text">Vous avez une correspondance :</p>
+        <ul class="msg__list">
+          <li class="msg__item">
+            <strong>entre 2 trains à réservation obligatoire</strong> (TGV INOUI, OUIGO, INTERCITÉS, TGV Lyria) :
+            si besoin, vous recevrez les informations sur la poursuite de votre voyage par mail ou SMS, avant votre
+            arrivée en gare de correspondance. En attendant, nous vous invitons à rester attentif aux annonces à bord
+            et en gare.
+          </li>
+          <li class="msg__item">
+            <strong>entre 2 trains régionaux, hors train ZOU!</strong> : nous vous invitons à être attentif aux
+            annonces à bord et en gare et à consulter les écrans d'information.
+          </li>
+        </ul>
+        <p class="msg__text">
+          Votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.
+        </p>
+        <p class="msg__signature">L'équipe SNCF Voyageurs</p>
+      </section>
+
+      <!-- m=introuvable — trajet non retrouvé (IHM 5, cf. image94) -->
+      <section class="msg msg--introuvable" data-variant="introuvable" hidden aria-labelledby="msg-title">
+        <h1 class="msg__title" id="msg-title">Vous ne retrouvez pas votre trajet ?</h1>
+        <p class="msg__text">
+          Nous vous invitons à <strong>vérifier et modifier l'horaire et / ou la gare de départ</strong>
+          que vous avez saisis.
+        </p>
+        <p class="msg__text">
+          Votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.
+        </p>
+        <p class="msg__signature">L'équipe SNCF Voyageurs</p>
+        <button type="button" class="msg__btn">Modifier ma demande</button>
+      </section>
+
+      <!-- m=service-client — contact service client 3635 (IHM, cf. image51) -->
+      <section class="msg msg--service-client" data-variant="service-client" hidden aria-labelledby="msg-title">
+        <h1 class="msg__title" id="msg-title">
+          Contactez notre service client au 3635* pour bénéficier d'une prise en charge.
+        </h1>
+        <p class="msg__text">
+          <strong>Nos téléconseillers restent à votre disposition</strong> pour vous accompagner et
+          trouver une solution adaptée.
+        </p>
+        <p class="msg__signature">L'équipe SNCF Voyageurs</p>
+        <a class="msg__btn" href="tel:3635">Appeler le 3635</a>
+        <p class="msg__note">*Disponible 7j/7 et de 8h à 20h (service gratuit + prix d'un appel)</p>
+      </section>
+
       <!-- Aperçu : bascule entre variantes -->
       <nav class="msg-switch" aria-label="Aperçu des variantes de message">
         <span class="msg-switch__heading">Aperçu des réponses :</span>
@@ -108,6 +184,11 @@
         <a class="msg-switch__link" href="?m=prise-en-charge">Prise en charge</a>
         <a class="msg-switch__link" href="?m=deja">Déjà enregistrée</a>
         <a class="msg-switch__link" href="?m=indispo">Indisponible</a>
+        <a class="msg-switch__link" href="?m=zou-zou">ZOU! → ZOU!</a>
+        <a class="msg-switch__link" href="?m=tgv-zou">TGV* → ZOU!</a>
+        <a class="msg-switch__link" href="?m=autres">Autres cas</a>
+        <a class="msg-switch__link" href="?m=introuvable">Trajet introuvable</a>
+        <a class="msg-switch__link" href="?m=service-client">Service client</a>
       </nav>
 
     </div>
@@ -136,7 +217,7 @@
   <!-- Sélection de la variante selon ?m=... (défaut : merci) -->
   <script>
     (function () {
-      var allowed = ['merci', 'prise-en-charge', 'deja', 'indispo'];
+      var allowed = ['merci', 'prise-en-charge', 'deja', 'indispo', 'zou-zou', 'tgv-zou', 'autres', 'introuvable', 'service-client'];
       var params = new URLSearchParams(window.location.search);
       var m = params.get('m');
       if (allowed.indexOf(m) === -1) { m = 'merci'; }

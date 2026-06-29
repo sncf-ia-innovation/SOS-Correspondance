@@ -40,6 +40,56 @@
   font-weight: 500;
 }
 
+/* ---------- Liste à puces (m=autres) ---------- */
+.msg__list {
+  margin: 0;
+  padding-left: var(--space-20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.msg__item {
+  color: var(--color-gray-31);
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.5;
+}
+
+.msg__item::marker { color: var(--color-brand); }
+.msg__item strong { color: var(--color-gray-31); font-weight: 800; }
+
+/* ---------- Bouton plein (m=introuvable : « Modifier ma demande ») ---------- */
+.msg__btn {
+  align-self: stretch;
+  margin-top: var(--space-8);
+  padding: var(--space-16) var(--space-24);
+  border: none;
+  border-radius: var(--radius-r8); /* 16px */
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  cursor: pointer;
+  text-align: center;      /* utilisable aussi comme <a> (ex. tel:3635) */
+  text-decoration: none;
+}
+
+.msg__btn:hover,
+.msg__btn:focus-visible {
+  background: var(--color-brand-2, var(--color-brand)); /* TODO : pas de teinte hover dédiée dans les tokens */
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* ---------- Note bas de variante (m=service-client) — gris sur fond blanc ---------- */
+.msg__note {
+  margin: 0;
+  color: var(--color-gray-46); /* #747678 — gris sur fond blanc, pas de gris-sur-couleur */
+  font-size: var(--text-sm); /* 12px */
+  line-height: 1.4;
+}
+
 /* ---------- Variante crise : encadré orange plein (m=indispo) ---------- */
 .msg-alert {
   display: flex;

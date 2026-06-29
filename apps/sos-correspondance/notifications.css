@@ -1,0 +1,276 @@
+/* Aperçu NOTIFICATIONS (e-mails + SMS) — parcours "SOS Correspondance" */
+/* Tokens uniquement. Aucun hex sauf TODO commenté. */
+/* Réutilise .sos-header* (cf. client.css / supervision.css). */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-gray-95); /* fond hors cadre */
+  font-family: var(--font-sans); /* Avenir */
+  color: var(--color-brand);
+}
+
+.notif {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--color-white);
+  min-height: 100vh;
+}
+
+/* ---------- En-tête teal (repris de l'app SOS) ---------- */
+.sos-header {
+  position: relative;
+  background: var(--color-brand);
+}
+.sos-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-16) var(--space-20);
+}
+.sos-header__logo {
+  display: inline-flex;
+  align-self: flex-start;
+  text-decoration: none;
+}
+.sos-header__logo-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: calc(-1 * var(--space-16));
+  padding: var(--space-16) var(--space-12) var(--space-12);
+  background: var(--color-white);
+  border-radius: 0 0 var(--radius-r8) var(--radius-r8);
+}
+.sos-header__logo-svg { display: block; color: var(--color-accent-4); }
+.sos-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+.sos-header__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-white);
+  cursor: pointer;
+}
+.sos-header__icon-btn:hover,
+.sos-header__icon-btn:focus-visible { opacity: .85; outline: none; }
+
+/* ---------- Titre de page ---------- */
+.notif-titre {
+  margin: 0;
+  padding: var(--space-24) var(--space-24) var(--space-8);
+  color: var(--color-brand);
+  font-size: var(--text-2xl);
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.2;
+}
+.notif-sous-titre {
+  margin: 0;
+  padding: 0 var(--space-24) var(--space-16);
+  color: var(--color-gray-31);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+/* ---------- Barre d'onglets ---------- */
+.notif-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  padding: 0 var(--space-24) var(--space-20);
+  border-bottom: 1px solid var(--color-gray-85);
+  margin-bottom: var(--space-24);
+}
+.notif-tab {
+  appearance: none;
+  border: 1px solid var(--color-accent-6);
+  background: var(--color-white);
+  color: var(--color-brand);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-r12); /* pilule */
+  cursor: pointer;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.notif-tab:hover { background: var(--color-gray-98); }
+.notif-tab:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+.notif-tab.is-active {
+  background: var(--color-brand);
+  color: var(--color-white);
+  border-color: var(--color-brand);
+}
+
+/* ---------- Liste des cas ---------- */
+.notif-cases {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+  padding: 0 var(--space-24) var(--space-48);
+}
+.notif-case[hidden] { display: none; }
+
+.notif-case__titre {
+  margin: 0 0 var(--space-16);
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--color-brand);
+}
+.notif-case__badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-xl);
+  background: var(--color-accent-3);
+  color: var(--color-brand);
+}
+
+/* deux colonnes : e-mail + SMS */
+.notif-case__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: var(--space-24);
+  align-items: start;
+}
+
+/* ---------- Carte (commun) ---------- */
+.notif-card {
+  border: 1px solid var(--color-gray-85);
+  border-radius: var(--radius-r8);
+  background: var(--color-white);
+  overflow: hidden;
+}
+.notif-card__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-12) var(--space-16);
+  background: var(--color-gray-98);
+  border-bottom: 1px solid var(--color-gray-85);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--color-gray-31);
+}
+.notif-card__label svg { color: var(--color-brand); }
+
+/* ---------- Rendu E-MAIL (client mail) ---------- */
+.mail {
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--color-gray-20); /* texte gris foncé sur blanc */
+}
+.mail__preheader {
+  padding: var(--space-12) var(--space-20);
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--color-gray-46);
+  background: var(--color-white);
+}
+.mail__preheader a { color: var(--color-gray-46); }
+.mail__logo {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-8) var(--space-20) var(--space-16);
+}
+.mail__logo svg { color: var(--color-accent-4); } /* plaque bordeaux SNCF */
+.mail__rule {
+  height: 1px;
+  margin: 0 var(--space-20);
+  background: var(--color-gray-85);
+}
+.mail__body {
+  padding: var(--space-20);
+}
+.mail__body p { margin: 0 0 var(--space-16); }
+.mail__body p:last-child { margin-bottom: 0; }
+.mail__hi { font-weight: 600; }
+.mail__sign { margin-top: var(--space-20); }
+.mail__note {
+  font-size: var(--text-xs);
+  color: var(--color-gray-31);
+}
+
+/* Bloc réservation (cas nouveau billet) */
+.mail__reservation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4) var(--space-24);
+  margin: 0 0 var(--space-16);
+}
+.mail__reservation dt {
+  font-weight: 600;
+  color: var(--color-gray-20);
+}
+.mail__reservation .val { color: var(--color-accent-4); } /* valeurs en bordeaux comme à l'écran */
+.mail__detail { margin: 0 0 var(--space-16); }
+.mail__detail span { display: block; }
+.mail__detail .val { color: var(--color-accent-4); }
+
+/* QR code placeholder (motif damier en tokens) */
+.mail__qr {
+  width: 96px;
+  height: 96px;
+  margin: 0 0 var(--space-16);
+  /* TODO: QR réel à intégrer — placeholder damier */
+  background:
+    conic-gradient(var(--color-black) 90deg, transparent 90deg 180deg, var(--color-black) 180deg 270deg, transparent 270deg)
+    0 0 / 16px 16px;
+  border: 1px solid var(--color-gray-85);
+}
+
+/* ---------- Rendu SMS (bulle téléphone) ---------- */
+.sms {
+  padding: var(--space-20) var(--space-16);
+  background: var(--color-gray-98);
+}
+.sms__from {
+  text-align: center;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-gray-46);
+  margin-bottom: var(--space-12);
+}
+.sms__bubble {
+  position: relative;
+  max-width: 280px;
+  margin-right: auto;
+  padding: var(--space-12) var(--space-16);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-85);
+  border-radius: var(--radius-r8) var(--radius-r8) var(--radius-r8) var(--radius-xl);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-gray-20);
+}
+.sms__time {
+  margin-top: var(--space-8);
+  font-size: var(--text-xs);
+  color: var(--color-gray-46);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 760px) {
+  .notif-case__grid { grid-template-columns: 1fr; }
+  .notif-titre { font-size: var(--text-xl); }
+}

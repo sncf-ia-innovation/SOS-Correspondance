@@ -195,6 +195,16 @@
           <button type="submit" class="sos-cta">Valider</button>
         </div>
       </form>
+
+      <!-- 4c. Écran d'erreur IHM 3 (DV/nom non identifiés) — plein écran, remplace le form -->
+      <section class="sos-erreur" id="sos-erreur" role="alert" aria-labelledby="sos-erreur-title" hidden>
+        <h2 class="sos-erreur__title" id="sos-erreur-title" tabindex="-1">La référence de votre dossier voyage et / ou le nom de famille que vous avez saisis ne nous permettent pas d'identifier votre voyage.</h2>
+        <p class="sos-erreur__lead"><strong>Nous vous invitons à les modifier.</strong></p>
+        <p class="sos-erreur__text">Si le problème persiste, votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.</p>
+        <p class="sos-erreur__text">Merci de votre compréhension.</p>
+        <p class="sos-erreur__signature">L'équipe SNCF Voyageurs.</p>
+        <button type="button" class="sos-cta" id="sos-erreur-back">Modifier ma demande</button>
+      </section>
     </div>
 
     <!-- 6. Footer -->
@@ -269,6 +279,65 @@
         reveal.classList.add('is-visible');
         reveal.setAttribute('aria-hidden', 'false');
       });
+    });
+
+    /* --- C/D. Validation, état d'erreur IHM 3, et routage par sens au clic Valider --- */
+    var form = document.getElementById('sos-form');
+    var erreur = document.getElementById('sos-erreur');
+    var erreurTitle = document.getElementById('sos-erreur-title');
+    var refInput = document.getElementById('ref-dossier');
+    var nomInput = document.getElementById('nom');
+    var gareInput = document.getElementById('gare-dest');
+
+    /* Destination message.html selon le sens (TÂCHE D) */
+    var ROUTES = {
+      'zou-vers-gl':  'form.html',                /* ZOU! -> TGV* : sélection du train ZOU! */
+      'gl-vers-zou':  'messages.html?m=tgv-zou',  /* TGV* -> ZOU! : message direct */
+      'zou-vers-zou': 'messages.html?m=zou-zou',  /* ZOU! -> ZOU! */
+      'autres':       'messages.html?m=autres'    /* Autres cas */
+    };
+
+    function showErreur() {
+      form.classList.add('is-hidden');       /* form caché : DOM + valeurs conservés */
+      erreur.hidden = false;
+      erreurTitle.focus();                   /* accessibilité : focus sur le titre de l'alerte */
+    }
+    function hideErreur() {
+      erreur.hidden = true;
+      form.classList.remove('is-hidden');    /* réaffiche le form rempli, inputs intacts */
+    }
+
+    document.getElementById('sos-erreur-back').addEventListener('click', function () {
+      hideErreur();
+      refInput.focus();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var sens = (document.querySelector('input[name="sens"]:checked') || {}).value;
+      if (!sens) return; /* aucun sens choisi : form non révélé, rien à faire */
+
+      /* Champs requis révélés : Référence de dossier + Nom de famille (toujours).
+         + Gare de destination quand le sens part d'un train ZOU! (zou-vers-*). */
+      var refVal = refInput.value.trim();
+      var nomVal = nomInput.value.trim();
+      var needGare = sens.indexOf('zou-vers') === 0;
+      var gareVal = gareInput.value.trim();
+
+      var invalide = !refVal || !nomVal || (needGare && !gareVal);
+
+      /* Astuce démo : Référence = "ERREUR" force l'écran d'erreur IHM 3
+         même avec tous les champs remplis (test de l'état d'erreur). */
+      var demoErreur = refVal.toUpperCase() === 'ERREUR';
+
+      if (invalide || demoErreur) {
+        showErreur();
+        return;
+      }
+
+      /* OK : routage selon le sens */
+      window.location.href = ROUTES[sens] || 'form.html';
     });
 
     /* --- Autocomplete : ≥2 lettres -> liste visible --- */

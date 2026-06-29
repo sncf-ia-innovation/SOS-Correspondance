@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications client — SOS Correspondance · SNCF Voyageurs</title>
+
+  <!-- Tokens design-system (chemins relatifs depuis apps/sos-correspondance/) -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <link rel="stylesheet" href="notifications.css">
+</head>
+<body>
+  <main class="notif">
+
+    <!-- En-tête teal repris de l'app SOS Correspondance -->
+    <header class="sos-header">
+      <div class="sos-header__bar">
+        <a class="sos-header__logo" href="#" aria-label="SNCF Voyageurs — accueil">
+          <span class="sos-header__logo-plate">
+            <svg class="sos-header__logo-svg" viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false">
+              <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+            </svg>
+          </span>
+        </a>
+        <div class="sos-header__actions">
+          <button type="button" class="sos-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="sos-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <h1 class="notif-titre">Notifications client</h1>
+    <p class="notif-sous-titre">Aperçu des e-mails et SMS envoyés au voyageur selon l'issue de sa sollicitation « SOS Correspondance ». Émetteur SMS : SNCF VOY.</p>
+
+    <!-- Barre d'onglets de filtrage -->
+    <div class="notif-tabs" role="tablist" aria-label="Filtrer par cas">
+      <button type="button" class="notif-tab is-active" data-case="all" role="tab" aria-selected="true">Tous</button>
+      <button type="button" class="notif-tab" data-case="maintenue" role="tab" aria-selected="false">Correspondance maintenue</button>
+      <button type="button" class="notif-tab" data-case="billet" role="tab" aria-selected="false">Nouveau billet</button>
+      <button type="button" class="notif-tab" data-case="report" role="tab" aria-selected="false">Report sans garantie</button>
+      <button type="button" class="notif-tab" data-case="pec" role="tab" aria-selected="false">PEC en gare</button>
+    </div>
+
+    <div class="notif-cases">
+
+      <!-- ============ CAS 1 — Correspondance maintenue ============ -->
+      <section class="notif-case" data-case="maintenue" aria-label="Cas : correspondance maintenue">
+        <h2 class="notif-case__titre">
+          <span class="notif-case__badge">Cas 1</span>
+          Correspondance maintenue
+        </h2>
+        <div class="notif-case__grid">
+
+          <!-- E-mail -->
+          <div class="notif-card">
+            <div class="notif-card__label">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              E-mail
+            </div>
+            <div class="mail">
+              <p class="mail__preheader">Si vous ne visualisez pas cet email, cliquez <a href="#">ici</a></p>
+              <div class="mail__logo">
+                <svg viewBox="0 0 44 32" width="64" height="46" aria-hidden="true" focusable="false">
+                  <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+                </svg>
+              </div>
+              <div class="mail__rule"></div>
+              <div class="mail__body">
+                <p class="mail__hi">Bonjour,</p>
+                <p>Nous avons bien reçu vos informations via le site assistance correspondance SNCF Voyageurs concernant votre train du 30/04/2026.</p>
+                <p>Soyez rassuré(e), votre correspondance pour le train 1234 pour PARIS est maintenue.</p>
+                <p>En cas de besoin, nous vous invitons à vous rapprocher du personnel présent en gare de MARSEILLE dès votre arrivée.*</p>
+                <p>Nous vous prions de nous excuser pour ce désagrément.</p>
+                <p class="mail__sign">L'équipe SNCF Voyageurs</p>
+                <p class="mail__note">*ou à contacter nos téléconseillers au 3635, disponibles 7j/7 et de 8h à 20h (service gratuit + prix d'un appel)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SMS -->
+          <div class="notif-card">
+            <div class="notif-card__label">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <path d="M4 5h16v11H8l-4 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              SMS
+            </div>
+            <div class="sms">
+              <p class="sms__from">SNCF VOY</p>
+              <div class="sms__bubble">
+                Votre correspondance initiale sera assurée. + d'info auprès du personnel en gare.
+                <div class="sms__time">Auj. 09:24</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ CAS 2 — Nouveau billet envoyé ============ -->
+      <section class="notif-case" data-case="billet" aria-label="Cas : nouveau billet envoyé">
+        <h2 class="notif-case__titre">
+          <span class="notif-case__badge">Cas 2</span>
+          Nouveau billet envoyé
+        </h2>
+        <div class="notif-case__grid">
+
+          <!-- E-mail -->
+          <div class="notif-card">
+            <div class="notif-card__label">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              E-mail
+            </div>
+            <div class="mail">
+              <p class="mail__preheader">Si vous ne visualisez pas cet email, cliquez <a href="#">ici</a></p>
+              <div class="mail__logo">
+                <svg viewBox="0 0 44 32" width="64" height="46" aria-hidden="true" focusable="false">
+                  <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+                </svg>
+              </div>
+              <div class="mail__rule"></div>
+              <div class="mail__body">
+                <p class="mail__hi">Bonjour,</p>
+                <p>Nous avons bien reçu vos informations via le site assistance correspondance SNCF Voyageurs concernant votre train du 28/04/2026.</p>
+                <p>Pour garantir la poursuite de votre voyage, nous vous avons réservé une place sur le prochain train disponible :</p>
+                <dl class="mail__reservation">
+                  <dt>Référence de dossier voyage : <span class="val">ABCDE</span></dt>
+                  <dt>Nom associé : <span class="val">TADA</span></dt>
+                </dl>
+                <p class="mail__detail">
+                  <span><span class="val">28/04/2026 à 00:00</span> Marseille</span>
+                  <span><span class="val">28/04/2026 à 00:00</span> Paris</span>
+                  <span>1ème Classe</span>
+                  <span>TGV INOUI <span class="val">5678</span></span>
+                  <span>Passager : DATA TADA</span>
+                  <span>Placement : Voiture <span class="val">2</span> Place <span class="val">3</span></span>
+                </p>
+                <div class="mail__qr" role="img" aria-label="QR code du billet (exemple)"></div>
+                <p>Il vous suffira de présenter ce QR code lors de l'embarquement.</p>
+                <p>Votre correspondance ne pouvant être assurée aujourd'hui, nous vous invitons à vous rapprocher du personnel en gare qui pourra organiser une solution d'hébergement.</p>
+                <p>Nous vous prions de nous excuser pour ce désagrément.</p>
+                <p class="mail__sign">L'équipe SNCF Voyageurs</p>
+                <p class="mail__note">* ou à contacter nos téléconseillers au 3635, disponibles 7j/7 et de 8h à 20h (service gratuit + prix d'un appel)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SMS -->
+          <div class="notif-card">
+            <div class="notif-card__label">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <path d="M4 5h16v11H8l-4 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              SMS
+            </div>
+            <div class="sms">
+              <p class="sms__from">SNCF VOY</p>
+              <div class="sms__bubble">
+                A la suite de votre sollicitation, nous vous avons envoyé par mail votre nouveau billet.
+                <div class="sms__time">Auj. 09:24</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ CAS 3 — Report sans garantie de place ============ -->
+      <section class="notif-case" data-case="report" aria-label="Cas : report sans garantie de place">
+        <h2 class="notif-case__titre">
+          <span class="notif-case__badge">Cas 3</span>
+          Report sans garantie de place
+        </h2>
+        <div class="notif-case__grid">
+
+          <!-- E-mail -->
+          <div class="notif-card">
+            <div class="notif-card__label">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              E-mail
+            </div>
+            <div class="mail">
+              <p class="mail__preheader">Si vous ne visualisez pas cet email, cliquez <a href="#">ici</a></p>
+              <div class="mail__logo">
+                <svg viewBox="0 0 44 32" width="64" height="46" aria-hidden="true" focusable="false">
+                  <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+                </svg>
+              </div>
+              <div class="mail__rule"></div>
+              <div class="mail__body">
+                <p class="mail__hi">Bonjour,</p>
+                <p>Nous avons bien reçu vos informations via le site assistance correspondance SNCF Voyageurs concernant votre train du 29/04/2026.</p>
+                <p>Votre correspondance avec le train 1234 pour PARIS pourrait ne pas être assurée.</p>
+                <p>Nous vous proposons d'emprunter le train 5678 dont le départ est prévu à 00:00 en gare de MARSEILLE sans garantie de place assise.</p>
+                <p>Nous vous invitons à vous rapprocher du personnel en gare qui pourra vous orienter.*</p>
+                <p>Nous vous prions de nous excuser pour ce désagrément.</p>
+                <p class="mail__sign">L'équipe SNCF Voyageurs</p>
+                <p class="mail__note">*ou à contacter nos téléconseillers au 3635, disponibles 7j/7 et de 8h à 20h (service gratuit + prix d'un appel)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SMS -->
+          <div class="notif-card">
+            <div class="notif-card__label">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <path d="M4 5h16v11H8l-4 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              SMS
+            </div>
+            <div class="sms">
+              <p class="sms__from">SNCF VOY</p>
+              <div class="sms__bubble">
+                A la suite de votre sollicitation, vous avez reçu, par mail, de l'information sur la poursuite de votre voyage.
+                <div class="sms__time">Auj. 09:24</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ CAS 4 — Prise en charge (PEC) en gare ============ -->
+      <section class="notif-case" data-case="pec" aria-label="Cas : prise en charge en gare">
+        <h2 class="notif-case__titre">
+          <span class="notif-case__badge">Cas 4</span>
+          Prise en charge en gare
+        </h2>
+        <div class="notif-case__grid">
+
+          <!-- E-mail -->
+          <div class="notif-card">
+            <div class="notif-card__label">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              E-mail
+            </div>
+            <div class="mail">
+              <p class="mail__preheader">Si vous ne visualisez pas cet email, cliquez <a href="#">ici</a></p>
+              <div class="mail__logo">
+                <svg viewBox="0 0 44 32" width="64" height="46" aria-hidden="true" focusable="false">
+                  <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+                </svg>
+              </div>
+              <div class="mail__rule"></div>
+              <div class="mail__body">
+                <p class="mail__hi">Bonjour,</p>
+                <p>Nous avons bien reçu vos informations via le site assistance correspondance SNCF Voyageurs concernant votre train du 29/04/2026.</p>
+                <p>Votre correspondance avec le train 1234 pour PARIS pourrait ne pas être assurée.</p>
+                <p>Afin que nous puissions trouver la meilleure solution pour la suite de votre trajet, nous vous invitons à vous rapprocher du personnel présents en gare de MARSEILLE dès votre arrivée.*</p>
+                <p>Nous vous prions de nous excuser pour ce désagrément.</p>
+                <p class="mail__sign">L'équipe SNCF Voyageurs</p>
+                <p class="mail__note">*ou à contacter nos téléconseillers au 3635, disponibles 7j/7 et de 8h à 20h (service gratuit + prix d'un appel)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SMS -->
+          <div class="notif-card">
+            <div class="notif-card__label">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <path d="M4 5h16v11H8l-4 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              SMS
+            </div>
+            <div class="sms">
+              <p class="sms__from">SNCF VOY</p>
+              <div class="sms__bubble">
+                A la suite de votre sollicitation, nous vous invitons à vous rapprocher du personnel en gare.
+                <div class="sms__time">Auj. 09:24</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('.notif-tab');
+      var cases = document.querySelectorAll('.notif-case');
+      function filter(key) {
+        cases.forEach(function (c) {
+          c.hidden = (key !== 'all' && c.getAttribute('data-case') !== key);
+        });
+        tabs.forEach(function (t) {
+          var on = t.getAttribute('data-case') === key;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+      }
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function () { filter(t.getAttribute('data-case')); });
+      });
+    })();
+  </script>
+</body>
+</html>

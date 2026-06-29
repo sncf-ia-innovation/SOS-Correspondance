@@ -429,6 +429,51 @@ html, body {
   outline: none;
 }
 
+/* ---------- État d'erreur IHM 3 (DV/nom non identifiés) ---------- */
+.sos-form-entry.is-hidden { display: none; }
+
+.sos-erreur {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.sos-erreur[hidden] { display: none; }
+
+.sos-erreur__title {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-2xl); /* 22px — titre IHM 3 */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.25;
+}
+.sos-erreur__title:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.sos-erreur__lead {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.4;
+}
+
+.sos-erreur__text {
+  margin: 0;
+  color: var(--color-gray-31); /* #4d4f53 */
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.4;
+}
+
+.sos-erreur__signature {
+  margin: 0;
+  color: var(--color-gray-31);
+  font-size: var(--text-md);
+  line-height: 1.4;
+}
+
+.sos-erreur .sos-cta { margin-top: var(--space-16); }
+
 /* ---------- 6. Footer (réutilisé par form.html) ---------- */
 .sos-footer {
   margin-top: auto;
