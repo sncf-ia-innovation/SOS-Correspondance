@@ -40,14 +40,6 @@
     <!-- 2. Titre -->
     <div class="sos-titlebar">
       <h1 class="sos-title">Consultation</h1>
-      <div class="sos-titlebar__actions">
-        <button type="button" class="ds-bouton ds-bouton--secondary sos-btn-refresh sos-btn-export">
-          <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-            <path d="M8 1v9M4.5 6.5L8 10l3.5-3.5M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Exporter en .csv
-        </button>
-      </div>
     </div>
 
     <!-- 3. Onglets -->
@@ -62,10 +54,10 @@
 
     <!-- 4. Ligne de filtres -->
     <form class="sos-filters" onsubmit="return false">
-      <div class="sos-field sos-field--sm">
+      <div class="sos-field sos-field--date">
         <label class="sos-field__label" for="f-date">Date</label>
-        <div class="sos-input sos-input--icon">
-          <input class="sos-input__el" id="f-date" type="text" value="01/03/2026">
+        <div class="sos-input sos-input--icon" id="f-date-input">
+          <input class="sos-input__el" id="f-date" type="text" value="01/03/2026" readonly aria-haspopup="dialog" style="cursor:pointer">
           <svg class="sos-input__icon" viewBox="0 0 24 24" aria-hidden="true"><use href="../../dist/icons.sprite.svg#calendrier"/></svg>
         </div>
       </div>
@@ -96,7 +88,7 @@
           <svg class="sos-input__caret" viewBox="0 0 8 8" aria-hidden="true"><path d="M0 2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
       </div>
-      <div class="sos-field sos-field--sm">
+      <div class="sos-field sos-field--statut">
         <label class="sos-field__label" for="f-statut">Statut</label>
         <div class="sos-input sos-input--select">
           <input class="sos-input__el" id="f-statut" type="text" placeholder="Sélectionner">
@@ -113,9 +105,11 @@
     <!-- 5. Compteur + export -->
     <div class="sos-tablebar">
       <p class="sos-count">200 demandes <span class="sos-count__sub">/ 215 passagers</span></p>
-      <button type="button" class="sos-link-columns">
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="../../dist/icons.sprite.svg#statut"/></svg>
-        Gérer les colonnes
+      <button type="button" class="sos-link-export">
+        <svg class="sos-link-export__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M8 1v9M4.5 6.5L8 10l3.5-3.5M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Exporter en .xlsx
       </button>
     </div>
 
@@ -169,71 +163,109 @@
   </main>
 
   <!-- 8. Barre Récapitulatif collante (étend ds-sticky) -->
-  <aside class="ds-sticky sos-sticky sos-recap" role="region" aria-label="Récapitulatif">
-    <div class="sos-recap__total">
-      <span class="sos-recap__total-label">Récapitulatif</span>
-      <span class="sos-recap__total-value">
-        <strong>2 000</strong>
-        <span class="sos-recap__amount">2&nbsp;700&nbsp;<svg class="sos-recap__euro" viewBox="0 0 24 24" aria-hidden="true"><use href="../../dist/icons.sprite.svg#euro"/></svg></span>
-      </span>
+  <aside class="ds-sticky sos-sticky sos-recap is-open" id="recap" role="region" aria-label="Récapitulatif">
+    <div class="sos-recap__head">
+      <span class="sos-recap__title">Récapitulatif</span>
+      <button type="button" class="sos-recap__toggle" id="recap-toggle" aria-expanded="true">
+        <span class="sos-recap__toggle-txt">Réduire</span>
+        <svg class="sos-recap__toggle-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path class="sos-recap__plus-v" d="M8 3v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
     </div>
 
-    <ul class="sos-recap__stats">
-      <li class="sos-recap__stat">
-        <span class="ds-status-badge ds-status-badge--valid">
-          <span class="ds-status-badge__dot" aria-hidden="true"></span>
-        </span>
-        <strong>12</strong> correspondances assurées
-      </li>
-      <li class="sos-recap__stat">
-        <span class="ds-status-badge ds-status-badge--report">
-          <span class="ds-status-badge__dot" aria-hidden="true"></span>
-        </span>
-        <strong>12</strong> reports
-      </li>
-      <li class="sos-recap__stat">
-        <span class="ds-status-badge ds-status-badge--pursuit">
-          <span class="ds-status-badge__dot" aria-hidden="true"></span>
-        </span>
-        <strong>12</strong> poursuites TGV*
-      </li>
-      <li class="sos-recap__stat">
-        <span class="ds-status-badge ds-status-badge--todo-sup">
-          <span class="ds-status-badge__dot" aria-hidden="true"></span>
-        </span>
-        <strong>12</strong> à traiter
-      </li>
-    </ul>
+    <div class="sos-recap__cards">
+      <!-- total (bleu) -->
+      <div class="sos-recap-card sos-recap-card--total">
+        <div class="sos-recap-card__top">
+          <span class="sos-recap-card__stats">
+            <span class="sos-recap-card__stat"><strong>2000</strong><span>demandes</span></span>
+            <span class="sos-recap-card__stat"><strong>2700</strong><span>pax</span></span>
+          </span>
+          <svg class="sos-recap-card__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3 19v-1c0-2.2 2.7-4 6-4s6 1.8 6 4v1H3Zm14 0v-1c0-1.3-.6-2.4-1.6-3.2 2 .3 4.6 1.4 4.6 3.2v1h-3Z" fill="currentColor"/></svg>
+        </div>
+        <span class="sos-recap-card__label">total</span>
+      </div>
 
-    <a class="sos-recap__back" href="supervision.html">
-      Retour
-      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+      <!-- correspondances assurées (vert) -->
+      <div class="sos-recap-card sos-recap-card--green">
+        <div class="sos-recap-card__top">
+          <span class="sos-recap-card__stats">
+            <span class="sos-recap-card__stat"><strong>2</strong><span>demandes</span></span>
+            <span class="sos-recap-card__stat"><strong>12</strong><span>pax</span></span>
+          </span>
+          <span class="sos-recap-card__badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+        <span class="sos-recap-card__label">correspondances assurées</span>
+      </div>
+
+      <!-- Traitée escale (vert) -->
+      <div class="sos-recap-card sos-recap-card--green">
+        <div class="sos-recap-card__top">
+          <span class="sos-recap-card__stats">
+            <span class="sos-recap-card__stat"><strong>2</strong><span>demandes</span></span>
+            <span class="sos-recap-card__stat"><strong>12</strong><span>pax</span></span>
+          </span>
+          <svg class="sos-recap-card__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v7a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2Zm0 4h10M9 20l-2 0m10 0-2 0M9.5 13h.01M14.5 13h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="sos-recap-card__label">Traitée escale</span>
+      </div>
+
+      <!-- à traiter supervision (jaune) -->
+      <div class="sos-recap-card sos-recap-card--yellow">
+        <div class="sos-recap-card__top">
+          <span class="sos-recap-card__stats">
+            <span class="sos-recap-card__stat"><strong>2</strong><span>demandes</span></span>
+            <span class="sos-recap-card__stat"><strong>12</strong><span>pax</span></span>
+          </span>
+          <svg class="sos-recap-card__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H4zM3 19h18M9 19v-4h6v4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="sos-recap-card__label">à traiter supervision</span>
+      </div>
+
+      <!-- à prendre en charge (rouge) -->
+      <div class="sos-recap-card sos-recap-card--red">
+        <div class="sos-recap-card__top">
+          <span class="sos-recap-card__stats">
+            <span class="sos-recap-card__stat"><strong>2</strong><span>demandes</span></span>
+            <span class="sos-recap-card__stat"><strong>12</strong><span>pax</span></span>
+          </span>
+          <svg class="sos-recap-card__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v7a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2Zm0 4h10M9 20l-2 0m10 0-2 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="sos-recap-card__label">à prendre en charge</span>
+      </div>
+    </div>
   </aside>
 
   <script>
     // --- Mapping statut -> { variant badge, libellé, type } ---
     var STATUTS = {
-      report:   { cls:'ds-status-badge--report',   label:'Traitée report' },
-      corresp:  { cls:'ds-status-badge--valid',    label:'Traitée corresp. OK' },
-      pursuit:  { cls:'ds-status-badge--pursuit',  label:'Traitée : poursuite du voy. TGV*' },
-      todoSup:  { cls:'ds-status-badge--todo-sup', label:'À traiter supervision' },
+      report:   { cls:'ds-status-badge--report',   label:'Traité report' },
+      corresp:  { cls:'ds-status-badge--valid',    label:'Corresp. OK' },
+      pursuit:  { cls:'ds-status-badge--pursuit',  label:'Poursuite TGV*' },
+      todoSup:  { cls:'ds-status-badge--todo-sup', label:'À traiter sup.' },
       todoEsc:  { cls:'ds-status-badge--todo-esc', label:'À traiter escale' }
     };
 
-    // --- Données de démo ---
-    var ROWS = [
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:1, type:'Pers. à mob. réduite', st:'report',  date:'01/03/2026', com:'Train 6202'},
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:1, type:'Pers. à mob. réduite', st:'corresp', date:'—',          com:''},
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:2, type:'Pers. à mob. réduite', st:'pursuit', date:'—',          com:'Voy. maintenu'},
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:5, type:'Groupe',              st:'todoSup', date:'—',          com:''},
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:1, type:'Pers. à mob. réduite', st:'todoEsc', date:'—',          com:''},
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:2, type:'Pers. à mob. réduite', st:'report',  date:'01/03/2026', com:'Train 6210'},
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:1, type:'Pers. à mob. réduite', st:'corresp', date:'—',          com:''},
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:1, type:'Pers. à mob. réduite', st:'report',  date:'01/03/2026', com:'Train 6218'},
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:1, type:'Pers. à mob. réduite', st:'todoSup', date:'—',          com:''},
-      {zou:'17591', tgv:'8901', h:'09:10', gare:'Marseille Saint-Charles', dest:'Paris Gare de Lyon', pax:1, type:'Pers. à mob. réduite', st:'pursuit', date:'—',          com:''}
+    // --- Données de démo (générées pour la pagination) ---
+    var BASE = [
+      {tgv:'8901', h:'09:10', pax:1, type:'Pers. à mob. réduite', st:'report',  date:'01/03/2026', com:'Train 6202'},
+      {tgv:'8901', h:'09:10', pax:1, type:'Pers. à mob. réduite', st:'corresp', date:'—',          com:''},
+      {tgv:'8901', h:'09:10', pax:2, type:'Pers. à mob. réduite', st:'pursuit', date:'—',          com:'Voy. maintenu'},
+      {tgv:'8901', h:'09:10', pax:5, type:'Groupe',              st:'todoSup', date:'—',          com:''},
+      {tgv:'8901', h:'09:10', pax:1, type:'Pers. à mob. réduite', st:'todoEsc', date:'—',          com:''},
+      {tgv:'8901', h:'09:10', pax:2, type:'Pers. à mob. réduite', st:'report',  date:'01/03/2026', com:'Train 6210'},
+      {tgv:'8901', h:'09:10', pax:1, type:'Pers. à mob. réduite', st:'corresp', date:'—',          com:''},
+      {tgv:'8901', h:'09:10', pax:1, type:'Pers. à mob. réduite', st:'report',  date:'01/03/2026', com:'Train 6218'},
+      {tgv:'8901', h:'09:10', pax:1, type:'Pers. à mob. réduite', st:'todoSup', date:'—',          com:''},
+      {tgv:'8901', h:'09:10', pax:1, type:'Pers. à mob. réduite', st:'pursuit', date:'—',          com:''}
     ];
+    var ROWS = [];
+    for (var i = 0; i < 42; i++) {
+      var b = BASE[i % BASE.length];
+      ROWS.push({ zou: String(17591 + i), tgv: b.tgv, h: b.h, gare: 'Marseille Saint-Charles',
+                  dest: 'Paris Gare de Lyon', pax: b.pax, type: b.type, st: b.st, date: b.date, com: b.com });
+    }
 
     function badgeHtml(st){
       var s = STATUTS[st];
@@ -241,13 +273,8 @@
         + '<span class="ds-status-badge__dot" aria-hidden="true"></span>'
         + '<span class="ds-status-badge__label">'+s.label+'</span></span>';
     }
-
-    var tbody = document.getElementById('table-body');
-    ROWS.forEach(function(r){
-      var tr = document.createElement('tr');
-      tr.className = 'ds-ligne-tableau__row sos-row';
-      tr.innerHTML =
-          '<td class="ds-ligne-tableau__cell">'+r.zou+'</td>'
+    function rowHtml(r){
+      return '<td class="ds-ligne-tableau__cell">'+r.zou+'</td>'
         + '<td class="ds-ligne-tableau__cell">'+r.tgv+'</td>'
         + '<td class="ds-ligne-tableau__cell">'+r.h+'</td>'
         + '<td class="ds-ligne-tableau__cell">'+r.gare+'</td>'
@@ -257,8 +284,108 @@
         + '<td class="ds-ligne-tableau__cell sos-cell-statut">'+badgeHtml(r.st)+'</td>'
         + '<td class="ds-ligne-tableau__cell">'+r.date+'</td>'
         + '<td class="ds-ligne-tableau__cell sos-cell-com">'+(r.com || '—')+'</td>';
-      tbody.appendChild(tr);
-    });
+    }
+
+    // --- Pagination ---
+    var tbody      = document.getElementById('table-body');
+    var perPageSel = document.querySelector('.sos-perpage__select');
+    var pageCur    = document.querySelector('.sos-pagination__cur');
+    var totalTxt   = document.querySelector('.sos-pagination__center');
+    var pagerBtns  = document.querySelectorAll('.sos-pagination__right .sos-page-btn');
+    var btnFirst = pagerBtns[0], btnPrev = pagerBtns[1], btnNext = pagerBtns[2], btnLast = pagerBtns[3];
+    var perPage = parseInt(perPageSel.value, 10) || 10;
+    var page = 1;
+    function totalPages(){ return Math.max(1, Math.ceil(ROWS.length / perPage)); }
+    function render(){
+      var start = (page - 1) * perPage;
+      var slice = ROWS.slice(start, start + perPage);
+      tbody.innerHTML = '';
+      slice.forEach(function(r){
+        var tr = document.createElement('tr');
+        tr.className = 'ds-ligne-tableau__row sos-row';
+        tr.innerHTML = rowHtml(r);
+        tbody.appendChild(tr);
+      });
+      pageCur.textContent = page + ' sur ' + totalPages();
+      totalTxt.textContent = ROWS.length + ' éléments';
+      btnFirst.disabled = btnPrev.disabled = (page <= 1);
+      btnNext.disabled = btnLast.disabled = (page >= totalPages());
+    }
+    function goTo(p){ page = Math.min(Math.max(1, p), totalPages()); render(); }
+    btnFirst.addEventListener('click', function(){ goTo(1); });
+    btnPrev.addEventListener('click', function(){ goTo(page - 1); });
+    btnNext.addEventListener('click', function(){ goTo(page + 1); });
+    btnLast.addEventListener('click', function(){ goTo(totalPages()); });
+    perPageSel.addEventListener('change', function(){ perPage = parseInt(this.value, 10) || 10; page = 1; render(); });
+    render();
+
+    // --- Sélecteur de date (calendrier) ---
+    (function () {
+      var input = document.getElementById('f-date');
+      var box = document.getElementById('f-date-input');
+      if (!input || !box) return;
+      var field = box.closest('.sos-field');
+      field.classList.add('sos-field--dp');
+      var pop = document.createElement('div');
+      pop.className = 'sos-dp';
+      pop.setAttribute('role', 'dialog');
+      pop.setAttribute('aria-label', 'Choisir une date');
+      pop.hidden = true;
+      field.appendChild(pop);
+
+      var MONTHS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+      var DOW = ['L','M','M','J','V','S','D'];
+      function pad(n){ return String(n).padStart(2,'0'); }
+      function parse(v){ var m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(v||''); return m ? new Date(+m[3], +m[2]-1, +m[1]) : new Date(); }
+      function fmt(d){ return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear(); }
+      var selected = parse(input.value);
+      var view = new Date(selected.getFullYear(), selected.getMonth(), 1);
+
+      function render(){
+        var y = view.getFullYear(), mo = view.getMonth();
+        var start = (new Date(y, mo, 1).getDay() + 6) % 7; // lundi = 0
+        var nb = new Date(y, mo+1, 0).getDate();
+        var t = new Date();
+        var h = '<div class="sos-dp__head">'
+          + '<button type="button" class="sos-dp__nav" data-nav="-1" aria-label="Mois précédent">‹</button>'
+          + '<span class="sos-dp__month">'+MONTHS[mo]+' '+y+'</span>'
+          + '<button type="button" class="sos-dp__nav" data-nav="1" aria-label="Mois suivant">›</button></div>'
+          + '<div class="sos-dp__grid">';
+        DOW.forEach(function(d){ h += '<span class="sos-dp__dow">'+d+'</span>'; });
+        for (var i=0;i<start;i++) h += '<span class="sos-dp__day sos-dp__day--empty"></span>';
+        for (var d=1;d<=nb;d++){
+          var cls = 'sos-dp__day';
+          if (selected.getFullYear()===y && selected.getMonth()===mo && selected.getDate()===d) cls += ' is-selected';
+          if (t.getFullYear()===y && t.getMonth()===mo && t.getDate()===d) cls += ' is-today';
+          h += '<button type="button" class="'+cls+'" data-day="'+d+'">'+d+'</button>';
+        }
+        pop.innerHTML = h + '</div>';
+      }
+      function open(){ view = new Date(selected.getFullYear(), selected.getMonth(), 1); render(); pop.hidden = false; }
+      function close(){ pop.hidden = true; }
+
+      box.addEventListener('click', function(){ pop.hidden ? open() : close(); });
+      pop.addEventListener('click', function(e){
+        var nav = e.target.closest('[data-nav]');
+        if (nav){ view.setMonth(view.getMonth() + (+nav.getAttribute('data-nav'))); render(); return; }
+        var day = e.target.closest('[data-day]');
+        if (day){ selected = new Date(view.getFullYear(), view.getMonth(), +day.getAttribute('data-day')); input.value = fmt(selected); close(); }
+      });
+      document.addEventListener('click', function(e){ if (!field.contains(e.target)) close(); });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+    })();
+
+    // --- Récapitulatif : réduire / afficher ---
+    (function(){
+      var recap = document.getElementById('recap');
+      var toggle = document.getElementById('recap-toggle');
+      var txt = toggle.querySelector('.sos-recap__toggle-txt');
+      toggle.addEventListener('click', function(){
+        var open = recap.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', String(open));
+        txt.textContent = open ? 'Réduire' : 'Afficher';
+      });
+    })();
 
     // --- Bascule onglets ---
     document.querySelectorAll('[data-tab]').forEach(function(btn){

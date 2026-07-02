@@ -14,30 +14,6 @@
   border: 0;
 }
 
-/* ---------- Stepper (surcharge ds-stepper) ---------- */
-.sos-stepper {
-  padding: var(--space-16) var(--space-20) 0;
-}
-
-.sos-stepper .ds-stepper__step--active .ds-stepper__indicator {
-  background: var(--color-brand);
-}
-
-.sos-stepper .ds-stepper__step--complete .ds-stepper__indicator {
-  background: var(--color-accent-16); /* vert : étape franchie */
-}
-
-.sos-stepper .ds-stepper__label {
-  font-size: var(--text-sm); /* 12px */
-  color: var(--color-brand);
-  font-weight: 800; /* Avenir Heavy */
-}
-
-.sos-stepper .ds-stepper__step:not(.ds-stepper__step--active) .ds-stepper__label {
-  font-weight: 500;
-  color: var(--color-gray-46);
-}
-
 /* ---------- Formulaire (liste de trains + actions) ---------- */
 .sos-form {
   display: flex;
@@ -74,8 +50,8 @@
   width: 100%;
   gap: var(--space-16);
   padding: var(--space-16);
-  border-color: var(--color-brand);
-  background: var(--color-white);
+  border: 1px solid var(--color-brand); /* fine, pas 2px */
+  background: var(--color-gray-98); /* même fond que la page (vert très clair), pas blanc */
 }
 
 .sos-train .ds-vignette-train__body { gap: var(--space-12); }
@@ -166,10 +142,11 @@
 
 .sos-train__radio:checked + .ds-vignette-train .sos-train__pip {
   border-color: var(--color-white);
+  background: transparent; /* le teal apparaît dans l'anneau → radio plein lisible */
 }
 
 .sos-train__radio:checked + .ds-vignette-train .sos-train__pip::after {
-  background: var(--color-white);
+  background: var(--color-white); /* point central blanc */
 }
 
 .sos-train__radio:checked + .ds-vignette-train .sos-train__rail {

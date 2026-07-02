@@ -8,7 +8,6 @@
   <!-- Tokens design-system -->
   <link rel="stylesheet" href="../../dist/tokens.css">
   <!-- CSS curated réutilisés -->
-  <link rel="stylesheet" href="../../curated/etapes-stepper/etapes-stepper.css">
   <link rel="stylesheet" href="../../curated/vignette-train/vignette-train.css">
   <!-- Layout écran d'entrée (header / footer / conteneur mobile) -->
   <link rel="stylesheet" href="client.css">
@@ -40,24 +39,7 @@
           </button>
         </div>
       </div>
-      <div class="sos-header__stripes" aria-hidden="true"></div>
     </header>
-
-    <!-- Indicateur d'étapes : seule l'étape "Votre train" est active -->
-    <ol class="ds-stepper sos-stepper" aria-label="Progression de la demande">
-      <li class="ds-stepper__step ds-stepper__step--complete" data-step="1">
-        <span class="ds-stepper__indicator" aria-hidden="true"></span>
-        <span class="ds-stepper__label">Votre voyage</span>
-      </li>
-      <li class="ds-stepper__step ds-stepper__step--active" data-step="2" aria-current="step">
-        <span class="ds-stepper__indicator" aria-hidden="true"></span>
-        <span class="ds-stepper__label">Votre train</span>
-      </li>
-      <li class="ds-stepper__step" data-step="3">
-        <span class="ds-stepper__indicator" aria-hidden="true"></span>
-        <span class="ds-stepper__label">Confirmation</span>
-      </li>
-    </ol>
 
     <!-- Titre principal -->
     <h1 class="sos-titre" id="sos-titre">Confirmez votre train ZOU!</h1>
@@ -221,7 +203,7 @@
         </fieldset>
 
         <div class="sos-links">
-          <a class="sos-link" href="#">
+          <a class="sos-link" href="messages.html?9">
             Je ne trouve pas mon trajet
             <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 8h9M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -233,7 +215,7 @@
 
         <div class="sos-actions">
           <!-- Valide le trajet → page de réponse (message par défaut : prise en compte) -->
-          <a class="sos-btn" href="messages.html?m=merci">Valider ce trajet</a>
+          <a class="sos-btn" href="messages.html?1">Valider ce trajet</a>
         </div>
       </form>
     </div>

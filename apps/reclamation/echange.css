@@ -1,0 +1,104 @@
+/* Parcours "Échange ou annulation" (réclamation SNCF), multi-écrans, mobile ~400px.
+   Réutilise reclamation.css (.recl-*, .recl-header, .recl-choice, .recl-cta, .recl-back,
+   .recl-screen) et train-supprime.css (écrans login partagés : .recl-lead, .recl-btn-stack,
+   .recl-cta--outline, .recl-login-banner, .recl-eye, .recl-check, .recl-link, .recl-fineprint).
+   Ce fichier n'ajoute QUE les variantes propres au parcours :
+   - carte-choix teal plein (1re carte sélectionnée),
+   - écran "Résultat de recherche" : pastille verte sélecteur de compte + liste squelette.
+   100% tokens (var(--...)). Aucun hex hors TODO commenté. Thème teal SNCF. */
+
+/* ---------- Carte-choix teal plein (sélectionnée dans la frame) ---------- */
+.recl-choice--solid {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: var(--color-white);
+}
+.recl-choice--solid .recl-choice__icon,
+.recl-choice--solid .recl-choice__label { color: var(--color-white); }
+.recl-choice--solid:hover {
+  background: var(--color-accent-2); /* #002b28 teal foncé */
+  border-color: var(--color-accent-2);
+}
+.recl-choice--solid:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Cartes de ce parcours : libellé seul (pas de description) → centrer verticalement l'icône */
+.recl-choices .recl-choice { align-items: center; }
+
+/* ============================================================
+   ÉCRAN "Résultat de recherche" (connecté)
+   ============================================================ */
+
+/* ---------- Pastille verte : sélecteur de compte connecté ---------- */
+.recl-account {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
+  width: 100%;
+  padding: var(--space-12) var(--space-16);
+  border: 0;
+  border-radius: var(--radius-r6); /* 8px */
+  background: var(--color-accent-7); /* #bbffbe vert clair */
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+}
+.recl-account:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+.recl-account__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--space-32);
+  height: var(--space-32);
+  border-radius: var(--radius-r12); /* rond */
+  background: var(--color-accent-10); /* #34e88e vert saturé */
+  color: var(--color-brand);
+}
+.recl-account__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+}
+.recl-account__chevron { flex: 0 0 auto; color: var(--color-brand); }
+
+/* ---------- Liste de résultats (cartes de voyage / squelette) ---------- */
+.recl-results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.recl-results__group {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+}
+
+/* Carte de voyage (placeholder) */
+.recl-trip {
+  display: block;
+  padding: 0;
+  border-radius: var(--radius-r8); /* 16px */
+  background: var(--color-white);
+}
+
+/* Blocs squelette gris (état de chargement léger, cf. frame) */
+.recl-skel {
+  display: block;
+  border-radius: var(--radius-r8); /* 16px */
+  background: var(--color-gray-94); /* #e7f3e8 voile gris-vert très clair */
+}
+.recl-skel--lg { height: var(--space-83); } /* ~83px : carte de voyage */
+.recl-skel--sm {
+  width: 60%;
+  height: var(--space-20);
+  border-radius: var(--radius-r10);
+}

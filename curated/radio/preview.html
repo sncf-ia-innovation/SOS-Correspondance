@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Radio — preview</title>
+  <link rel="stylesheet" href="../../dist/tokens.css" />
+  <link rel="stylesheet" href="radio.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: var(--space-32);
+      background: var(--color-white);
+      font-family: var(--font-sans);
+      color: var(--color-brand);
+    }
+    .preview-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-20);
+      max-width: 320px;
+    }
+    .preview-label {
+      font-size: var(--text-sm);
+      color: var(--color-gray-46);
+      margin: 0 0 var(--space-6);
+    }
+    /* Forcer le rendu hover pour la démo sans souris */
+    .is-hover.ds-radio {
+      background: var(--color-accent-18);
+      border-color: var(--color-brand);
+      color: var(--color-brand);
+    }
+    .is-hover.ds-radio .ds-radio__control,
+    .is-hover.ds-radio .ds-radio__trailing {
+      color: var(--color-brand);
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-grid">
+
+    <div>
+      <p class="preview-label">Default</p>
+      <label class="ds-radio">
+        <input class="ds-radio__input" type="radio" name="demo-default" value="velo" />
+        <span class="ds-radio__control" aria-hidden="true">
+          <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none">
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+          <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none">
+            <path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor" />
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="ds-radio__label">Vélo</span>
+        <svg class="ds-radio__trailing" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 0C18.6276 0 24 5.3724 24 12C24 18.6276 18.6276 24 12 24C5.3724 24 0 18.6276 0 12C0 5.3724 5.3724 0 12 0ZM13.326 12.534C12.4536 12.315 11.5404 12.315 10.668 12.534L7.11 13.278C6.4566 13.443 5.9988 14.0322 6 14.706V16.8H18V14.706C18.0048 14.0286 17.5422 13.437 16.884 13.278L13.326 12.534ZM12 5.4C10.3434 5.4 9 6.7434 9 8.4C9 10.0566 10.3434 11.4 12 11.4C13.6572 11.4 15 10.0566 15 8.4C15 6.7434 13.6572 5.4 12 5.4Z" fill="currentColor" />
+        </svg>
+      </label>
+    </div>
+
+    <div>
+      <p class="preview-label">Hover</p>
+      <label class="ds-radio is-hover">
+        <input class="ds-radio__input" type="radio" name="demo-hover" value="velo" />
+        <span class="ds-radio__control" aria-hidden="true">
+          <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none">
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+          <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none">
+            <path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor" />
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="ds-radio__label">Vélo</span>
+        <svg class="ds-radio__trailing" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 0C18.6276 0 24 5.3724 24 12C24 18.6276 18.6276 24 12 24C5.3724 24 0 18.6276 0 12C0 5.3724 5.3724 0 12 0ZM13.326 12.534C12.4536 12.315 11.5404 12.315 10.668 12.534L7.11 13.278C6.4566 13.443 5.9988 14.0322 6 14.706V16.8H18V14.706C18.0048 14.0286 17.5422 13.437 16.884 13.278L13.326 12.534ZM12 5.4C10.3434 5.4 9 6.7434 9 8.4C9 10.0566 10.3434 11.4 12 11.4C13.6572 11.4 15 10.0566 15 8.4C15 6.7434 13.6572 5.4 12 5.4Z" fill="currentColor" />
+        </svg>
+      </label>
+    </div>
+
+    <div>
+      <p class="preview-label">Selected (:checked)</p>
+      <label class="ds-radio">
+        <input class="ds-radio__input" type="radio" name="demo-selected" value="velo" checked />
+        <span class="ds-radio__control" aria-hidden="true">
+          <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none">
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+          <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none">
+            <path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor" />
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="ds-radio__label">Vélo</span>
+        <svg class="ds-radio__trailing" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 0C18.6276 0 24 5.3724 24 12C24 18.6276 18.6276 24 12 24C5.3724 24 0 18.6276 0 12C0 5.3724 5.3724 0 12 0ZM13.326 12.534C12.4536 12.315 11.5404 12.315 10.668 12.534L7.11 13.278C6.4566 13.443 5.9988 14.0322 6 14.706V16.8H18V14.706C18.0048 14.0286 17.5422 13.437 16.884 13.278L13.326 12.534ZM12 5.4C10.3434 5.4 9 6.7434 9 8.4C9 10.0566 10.3434 11.4 12 11.4C13.6572 11.4 15 10.0566 15 8.4C15 6.7434 13.6572 5.4 12 5.4Z" fill="currentColor" />
+        </svg>
+      </label>
+    </div>
+
+    <div>
+      <p class="preview-label">Groupe interactif</p>
+      <label class="ds-radio">
+        <input class="ds-radio__input" type="radio" name="transport" value="velo" />
+        <span class="ds-radio__control" aria-hidden="true">
+          <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none">
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+          <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none">
+            <path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor" />
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="ds-radio__label">Vélo</span>
+        <svg class="ds-radio__trailing" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 0C18.6276 0 24 5.3724 24 12C24 18.6276 18.6276 24 12 24C5.3724 24 0 18.6276 0 12C0 5.3724 5.3724 0 12 0ZM13.326 12.534C12.4536 12.315 11.5404 12.315 10.668 12.534L7.11 13.278C6.4566 13.443 5.9988 14.0322 6 14.706V16.8H18V14.706C18.0048 14.0286 17.5422 13.437 16.884 13.278L13.326 12.534ZM12 5.4C10.3434 5.4 9 6.7434 9 8.4C9 10.0566 10.3434 11.4 12 11.4C13.6572 11.4 15 10.0566 15 8.4C15 6.7434 13.6572 5.4 12 5.4Z" fill="currentColor" />
+        </svg>
+      </label>
+      <label class="ds-radio" style="margin-top: var(--space-12)">
+        <input class="ds-radio__input" type="radio" name="transport" value="train" />
+        <span class="ds-radio__control" aria-hidden="true">
+          <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none">
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+          <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none">
+            <path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor" />
+            <path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="ds-radio__label">Train</span>
+        <svg class="ds-radio__trailing" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 0C18.6276 0 24 5.3724 24 12C24 18.6276 18.6276 24 12 24C5.3724 24 0 18.6276 0 12C0 5.3724 5.3724 0 12 0ZM13.326 12.534C12.4536 12.315 11.5404 12.315 10.668 12.534L7.11 13.278C6.4566 13.443 5.9988 14.0322 6 14.706V16.8H18V14.706C18.0048 14.0286 17.5422 13.437 16.884 13.278L13.326 12.534ZM12 5.4C10.3434 5.4 9 6.7434 9 8.4C9 10.0566 10.3434 11.4 12 11.4C13.6572 11.4 15 10.0566 15 8.4C15 6.7434 13.6572 5.4 12 5.4Z" fill="currentColor" />
+        </svg>
+      </label>
+    </div>
+
+  </div>
+</body>
+</html>

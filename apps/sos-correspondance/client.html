@@ -38,6 +38,13 @@
               <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </button>
+          <!-- Desktop ≥768px : bouton "Mon compte" (caché en mobile) -->
+          <button type="button" class="sos-header__account">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <use href="../../dist/icons.sprite.svg#compte" />
+            </svg>
+            Mon compte
+          </button>
         </div>
       </div>
       <div class="sos-header__stripes" aria-hidden="true"></div>
@@ -49,16 +56,15 @@
       <section class="sos-bandeau" id="bandeau">
         <div class="sos-bandeau__head">
           <h2 class="sos-bandeau__title">Votre voyage en toute sérénité</h2>
-          <button type="button" class="sos-bandeau__toggle"
-                  aria-expanded="false" aria-controls="bandeau-body">
-            <span class="is-more">Lire plus</span>
-            <span class="is-less">Lire moins</span>
-          </button>
+          <button type="button" class="sos-bandeau__toggle sos-bandeau__more"
+                  aria-expanded="false" aria-controls="bandeau-body">Lire plus</button>
         </div>
         <div class="sos-bandeau__body" id="bandeau-body">
           <p>Votre voyage est composé d'un <strong>TGV INOUI, OUIGO, INTERCITÉS, TGV Lyria</strong> et d'un train <strong>ZOU!</strong> ou d'une correspondance <strong>entre 2 trains ZOU!</strong> ?</p>
           <p>SNCF Voyageurs est à vos côtés pour trouver une solution adaptée et assurer votre correspondance.</p>
           <p>Nous vous invitons à remplir ce formulaire. Nous vous guidons pas à pas pour vous orienter vers les meilleures options (confirmation de la correspondance, billet pour un autre train, prise en charge en gare…)</p>
+          <button type="button" class="sos-bandeau__toggle sos-bandeau__less"
+                  aria-expanded="true" aria-controls="bandeau-body">Lire moins</button>
         </div>
       </section>
 
@@ -79,10 +85,7 @@
               <span class="sos-logos" aria-hidden="true">
                 <span class="sos-logo sos-logo--zou">ZOU!</span>
                 <span class="sos-arrow">&rarr;</span>
-                <span class="sos-logo sos-logo--inoui">inOui</span>
-                <span class="sos-logo sos-logo--ouigo">OUIGO</span>
-                <span class="sos-logo sos-logo--ic">INTERCITÉS</span>
-                <span class="sos-logo sos-logo--lyria">TGV Lyria</span>
+                <span class="sos-logo-group"><span class="sos-logo sos-logo--inoui"><svg viewBox="0 0 112 50" width="38" height="17" role="img" aria-label="TGV INOUI"><use href="../../dist/icons.sprite.svg#logo-inoui"/></svg></span><span class="sos-logo sos-logo--ouigo"><svg viewBox="0 0 78 24" role="img" aria-label="OUIGO"><use href="../../dist/icons.sprite.svg#logo-ouigo"/></svg></span><span class="sos-logo sos-logo--ic"><svg viewBox="0 0 78 24" role="img" aria-label="INTERCITÉS"><use href="../../dist/icons.sprite.svg#logo-intercites"/></svg></span><span class="sos-logo sos-logo--lyria"><svg viewBox="0 0 78 24" role="img" aria-label="TGV Lyria"><use href="../../dist/icons.sprite.svg#logo-lyria"/></svg></span></span>
               </span>
               <span class="ds-radio__label sos-option__label">Train ZOU! vers TGV INOUI, OUIGO, INTERCITÉS, TGV Lyria</span>
             </span>
@@ -96,10 +99,7 @@
             </span>
             <span class="sos-option__body">
               <span class="sos-logos" aria-hidden="true">
-                <span class="sos-logo sos-logo--inoui">inOui</span>
-                <span class="sos-logo sos-logo--ouigo">OUIGO</span>
-                <span class="sos-logo sos-logo--ic">INTERCITÉS</span>
-                <span class="sos-logo sos-logo--lyria">TGV Lyria</span>
+                <span class="sos-logo-group"><span class="sos-logo sos-logo--inoui"><svg viewBox="0 0 112 50" width="38" height="17" role="img" aria-label="TGV INOUI"><use href="../../dist/icons.sprite.svg#logo-inoui"/></svg></span><span class="sos-logo sos-logo--ouigo"><svg viewBox="0 0 78 24" role="img" aria-label="OUIGO"><use href="../../dist/icons.sprite.svg#logo-ouigo"/></svg></span><span class="sos-logo sos-logo--ic"><svg viewBox="0 0 78 24" role="img" aria-label="INTERCITÉS"><use href="../../dist/icons.sprite.svg#logo-intercites"/></svg></span><span class="sos-logo sos-logo--lyria"><svg viewBox="0 0 78 24" role="img" aria-label="TGV Lyria"><use href="../../dist/icons.sprite.svg#logo-lyria"/></svg></span></span>
                 <span class="sos-arrow">&rarr;</span>
                 <span class="sos-logo sos-logo--zou">ZOU!</span>
               </span>
@@ -139,35 +139,12 @@
 
           <p class="sos-asterisk-note">*champs obligatoires</p>
 
-          <!-- Bloc TGV INOUI / OUIGO / INTERCITÉS / TGV Lyria -->
-          <div class="sos-fieldblock">
-            <h3 class="sos-block-titre">Informations sur votre voyage en TGV INOUI, OUIGO, INTERCITÉS ou TGV Lyria</h3>
-
-            <div class="sos-field">
-              <label class="sos-field__label" for="ref-dossier">Référence de dossier voyage<span class="sos-req">*</span></label>
-              <input class="sos-field__input" type="text" id="ref-dossier" name="ref-dossier"
-                     placeholder="Ex : ABC5DE" maxlength="6" autocomplete="off"
-                     aria-describedby="ref-help">
-              <p class="sos-field__help" id="ref-help">La référence de dossier voyage est constituée de 6 caractères (lettres et chiffres)</p>
-              <button type="button" class="sos-help-link" id="open-popin" aria-haspopup="dialog">
-                <span class="sos-help-link__icon" aria-hidden="true">i</span>
-                Où trouver la référence dossier ?
-              </button>
-            </div>
-
-            <div class="sos-field">
-              <label class="sos-field__label" for="nom">Nom de famille utilisé lors de la commande<span class="sos-req">*</span></label>
-              <input class="sos-field__input" type="text" id="nom" name="nom"
-                     placeholder="Ex : Dupont" autocomplete="family-name">
-            </div>
-          </div>
-
-          <!-- Bloc train ZOU! -->
+          <!-- Bloc train ZOU! (EN PREMIER pour le sens ZOU! -> TGV*) -->
           <div class="sos-fieldblock">
             <h3 class="sos-block-titre">Informations sur votre voyage en train ZOU!</h3>
 
             <div class="sos-field">
-              <label class="sos-field__label" for="gare-dest">Gare de destination de votre voyage<span class="sos-req">*</span></label>
+              <label class="sos-field__label" for="gare-dest">Gare de départ du train ZOU!<span class="sos-req">*</span></label>
               <div class="sos-autocomplete">
                 <input class="sos-field__input" type="text" id="gare-dest" name="gare-dest"
                        placeholder="Ex : Cannes, Marseille Saint-Charles…" autocomplete="off"
@@ -190,6 +167,37 @@
               </div>
               <p class="sos-field__help" id="gare-help">Saisissez au moins 2 lettres pour afficher la liste déroulante</p>
             </div>
+
+            <div class="sos-field">
+              <label class="sos-field__label" for="heure-zou">Heure de départ prévue du train ZOU!<span class="sos-req">*</span></label>
+              <input class="sos-field__input" type="text" id="heure-zou" name="heure-zou"
+                     placeholder="Ex : 09:00" autocomplete="off"
+                     aria-describedby="heure-zou-help">
+              <p class="sos-field__help" id="heure-zou-help">Vous pouvez renseigner une heure approximative si vous ne connaissez pas l'heure exacte. Cette information nous aidera à retrouver votre train.</p>
+            </div>
+          </div>
+
+          <!-- Bloc TGV INOUI / OUIGO / INTERCITÉS / TGV Lyria (EN SECOND) -->
+          <div class="sos-fieldblock">
+            <h3 class="sos-block-titre">Informations sur votre voyage en TGV INOUI, OUIGO, INTERCITÉS ou TGV Lyria</h3>
+
+            <div class="sos-field">
+              <label class="sos-field__label" for="ref-dossier">Référence de dossier voyage<span class="sos-req">*</span></label>
+              <input class="sos-field__input" type="text" id="ref-dossier" name="ref-dossier"
+                     placeholder="Ex : ABC5DE" maxlength="6" autocomplete="off"
+                     aria-describedby="ref-help">
+              <p class="sos-field__help" id="ref-help">La référence de dossier voyage est constituée de 6 caractères (lettres et chiffres)</p>
+              <button type="button" class="sos-help-link" id="open-popin" aria-haspopup="dialog">
+                <span class="sos-help-link__icon" aria-hidden="true">i</span>
+                Où trouver la référence dossier ?
+              </button>
+            </div>
+
+            <div class="sos-field">
+              <label class="sos-field__label" for="nom">Nom de famille utilisé lors de la commande<span class="sos-req">*</span></label>
+              <input class="sos-field__input" type="text" id="nom" name="nom"
+                     placeholder="Ex : Dupont" autocomplete="family-name">
+            </div>
           </div>
 
           <button type="submit" class="sos-cta">Valider</button>
@@ -204,6 +212,28 @@
         <p class="sos-erreur__text">Merci de votre compréhension.</p>
         <p class="sos-erreur__signature">L'équipe SNCF Voyageurs.</p>
         <button type="button" class="sos-cta" id="sos-erreur-back">Modifier ma demande</button>
+      </section>
+
+      <!-- Écran d'erreur : site indisponible (crise / événement majeur) -->
+      <section class="sos-indispo" id="sos-indispo" role="alert" hidden>
+        <div class="sos-alert-box">
+          <h2 class="sos-alert-box__title">Le site est momentanément indisponible.</h2>
+          <p class="sos-alert-box__text">Suite à un événement majeur, le trafic est fortement perturbé. Nos équipes sont pleinement mobilisées pour identifier les meilleures solutions d'accompagnement, et pourront à nouveau répondre à vos sollicitations très prochainement.</p>
+          <p class="sos-alert-box__text">Dans cette attente, <strong>votre chef de bord ou le personnel en gare reste à votre disposition</strong> pour vous informer et vous accompagner.</p>
+          <p class="sos-alert-box__text">Merci de votre compréhension.</p>
+          <p class="sos-alert-box__signature">L'équipe SNCF Voyageurs</p>
+        </div>
+      </section>
+
+      <!-- Écran d'erreur : site indisponible (incident technique) -->
+      <section class="sos-indispo" id="sos-indispo-tech" role="alert" hidden>
+        <div class="sos-alert-box">
+          <h2 class="sos-alert-box__title">Le site est momentanément indisponible en raison d'un incident technique.</h2>
+          <p class="sos-alert-box__text">Nos équipes sont pleinement mobilisées pour le rétablir dans les meilleurs délais.</p>
+          <p class="sos-alert-box__text">En attendant, <strong>votre chef de bord ou le personnel en gare reste à votre disposition</strong> pour vous informer et vous accompagner.</p>
+          <p class="sos-alert-box__text">Merci de votre compréhension.</p>
+          <p class="sos-alert-box__signature">L'équipe SNCF Voyageurs</p>
+        </div>
       </section>
     </div>
 
@@ -223,6 +253,7 @@
         </a>
       </nav>
     </footer>
+
   </main>
 
   <!-- 5. Popin "Où trouver la référence dossier ?" -->
@@ -238,22 +269,9 @@
       <h2 class="sos-modal__title" id="popin-title">Où trouver la référence dossier ?</h2>
       <p class="sos-modal__text">La référence de dossier voyage se trouve dans le mail de confirmation d'achat de votre billet. Elle est également affichée sur votre e-billet (PDF) :</p>
 
-      <!-- Illustration billet schématique (placeholder propre) -->
-      <figure class="sos-ticket" role="img"
-              aria-label="E-billet TGV INOUI : la référence Voyage dossier Y6876Q est indiquée en haut à droite">
-        <span class="sos-ticket__head">Mon billet</span>
-        <svg class="sos-ticket__arrow" viewBox="0 0 24 32" aria-hidden="true" focusable="false">
-          <path d="M12 0 V24 M12 24 L5 16 M12 24 L19 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <div class="sos-ticket__row">
-          <svg class="sos-ticket__qr" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../../dist/icons.sprite.svg#qrcode"/></svg>
-          <div class="sos-ticket__lines">
-            <span class="sos-ticket__ref">Voyage dossier : Y6876Q</span>
-            <span>Nom : RAB</span>
-            <span>Prénom : Nicolas</span>
-            <span>Voyageur : Adulte</span>
-          </div>
-        </div>
+      <!-- Illustration : e-billet réel (exporté de Figma « Popin avetissement mobile » → Image) -->
+      <figure class="sos-ticket-img">
+        <img src="assets/ebillet-ref.png" alt="E-billet TGV INOUI : la référence « Dossier voyage : Y6876Q » est indiquée en haut à droite, signalée par une flèche rouge." loading="lazy">
       </figure>
 
       <button type="button" class="sos-modal__cta" id="close-popin-2">Fermer</button>
@@ -266,10 +284,11 @@
 
     /* --- 2. Bandeau dépliable --- */
     var bandeau = document.getElementById('bandeau');
-    var bToggle = bandeau.querySelector('.sos-bandeau__toggle');
-    bToggle.addEventListener('click', function () {
-      var open = bandeau.classList.toggle('is-open');
-      bToggle.setAttribute('aria-expanded', String(open));
+    bandeau.querySelectorAll('.sos-bandeau__toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var open = bandeau.classList.toggle('is-open');
+        bandeau.querySelector('.sos-bandeau__more').setAttribute('aria-expanded', String(open));
+      });
     });
 
     /* --- 4b. Révélation du formulaire au choix d'un sens --- */
@@ -288,13 +307,14 @@
     var refInput = document.getElementById('ref-dossier');
     var nomInput = document.getElementById('nom');
     var gareInput = document.getElementById('gare-dest');
+    var heureZouInput = document.getElementById('heure-zou');
 
     /* Destination message.html selon le sens (TÂCHE D) */
     var ROUTES = {
       'zou-vers-gl':  'form.html',                /* ZOU! -> TGV* : sélection du train ZOU! */
-      'gl-vers-zou':  'messages.html?m=tgv-zou',  /* TGV* -> ZOU! : message direct */
-      'zou-vers-zou': 'messages.html?m=zou-zou',  /* ZOU! -> ZOU! */
-      'autres':       'messages.html?m=autres'    /* Autres cas */
+      'gl-vers-zou':  'messages.html?7',  /* TGV* -> ZOU! : message direct */
+      'zou-vers-zou': 'messages.html?6',  /* ZOU! -> ZOU! */
+      'autres':       'messages.html?8'   /* Autres cas */
     };
 
     function showErreur() {
@@ -306,6 +326,29 @@
       erreur.hidden = true;
       form.classList.remove('is-hidden');    /* réaffiche le form rempli, inputs intacts */
     }
+
+    /* --- Écrans « site indisponible » : affichés à la place du formulaire --- */
+    var indispoScreens = document.querySelectorAll('.sos-indispo');
+    function showIndispo(id) {
+      form.classList.add('is-hidden');
+      erreur.hidden = true;
+      bandeau.hidden = true;                  /* masque le bandeau « Lire plus » sur les écrans d'erreur */
+      indispoScreens.forEach(function (s) { s.hidden = (s.id !== id); });
+    }
+    function hideIndispo() {
+      indispoScreens.forEach(function (s) { s.hidden = true; });
+      bandeau.hidden = false;
+      form.classList.remove('is-hidden');
+    }
+    document.querySelectorAll('.sos-indispo-back').forEach(function (btn) {
+      btn.addEventListener('click', hideIndispo);
+    });
+    /* Ouverture d'un écran d'erreur via l'URL : ?error1 (crise) ou ?error2 (technique) */
+    (function () {
+      var q = window.location.search;
+      if (/(?:\?|&)error1(?:=|&|$)/.test(q)) { showIndispo('sos-indispo'); }
+      else if (/(?:\?|&)error2(?:=|&|$)/.test(q)) { showIndispo('sos-indispo-tech'); }
+    })();
 
     document.getElementById('sos-erreur-back').addEventListener('click', function () {
       hideErreur();
@@ -319,13 +362,14 @@
       if (!sens) return; /* aucun sens choisi : form non révélé, rien à faire */
 
       /* Champs requis révélés : Référence de dossier + Nom de famille (toujours).
-         + Gare de destination quand le sens part d'un train ZOU! (zou-vers-*). */
+         + Gare de départ ZOU! + Heure de départ ZOU! quand le sens part d'un train ZOU! (zou-vers-*). */
       var refVal = refInput.value.trim();
       var nomVal = nomInput.value.trim();
-      var needGare = sens.indexOf('zou-vers') === 0;
+      var needZou = sens.indexOf('zou-vers') === 0;
       var gareVal = gareInput.value.trim();
+      var heureZouVal = heureZouInput.value.trim();
 
-      var invalide = !refVal || !nomVal || (needGare && !gareVal);
+      var invalide = !refVal || !nomVal || (needZou && (!gareVal || !heureZouVal));
 
       /* Astuce démo : Référence = "ERREUR" force l'écran d'erreur IHM 3
          même avec tous les champs remplis (test de l'état d'erreur). */

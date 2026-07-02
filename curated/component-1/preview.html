@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Status badge — preview</title>
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <link rel="stylesheet" href="component-1.css">
+  <style>
+    body {
+      margin: 0;
+      padding: var(--space-32);
+      background: var(--color-white);
+      font-family: var(--font-sans);
+    }
+    .preview-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-col">
+    <span class="ds-status-badge ds-status-badge--upcoming">
+      <span class="ds-status-badge__dot" aria-hidden="true"></span>
+      <span class="ds-status-badge__label">Valable à partir du 01/01/2025</span>
+    </span>
+    <span class="ds-status-badge ds-status-badge--valid">
+      <span class="ds-status-badge__dot" aria-hidden="true"></span>
+      <span class="ds-status-badge__label">Valide du 01/01/2024 au 31/12/2024</span>
+    </span>
+    <span class="ds-status-badge ds-status-badge--expired">
+      <span class="ds-status-badge__dot" aria-hidden="true"></span>
+      <span class="ds-status-badge__label">Expirée depuis le 31/12/2024</span>
+    </span>
+    <span class="ds-status-badge ds-status-badge--suspended">
+      <span class="ds-status-badge__dot" aria-hidden="true"></span>
+      <span class="ds-status-badge__label">Suspendue</span>
+    </span>
+    <span class="ds-status-badge ds-status-badge--refunded">
+      <span class="ds-status-badge__dot" aria-hidden="true"></span>
+      <span class="ds-status-badge__label">Remboursée</span>
+    </span>
+  </div>
+</body>
+</html>

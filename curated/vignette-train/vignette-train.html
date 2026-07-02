@@ -1,0 +1,20 @@
+<!-- Vignette train — base .ds-vignette-train + modifiers (--selected, --hover). Structure Figma : article > body (infos : header[ref + checkbox] + journey + passagers) > badge "Train supprimé" -->
+<article class="ds-vignette-train">
+  <div class="ds-vignette-train__body">
+    <header class="ds-vignette-train__header">
+      <p class="ds-vignette-train__reference">Référence RORVVB</p>
+      <span class="ds-vignette-train__checkbox" role="checkbox" aria-checked="false" aria-label="Sélectionner ce train"></span>
+    </header>
+    <div class="ds-vignette-train__journey"></div>
+    <p class="ds-vignette-train__passengers">
+      <span class="ds-vignette-train__passengers-icon" aria-hidden="true"></span>
+      <span class="ds-vignette-train__passengers-label">2 Passagers</span>
+    </p>
+  </div>
+  <p class="ds-vignette-train__badge">
+    <svg class="ds-vignette-train__badge-icon" viewBox="0 0 16 16" aria-hidden="true">
+      <use href="../../dist/icons.sprite.svg#suppression"></use>
+    </svg>
+    <span class="ds-vignette-train__badge-label">Train supprimé</span>
+  </p>
+</article>

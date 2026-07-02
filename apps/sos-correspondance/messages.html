@@ -101,16 +101,34 @@
         </div>
       </section>
 
-      <!-- m=zou-zou — ZOU! vers ZOU! (IHM 11) -->
+      <!-- m=indispo-tech — site indisponible pour incident technique (2e écran d'erreur) -->
+      <section class="msg msg--indispo-tech" data-variant="indispo-tech" hidden aria-labelledby="msg-title">
+        <div class="msg-alert" role="alert">
+          <h1 class="msg-alert__title" id="msg-title">Le site est momentanément indisponible en raison d'un incident technique.</h1>
+          <p class="msg-alert__text">
+            Nos équipes sont pleinement mobilisées pour le rétablir dans les meilleurs délais.
+          </p>
+          <p class="msg-alert__text">
+            En attendant, <strong>votre chef de bord ou le personnel en gare reste à votre disposition</strong>
+            pour vous informer et vous accompagner.
+          </p>
+          <p class="msg-alert__text">Merci de votre compréhension.</p>
+          <p class="msg-alert__signature">L'équipe SNCF Voyageurs</p>
+        </div>
+      </section>
+
+      <!-- m=zou-zou — ZOU! vers ZOU! (IHM 11, Frame 48096771) -->
       <section class="msg msg--zou-zou" data-variant="zou-zou" hidden aria-labelledby="msg-title">
         <h1 class="msg__title" id="msg-title">
           Votre titre ZOU! vous permet de voyager sur le prochain train ZOU! desservant votre destination.
         </h1>
         <p class="msg__text">
-          Il reste également <strong>valable demain</strong>, si plus aucun train ZOU! ne dessert votre destination ce jour.
+          Si plus aucun train ZOU! ne dessert votre destination ce jour, nous vous invitons à vous
+          rapprocher du personnel en gare pour vous accompagner.
         </p>
         <p class="msg__text">
-          Votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.
+          Pour être informé en temps réel des solutions de poursuite du voyage, suivez le fil
+          <a class="msg__text-link" href="https://twitter.com/Transports_zou">@Transports_zou</a> sur X/Twitter.
         </p>
         <p class="msg__signature">L'équipe SNCF Voyageurs</p>
       </section>
@@ -157,10 +175,26 @@
           que vous avez saisis.
         </p>
         <p class="msg__text">
-          Votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.
+          Votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous aider.
         </p>
         <p class="msg__signature">L'équipe SNCF Voyageurs</p>
         <button type="button" class="msg__btn">Modifier ma demande</button>
+      </section>
+
+      <!-- m=identification — référence/nom non reconnus (IHM 3, Frame 48096768) -->
+      <section class="msg msg--identification" data-variant="identification" hidden aria-labelledby="msg-title">
+        <h1 class="msg__title" id="msg-title">
+          La référence de votre dossier voyage et / ou le nom de famille que vous avez saisis
+          ne nous permettent pas d'identifier votre voyage.
+        </h1>
+        <p class="msg__text">Nous vous invitons à les modifier.</p>
+        <p class="msg__text">
+          Si le problème persiste, votre chef de bord ou le personnel en gare reste à votre
+          disposition pour vous informer et vous aider.
+        </p>
+        <p class="msg__text">Merci de votre compréhension.</p>
+        <p class="msg__signature">L'équipe SNCF Voyageurs</p>
+        <a class="msg__btn" href="client.html">Modifier ma demande</a>
       </section>
 
       <!-- m=service-client — contact service client 3635 (IHM, cf. image51) -->
@@ -176,20 +210,6 @@
         <a class="msg__btn" href="tel:3635">Appeler le 3635</a>
         <p class="msg__note">*Disponible 7j/7 et de 8h à 20h (service gratuit + prix d'un appel)</p>
       </section>
-
-      <!-- Aperçu : bascule entre variantes -->
-      <nav class="msg-switch" aria-label="Aperçu des variantes de message">
-        <span class="msg-switch__heading">Aperçu des réponses :</span>
-        <a class="msg-switch__link" href="?m=merci">Prise en compte</a>
-        <a class="msg-switch__link" href="?m=prise-en-charge">Prise en charge</a>
-        <a class="msg-switch__link" href="?m=deja">Déjà enregistrée</a>
-        <a class="msg-switch__link" href="?m=indispo">Indisponible</a>
-        <a class="msg-switch__link" href="?m=zou-zou">ZOU! → ZOU!</a>
-        <a class="msg-switch__link" href="?m=tgv-zou">TGV* → ZOU!</a>
-        <a class="msg-switch__link" href="?m=autres">Autres cas</a>
-        <a class="msg-switch__link" href="?m=introuvable">Trajet introuvable</a>
-        <a class="msg-switch__link" href="?m=service-client">Service client</a>
-      </nav>
 
     </div>
 
@@ -214,23 +234,16 @@
 
   </main>
 
-  <!-- Sélection de la variante selon ?m=... (défaut : merci) -->
+  <!-- Sélection de la variante selon ?N (1, 2, 3…). Défaut : 1 -->
   <script>
     (function () {
-      var allowed = ['merci', 'prise-en-charge', 'deja', 'indispo', 'zou-zou', 'tgv-zou', 'autres', 'introuvable', 'service-client'];
-      var params = new URLSearchParams(window.location.search);
-      var m = params.get('m');
-      if (allowed.indexOf(m) === -1) { m = 'merci'; }
+      /* Ordre des écrans : ?1 = merci, ?2 = prise-en-charge, … */
+      var ORDER = ['merci', 'prise-en-charge', 'deja', 'indispo', 'indispo-tech', 'zou-zou', 'tgv-zou', 'autres', 'introuvable', 'identification', 'service-client'];
+      var num = parseInt((window.location.search.match(/\?(\d+)/) || [])[1], 10);
+      var m = ORDER[num - 1] || ORDER[0];
 
       document.querySelectorAll('.msg').forEach(function (sec) {
         sec.hidden = sec.getAttribute('data-variant') !== m;
-      });
-
-      // Marque le lien d'aperçu courant
-      document.querySelectorAll('.msg-switch__link').forEach(function (a) {
-        if (a.getAttribute('href') === '?m=' + m) {
-          a.setAttribute('aria-current', 'page');
-        }
       });
     })();
   </script>

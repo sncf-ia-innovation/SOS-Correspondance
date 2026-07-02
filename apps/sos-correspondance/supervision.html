@@ -55,10 +55,10 @@
 
     <!-- 3. Onglets avec badges compteur -->
     <nav class="sos-tabs" aria-label="Sens de correspondance">
-      <button type="button" class="sos-tab sos-tab--active" aria-current="true" data-tab>
+      <button type="button" class="sos-tab sos-tab--active" aria-current="true" data-tab data-sens="zou-tgv">
         ZOU! vers TGV* <span class="sos-tab__count">17</span>
       </button>
-      <button type="button" class="sos-tab" data-tab>
+      <button type="button" class="sos-tab" data-tab data-sens="tgv-zou">
         TGV* vers ZOU! <span class="sos-tab__count sos-tab__count--muted">4</span>
       </button>
     </nav>
@@ -80,14 +80,20 @@
         <label class="sos-field__label" for="f-dest">Destination</label>
         <div class="sos-input"><input class="sos-input__el" id="f-dest" type="text" value="Paris Gare de Lyon"></div>
       </div>
-      <div class="sos-field">
+      <div class="sos-field sos-field--dropdown" id="transp-field">
         <label class="sos-field__label" for="f-transp">Transporteur</label>
-        <div class="sos-input sos-input--chips sos-input--select">
-          <span class="sos-chip">INOUI <button type="button" class="sos-chip__close" aria-label="Retirer INOUI">
-            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          </button></span>
+        <button type="button" class="sos-input sos-input--chips sos-input--select" id="f-transp"
+                aria-haspopup="listbox" aria-expanded="false">
+          <span class="sos-chips" id="transp-chips"><!-- chips injectés par JS --></span>
+          <span class="sos-input__placeholder" id="transp-ph" hidden>Tous les transporteurs</span>
           <svg class="sos-input__caret" viewBox="0 0 8 8" aria-hidden="true"><path d="M0 2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
+        </button>
+        <ul class="sos-menu" id="transp-menu" role="listbox" aria-label="Transporteur" aria-multiselectable="true" hidden>
+          <li role="option"><label class="sos-menu__item"><input type="checkbox" value="INOUI" checked><span class="sos-menu__check" aria-hidden="true"></span>TGV INOUI</label></li>
+          <li role="option"><label class="sos-menu__item"><input type="checkbox" value="OUIGO"><span class="sos-menu__check" aria-hidden="true"></span>OUIGO</label></li>
+          <li role="option"><label class="sos-menu__item"><input type="checkbox" value="INTERCITÉS"><span class="sos-menu__check" aria-hidden="true"></span>INTERCITÉS</label></li>
+          <li role="option"><label class="sos-menu__item"><input type="checkbox" value="TGV LYRIA"><span class="sos-menu__check" aria-hidden="true"></span>TGV LYRIA</label></li>
+        </ul>
       </div>
       <div class="sos-field sos-field--sm">
         <label class="sos-field__label" for="f-zou">N° ZOU!</label>
@@ -122,13 +128,13 @@
     </div>
 
     <!-- 6. Tableau -->
-    <div class="sos-table-wrap">
+    <div class="sos-table-wrap is-sens-zou-tgv" id="table-wrap">
       <table class="ds-ligne-tableau sos-table">
         <thead>
           <tr class="ds-ligne-tableau__row ds-ligne-tableau__row--entete">
             <th class="ds-ligne-tableau__cell sos-cell-check" scope="col">
               <label class="sos-check">
-                <input type="checkbox" class="sos-check__input" id="check-all" checked>
+                <input type="checkbox" class="sos-check__input" id="check-all">
                 <span class="sos-check__box" aria-hidden="true">
                   <svg class="sos-check__icon sos-check__icon--on" viewBox="0 0 16 16"><use href="../../dist/icons.sprite.svg#check-on"/></svg>
                   <svg class="sos-check__icon sos-check__icon--off" viewBox="0 0 16 16"><use href="../../dist/icons.sprite.svg#check-off"/></svg>
@@ -176,7 +182,7 @@
   </main>
 
   <!-- 8. Barre d'action collante -->
-  <aside class="ds-sticky sos-sticky" id="action-bar" role="region" aria-label="Traitement de la sélection">
+  <aside class="ds-sticky sos-sticky is-sens-zou-tgv" id="action-bar" role="region" aria-label="Traitement de la sélection">
     <button type="button" class="sos-sticky__close" id="bar-close" aria-label="Fermer la barre d'action">
       <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
     </button>
@@ -193,8 +199,8 @@
     </div>
 
     <div class="sos-sticky__options" role="radiogroup" aria-label="Type de traitement">
-      <label class="ds-radio sos-option">
-        <input class="ds-radio__input" type="radio" name="traitement" value="report" checked>
+      <label class="ds-radio sos-option" data-motif="report">
+        <input class="ds-radio__input" type="radio" name="traitement" value="report">
         <span class="ds-radio__control" aria-hidden="true">
           <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none"><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
           <svg class="ds-radio__icon ds-radio__icon--on" viewBox="0 0 16 16" fill="none"><path d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z" fill="currentColor"/><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
@@ -203,7 +209,7 @@
         <svg class="ds-radio__trailing" viewBox="0 0 24 24" aria-hidden="true"><use href="../../dist/icons.sprite.svg#retard"/></svg>
       </label>
 
-      <label class="ds-radio sos-option">
+      <label class="ds-radio sos-option" data-motif="escale">
         <input class="ds-radio__input" type="radio" name="traitement" value="escale">
         <span class="ds-radio__control" aria-hidden="true">
           <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none"><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
@@ -213,7 +219,7 @@
         <svg class="ds-radio__trailing" viewBox="0 0 24 24" aria-hidden="true"><use href="../../dist/icons.sprite.svg#swap"/></svg>
       </label>
 
-      <label class="ds-radio sos-option">
+      <label class="ds-radio sos-option" data-motif="ok">
         <input class="ds-radio__input" type="radio" name="traitement" value="ok">
         <span class="ds-radio__control" aria-hidden="true">
           <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none"><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
@@ -223,7 +229,7 @@
         <svg class="ds-radio__trailing" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </label>
 
-      <label class="ds-radio sos-option">
+      <label class="ds-radio sos-option" data-motif="non">
         <input class="ds-radio__input" type="radio" name="traitement" value="non">
         <span class="ds-radio__control" aria-hidden="true">
           <svg class="ds-radio__icon ds-radio__icon--off" viewBox="0 0 16 16" fill="none"><path d="M8 0C3.582 0 0 3.582 0 8C0 12.418 3.582 16 8 16C12.418 16 16 12.418 16 8C16 3.582 12.418 0 8 0ZM8 2C11.309 2 14 4.691 14 8C14 11.308 11.309 14 8 14C4.691 14 2 11.308 2 8C2 4.691 4.691 2 8 2Z" fill="currentColor"/></svg>
@@ -235,24 +241,41 @@
     </div>
 
     <div class="sos-sticky__form">
-      <div class="sos-field">
-        <label class="sos-field__label" for="bar-date">Date de départ</label>
-        <div class="sos-input sos-input--icon">
-          <input class="sos-input__el" id="bar-date" type="text" placeholder="jj/mm/aaaa">
-          <svg class="sos-input__icon" viewBox="0 0 24 24" aria-hidden="true"><use href="../../dist/icons.sprite.svg#calendrier"/></svg>
+      <!-- Date de départ + N° train report : uniquement en ZOU→TGV quand « Train de report » est choisi -->
+      <div class="sos-report-fields is-hidden" id="report-fields">
+        <div class="sos-field">
+          <label class="sos-field__label" for="bar-date">Date de départ</label>
+          <div class="sos-input sos-input--icon">
+            <input class="sos-input__el" id="bar-date" type="text" placeholder="jj/mm/aaaa">
+            <svg class="sos-input__icon" viewBox="0 0 24 24" aria-hidden="true"><use href="../../dist/icons.sprite.svg#calendrier"/></svg>
+          </div>
         </div>
-      </div>
-      <div class="sos-field">
-        <label class="sos-field__label" for="bar-train">N° train report</label>
-        <div class="sos-input"><input class="sos-input__el" id="bar-train" type="text" placeholder="Ex : 9010"></div>
+        <div class="sos-field">
+          <label class="sos-field__label" for="bar-train">N° train report</label>
+          <div class="sos-input"><input class="sos-input__el" id="bar-train" type="text" placeholder="Ex : 9010"></div>
+        </div>
       </div>
       <div class="sos-field sos-field--grow">
         <label class="sos-field__label" for="bar-comment">Commentaire (facultatif)</label>
         <div class="sos-input sos-input--area"><textarea class="sos-input__el" id="bar-comment" rows="2" placeholder="Placeholder"></textarea></div>
       </div>
       <div class="sos-field sos-field--actions">
-        <button type="button" class="ds-bouton ds-bouton--primary sos-btn-validate">Valider</button>
+        <button type="button" class="ds-bouton ds-bouton--primary sos-btn-validate" id="bar-validate">Valider</button>
       </div>
+    </div>
+
+    <!-- Confirmation d'envoi (toast) — remplace le contenu de la barre après « Valider » (réf. Figma « Sélection type de train desktop ») -->
+    <div class="sos-confirm" id="confirm-toast" role="status" aria-live="polite" hidden>
+      <span class="sos-confirm__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="sos-confirm__text">
+        <strong class="sos-confirm__title">Confirmation d'envoi</strong>
+        <span class="sos-confirm__sub"><span id="confirm-count">10</span> demandes ont été traitées</span>
+      </span>
+      <button type="button" class="sos-confirm__close" id="confirm-close" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
     </div>
   </aside>
 
@@ -272,7 +295,7 @@
     var SPRITE = '../../dist/icons.sprite.svg';
     function checkCellHtml() {
       return '<td class="ds-ligne-tableau__cell sos-cell-check">'
-        + '<label class="sos-check"><input type="checkbox" class="sos-check__input sos-row-check" checked>'
+        + '<label class="sos-check"><input type="checkbox" class="sos-check__input sos-row-check">'
         + '<span class="sos-check__box" aria-hidden="true">'
         + '<svg class="sos-check__icon sos-check__icon--on" viewBox="0 0 16 16"><use href="'+SPRITE+'#check-on"/></svg>'
         + '<svg class="sos-check__icon sos-check__icon--off" viewBox="0 0 16 16"><use href="'+SPRITE+'#check-off"/></svg>'
@@ -281,7 +304,7 @@
     var tbody = document.getElementById('table-body');
     ROWS.forEach(function(r){
       var tr = document.createElement('tr');
-      tr.className = 'ds-ligne-tableau__row sos-row sos-row--selected';
+      tr.className = 'ds-ligne-tableau__row sos-row';
       tr.innerHTML = checkCellHtml()
         + '<td class="ds-ligne-tableau__cell">'+r.zou+'</td>'
         + '<td class="ds-ligne-tableau__cell">'+r.tgv+'</td>'
@@ -325,8 +348,96 @@
           b.classList.remove('sos-tab--active'); b.removeAttribute('aria-current');
         });
         btn.classList.add('sos-tab--active'); btn.setAttribute('aria-current','true');
+        // Style des lignes selon le sens : ZOU→TGV = zébrage bleu / sélection bleue ; TGV→ZOU = fond blanc / sélection verte
+        var isTgvZou = btn.getAttribute('data-sens') === 'tgv-zou';
+        ['table-wrap', 'action-bar'].forEach(function(id){
+          var el = document.getElementById(id);
+          el.classList.remove('is-sens-zou-tgv', 'is-sens-tgv-zou');
+          el.classList.add(isTgvZou ? 'is-sens-tgv-zou' : 'is-sens-zou-tgv');
+        });
+        if (window.__updateReportFields) { window.__updateReportFields(); }
       });
     });
+
+    // --- Valider → Confirmation d'envoi (masque le contenu de la barre, affiche le toast) ---
+    (function(){
+      var bar = document.getElementById('action-bar');
+      var validate = document.getElementById('bar-validate');
+      var toast = document.getElementById('confirm-toast');
+      var count = document.getElementById('confirm-count');
+      var close = document.getElementById('confirm-close');
+      validate.addEventListener('click', function(){
+        var n = document.querySelectorAll('.sos-row-check:checked').length;
+        count.textContent = n;
+        toast.hidden = false;
+        bar.classList.add('is-confirmed');
+      });
+      close.addEventListener('click', function(){
+        bar.classList.add('sos-sticky--hidden'); // ferme toute la barre
+      });
+    })();
+
+    // --- Date de départ + N° train report : visibles seulement en ZOU→TGV & motif « Train de report » ---
+    var reportFields = document.getElementById('report-fields');
+    function updateReportFields(){
+      var isZouTgv = document.getElementById('action-bar').classList.contains('is-sens-zou-tgv');
+      var reportRadio = document.querySelector('input[name="traitement"][value="report"]');
+      var show = isZouTgv && reportRadio && reportRadio.checked;
+      reportFields.classList.toggle('is-hidden', !show);
+    }
+    document.querySelectorAll('input[name="traitement"]').forEach(function(r){
+      r.addEventListener('change', updateReportFields);
+    });
+    // exposé pour l'appeler aussi au changement d'onglet
+    window.__updateReportFields = updateReportFields;
+    updateReportFields();
+
+    // --- Dropdown Transporteur (multi-sélection) ---
+    (function(){
+      var field = document.getElementById('transp-field');
+      var trigger = document.getElementById('f-transp');
+      var menu = document.getElementById('transp-menu');
+      var chipsBox = document.getElementById('transp-chips');
+      var placeholder = document.getElementById('transp-ph');
+      var boxes = Array.prototype.slice.call(menu.querySelectorAll('input[type="checkbox"]'));
+
+      function renderChips(){
+        chipsBox.innerHTML = '';
+        var selected = boxes.filter(function(b){ return b.checked; });
+        placeholder.hidden = selected.length > 0;
+        selected.forEach(function(b){
+          var chip = document.createElement('span');
+          chip.className = 'sos-chip';
+          chip.textContent = b.value + ' ';
+          var close = document.createElement('button');
+          close.type = 'button';
+          close.className = 'sos-chip__close';
+          close.setAttribute('aria-label', 'Retirer ' + b.value);
+          close.innerHTML = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+          close.addEventListener('click', function(e){
+            e.stopPropagation();
+            b.checked = false;
+            renderChips();
+          });
+          chip.appendChild(close);
+          chipsBox.appendChild(chip);
+        });
+      }
+      function openMenu(){ menu.hidden = false; trigger.setAttribute('aria-expanded', 'true'); }
+      function closeMenu(){ menu.hidden = true; trigger.setAttribute('aria-expanded', 'false'); }
+
+      trigger.addEventListener('click', function(){
+        if (menu.hidden) { openMenu(); } else { closeMenu(); }
+      });
+      boxes.forEach(function(b){ b.addEventListener('change', renderChips); });
+      document.addEventListener('click', function(e){
+        if (!field.contains(e.target)) { closeMenu(); }
+      });
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && !menu.hidden) { closeMenu(); trigger.focus(); }
+      });
+      renderChips();
+    })();
 
     // --- Fermeture / réouverture barre sticky ---
     var bar = document.getElementById('action-bar');

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Échange ou annulation — Réclamation — SNCF Voyageurs</title>
+
+  <!-- Tokens design-system -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <!-- Layout partagé (.recl-*) -->
+  <link rel="stylesheet" href="reclamation.css">
+  <!-- Variantes du parcours "Train supprimé" réutilisées (login, banner, œil, check…) -->
+  <link rel="stylesheet" href="train-supprime.css">
+  <!-- Variantes propres au parcours "Échange ou annulation" -->
+  <link rel="stylesheet" href="echange.css">
+</head>
+<body>
+  <main class="recl" aria-label="Réclamation — Échange ou annulation">
+
+    <!-- En-tête teal + plaque logo SNCF Voyageurs -->
+    <header class="recl-header">
+      <div class="recl-header__bar">
+        <a class="recl-header__logo" href="reclamation.html" aria-label="SNCF Voyageurs — accueil">
+          <span class="recl-header__logo-plate">
+            <svg class="recl-header__logo-svg" viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false">
+              <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+            </svg>
+          </span>
+        </a>
+        <div class="recl-header__actions">
+          <button type="button" class="recl-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="recl-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ ÉCRAN 1 : QUELLE EST VOTRE DEMANDE ? ============ -->
+    <section class="recl-screen is-active" id="screen-demande" aria-labelledby="titre-demande">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-demande">Quelle est votre demande ?</h1>
+
+        <div class="recl-choices" role="group" aria-labelledby="titre-demande">
+
+          <!-- 1re carte : teal plein (sélectionnée dans la frame) — icône échange ⇄ -->
+          <button type="button" class="recl-choice recl-choice--solid" data-goto="screen-connexion">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 8h13l-3.5-3.5M20 16H7l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">Je souhaite annuler ou échanger mon voyage</span>
+            </span>
+          </button>
+
+          <!-- 2e carte : échec échange/annulation — flèche échange + pastille info -->
+          <button type="button" class="recl-choice" data-goto="screen-connexion">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 8h11l-3-3M16 14H6l2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="18" cy="16" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M18 14.4v2.2M18 18.2v.01" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">Je n'ai pas réussi à échanger ou annuler mon voyage</span>
+            </span>
+          </button>
+
+          <!-- 3e carte : frais injustifiés — euro + pastille info -->
+          <button type="button" class="recl-choice" data-goto="screen-connexion">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M14.5 6.5a5 5 0 1 0 0 9M4 9.5h7M4 12.5h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="18" cy="16.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M18 15v2M18 18.4v.01" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">J'ai eu des frais d'annulation ou d'échange injustifiés</span>
+            </span>
+          </button>
+
+          <!-- 4e carte : remboursement non reçu — euro + pastille interrogation -->
+          <button type="button" class="recl-choice" data-goto="screen-connexion">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M14.5 6.5a5 5 0 1 0 0 9M4 9.5h7M4 12.5h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="18" cy="16.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M16.7 15.6a1.4 1.4 0 1 1 1.6 1.8v.5M18 18.6v.01" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">J'ai annulé ou échangé mon voyage mais je n'ai pas eu le remboursement attendu</span>
+            </span>
+          </button>
+
+        </div>
+
+        <!-- 1er écran : retour vers le HUB -->
+        <a class="recl-back" href="reclamation.html">
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 2 : CONNEXION (recopié de train-supprime.html) ============ -->
+    <section class="recl-screen" id="screen-connexion" aria-labelledby="titre-connexion">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-connexion">Connectez-vous pour gagner du temps</h1>
+        <p class="recl-lead">Avec Mon Identifiant SNCF, vos données de contact et de voyage sont remontées automatiquement.</p>
+
+        <div class="recl-btn-stack">
+          <button type="button" class="recl-cta" data-goto="screen-login">Se connecter</button>
+          <a class="recl-cta recl-cta--outline" href="#"><!-- TODO: création de compte SNCF -->Créer un compte</a>
+          <button type="button" class="recl-cta recl-cta--outline" data-goto="screen-resultat">Continuer sans compte client</button>
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 3 : CONNEXION MON IDENTIFIANT SNCF (recopié de train-supprime.html) ============ -->
+    <section class="recl-screen" id="screen-login" aria-labelledby="titre-login">
+      <div class="recl-body">
+        <p class="recl-login-banner">Bienvenue sur <strong>Mon Identifiant SNCF</strong></p>
+
+        <h1 class="recl-titre recl-titre--center" id="titre-login">Connexion à mon compte</h1>
+        <p class="recl-login-intro">Ces identifiants vous donneront accès aux espaces clients des sites et applications SNCF et partenaires <strong>**</strong>.</p>
+        <p class="recl-asterisk-note recl-asterisk-note--right"><span class="recl-req">*</span> champs obligatoires</p>
+
+        <div class="recl-grid">
+          <div class="recl-field">
+            <label class="recl-field__label" for="login-email">Adresse e-mail<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="email" id="login-email" name="login-email"
+                   placeholder="Ex : jules.maigret@pj-paris.fr" autocomplete="email">
+          </div>
+
+          <div class="recl-field recl-field--password">
+            <label class="recl-field__label" for="login-password">Mot de passe<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="password" id="login-password" name="login-password" autocomplete="current-password">
+            <button type="button" class="recl-eye" data-eye="login-password" aria-label="Afficher le mot de passe" aria-pressed="false">
+              <svg class="recl-eye__on" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+              <svg class="recl-eye__off" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+                <path d="M2 12s3.5-7 10-7c2 0 3.7.6 5.2 1.5M22 12s-3.5 7-10 7c-2 0-3.7-.6-5.2-1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M9.5 9.5a3 3 0 0 0 4 4M3 3l18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="recl-login-row">
+            <label class="recl-check" for="remember">
+              <input class="recl-check__input" type="checkbox" id="remember" name="remember">
+              <span class="recl-check__box">
+                <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false">
+                  <path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Se souvenir de moi
+            </label>
+            <a class="recl-link" href="#"><!-- TODO: récupération de mot de passe -->Mot de passe oublié
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <p class="recl-fineprint">** Identifiants uniques valables sur : Bornes libre-service en gares et boutiques, Chatbot TOUT'OUI, Site Ma Place à Bord, Site MAX ACTIF / MAX ACTIF+, Site MAX Jeune, Site MAX Senior, Site Mon Chauffeur TGV INOUI, Site Mon espace TGV INOUI, Appli OUIGO, Site OUIGO, Appli SNCF Connect, Site SNCF Connect, Sites TER, Portail TGV INOUI, Appli TGV INOUI Pro et Chatbot TGV INOUI.</p>
+
+        <div class="recl-actions recl-actions--pair">
+          <button type="button" class="recl-cta recl-cta--outline" data-back>Annuler</button>
+          <button type="button" class="recl-cta" data-goto="screen-resultat">Me connecter</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 4 : RÉSULTAT DE RECHERCHE (connecté) ============ -->
+    <section class="recl-screen" id="screen-resultat" aria-labelledby="titre-resultat">
+      <div class="recl-body">
+
+        <!-- Pastille verte sélecteur de compte -->
+        <button type="button" class="recl-account" aria-haspopup="listbox" aria-label="Compte connecté : Jules MAIGRET — changer de compte">
+          <span class="recl-account__avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+              <circle cx="12" cy="9" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M6 18.5a6 6 0 0 1 12 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="recl-account__name">Jules MAIGRET</span>
+          <svg class="recl-account__chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <h1 class="recl-titre" id="titre-resultat">Résultat de recherche</h1>
+
+        <!-- Liste de résultats (cartes de voyage / état squelette léger) -->
+        <div class="recl-results" aria-label="Liste des voyages">
+
+          <p class="recl-results__group">Trajet aller</p>
+
+          <article class="recl-trip">
+            <span class="recl-skel recl-skel--lg" aria-hidden="true"></span>
+          </article>
+
+          <article class="recl-trip">
+            <span class="recl-skel recl-skel--lg" aria-hidden="true"></span>
+          </article>
+
+          <p class="recl-results__group">Trajet retour</p>
+
+          <article class="recl-trip">
+            <span class="recl-skel recl-skel--lg" aria-hidden="true"></span>
+          </article>
+
+          <article class="recl-trip">
+            <span class="recl-skel recl-skel--lg" aria-hidden="true"></span>
+          </article>
+
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Navigation simple entre écrans : pile d'historique pour le Retour.
+    (function () {
+      var stack = ['screen-demande'];
+
+      function show(id) {
+        document.querySelectorAll('.recl-screen').forEach(function (s) {
+          s.classList.toggle('is-active', s.id === id);
+        });
+        window.scrollTo(0, 0);
+      }
+      function goto(id) {
+        if (stack[stack.length - 1] !== id) stack.push(id);
+        show(id);
+      }
+      function back() {
+        if (stack.length > 1) {
+          stack.pop();
+          show(stack[stack.length - 1]);
+        }
+      }
+      document.querySelectorAll('[data-goto]').forEach(function (el) {
+        el.addEventListener('click', function () { goto(el.getAttribute('data-goto')); });
+      });
+      document.querySelectorAll('[data-back]').forEach(function (el) {
+        el.addEventListener('click', back);
+      });
+
+      // Toggle œil mot de passe
+      document.querySelectorAll('[data-eye]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var input = document.getElementById(btn.getAttribute('data-eye'));
+          var field = btn.closest('.recl-field--password');
+          var revealed = input.type === 'text';
+          input.type = revealed ? 'password' : 'text';
+          field.classList.toggle('is-revealed', !revealed);
+          btn.setAttribute('aria-pressed', String(!revealed));
+          btn.setAttribute('aria-label', revealed ? 'Afficher le mot de passe' : 'Masquer le mot de passe');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

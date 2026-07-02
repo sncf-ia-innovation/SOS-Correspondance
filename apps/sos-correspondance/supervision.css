@@ -209,6 +209,89 @@ textarea.sos-input__el { resize: vertical; line-height: 1.4; }
 }
 .sos-chip__close svg { width: 9px; height: 9px; }
 
+/* ---------- Dropdown Transporteur (multi-sélection interactive) ---------- */
+.sos-field--dropdown { position: relative; }
+button.sos-input--select {
+  width: 100%;
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  /* hauteur fixe : les chips ne poussent pas la boîte, on défile à l'intérieur */
+  height: var(--space-48);
+  align-items: stretch;
+  overflow: hidden;
+}
+button.sos-input--select .sos-input__caret { align-self: center; }
+/* Zone des chips défilable verticalement (swipe) quand il y en a trop */
+button.sos-input--select .sos-chips {
+  align-content: flex-start;
+  overflow-y: auto;
+  padding: var(--space-6) 0;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+button.sos-input--select .sos-chips::-webkit-scrollbar { width: 4px; }
+button.sos-input--select .sos-chips::-webkit-scrollbar-thumb {
+  background: var(--color-accent-1);
+  border-radius: 2px;
+}
+.sos-chips { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-6); flex: 1 1 auto; min-width: 0; }
+.sos-input__placeholder { color: var(--color-gray-46); font-size: var(--text-base); }
+.sos-input--select[aria-expanded="true"] { border-color: var(--color-brand); }
+.sos-input--select[aria-expanded="true"] .sos-input__caret { transform: rotate(180deg); }
+.sos-input__caret { transition: transform .15s ease; }
+
+.sos-menu {
+  position: absolute;
+  top: calc(100% + var(--space-4));
+  left: 0;
+  z-index: 20;
+  width: 100%;
+  min-width: 180px;
+  margin: 0;
+  padding: var(--space-6);
+  list-style: none;
+  background: var(--color-white);
+  border: 1px solid var(--color-accent-1);
+  border-radius: var(--radius-r6);
+  box-shadow: 0 8px 24px rgba(6, 86, 84, .15);
+}
+.sos-menu[hidden] { display: none; }
+.sos-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-8);
+  border-radius: var(--radius-r6);
+  font-size: var(--text-base);
+  color: var(--color-brand);
+  cursor: pointer;
+}
+.sos-menu__item:hover { background: var(--color-accent-18); /* #e3f3ef */ }
+.sos-menu__item input { position: absolute; opacity: 0; width: 0; height: 0; }
+.sos-menu__check {
+  flex: 0 0 auto;
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--color-gray-46);
+  border-radius: var(--radius-sm, 4px);
+  background: var(--color-white);
+  position: relative;
+}
+.sos-menu__item input:checked + .sos-menu__check {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+}
+.sos-menu__item input:checked + .sos-menu__check::after {
+  content: "";
+  position: absolute;
+  left: 5px; top: 1px;
+  width: 5px; height: 10px;
+  border: solid var(--color-white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.sos-menu__item input:focus-visible + .sos-menu__check { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+
 .sos-btn-filter {
   height: var(--space-48);
   font-family: var(--font-sans);
@@ -259,9 +342,22 @@ textarea.sos-input__el { resize: vertical; line-height: 1.4; }
   border-radius: 0;
   font-size: var(--text-base);
 }
-/* Ligne sélectionnée = voile bleu/teal clair */
-.sos-row--selected > .ds-ligne-tableau__cell {
-  background: var(--color-gray-94); /* #e7f3e8 — voile vert/teal clair sélection */
+/* Style des lignes selon le sens actif (réf. Figma « Sélection type de train desktop » / Frame 48096732).
+   ZOU→TGV : zébrage bleu (blanc / bleu clair / blanc), sélection bleue.
+   TGV→ZOU : fond blanc uni, sélection vert clair. */
+
+/* --- ZOU! vers TGV* : zébrage bleu clair --- */
+.is-sens-zou-tgv .sos-row:nth-child(even) > .ds-ligne-tableau__cell {
+  background: #e8f2fd; /* bleu très clair (zébrage) — TODO: pas de token bleu dans le DS */
+}
+.is-sens-zou-tgv .sos-row.sos-row--selected > .ds-ligne-tableau__cell {
+  background: #bcdcfb; /* bleu de sélection (plus soutenu que le zébrage ; l'emporte sur le zébrage even) */
+  color: var(--color-brand);
+}
+
+/* --- TGV* vers ZOU! : fond blanc, sélection vert clair --- */
+.is-sens-tgv-zou .sos-row.sos-row--selected > .ds-ligne-tableau__cell {
+  background: var(--color-accent-7); /* #bbffbe — vert clair ; case vert foncé, tick = fond */
   color: var(--color-brand);
 }
 .sos-cell-num { text-align: right; }
@@ -350,10 +446,20 @@ textarea.sos-input__el { resize: vertical; line-height: 1.4; }
 
 .sos-sticky__options {
   flex: 0 0 auto;
+  align-self: flex-end; /* bas des boutons aligné avec le bas des champs */
   display: grid;
   grid-template-columns: repeat(2, minmax(170px, 1fr));
   gap: var(--space-12);
 }
+
+/* --- Motifs selon le sens actif ---
+   ZOU→TGV : 4 motifs (2×2, défaut).
+   TGV→ZOU : 2 motifs empilés — Correspondance OK puis Renvoi escale. */
+#action-bar.is-sens-tgv-zou .sos-sticky__options { grid-template-columns: 1fr; }
+#action-bar.is-sens-tgv-zou .sos-option[data-motif="report"],
+#action-bar.is-sens-tgv-zou .sos-option[data-motif="non"] { display: none; }
+#action-bar.is-sens-tgv-zou .sos-option[data-motif="ok"] { order: 1; }
+#action-bar.is-sens-tgv-zou .sos-option[data-motif="escale"] { order: 2; }
 /* Cartes radio compactes */
 .sos-option { padding: var(--space-10) var(--space-12); gap: var(--space-10); }
 .sos-option .ds-radio__label { font-size: var(--text-base); font-weight: 700; }
@@ -369,6 +475,88 @@ textarea.sos-input__el { resize: vertical; line-height: 1.4; }
 .sos-sticky__form .sos-field { flex: 0 1 150px; }
 .sos-sticky__form .sos-field--grow { flex: 1 1 220px; }
 .sos-sticky__form .sos-field--actions { flex: 0 0 auto; }
+/* Date de départ + N° train report : apparition animée (largeur + fondu + glissement) */
+.sos-report-fields {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-16);
+  flex: 0 0 auto;
+  min-width: 0;
+  overflow: hidden;
+  max-width: 340px;
+  opacity: 1;
+  transform: translateX(0);
+  transition: max-width .32s ease, opacity .24s ease, transform .32s ease, margin-right .32s ease;
+}
+.sos-report-fields .sos-field { flex: 0 0 150px; }
+.sos-report-fields.is-hidden {
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(-8px);
+  margin-right: calc(-1 * var(--space-16)); /* mange le gap parent quand replié */
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sos-report-fields { transition: none; }
+}
+/* La zone Commentaire épouse la hauteur du bloc de motifs (2 rangées) : leurs hauts s'alignent (bas commun via flex-end). */
+.sos-sticky__form .sos-field--grow .sos-input--area {
+  height: 88px;
+  align-items: stretch;
+}
+.sos-sticky__form .sos-field--grow .sos-input--area textarea { height: 100%; }
+
+/* ---------- Confirmation d'envoi (toast après Valider) ---------- */
+/* État confirmé : on masque tout le contenu de la barre, on centre le toast */
+#action-bar.is-confirmed .sos-sticky__summary,
+#action-bar.is-confirmed .sos-sticky__options,
+#action-bar.is-confirmed .sos-sticky__form,
+#action-bar.is-confirmed .sos-sticky__close { display: none; }
+#action-bar.is-confirmed { justify-content: center; }
+
+.sos-confirm {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  width: 100%;
+  max-width: 620px;
+  padding: var(--space-16) var(--space-20);
+  background: var(--color-white);
+  /* cadre vert foncé, bord bas plus épais */
+  border: 1.5px solid var(--color-brand);
+  border-bottom-width: 4px;
+  border-radius: var(--radius-r6);
+  box-shadow: 0 8px 24px rgba(6, 86, 84, .10);
+  animation: sos-confirm-in .28s ease;
+}
+.sos-confirm[hidden] { display: none; }
+@keyframes sos-confirm-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.sos-confirm__icon {
+  flex: 0 0 auto;
+  width: 26px; height: 26px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--color-brand); /* tik : vert foncé */
+  color: var(--color-white);
+}
+.sos-confirm__text { display: flex; flex-direction: column; gap: 2px; margin-right: var(--space-24); }
+.sos-confirm__title { color: var(--color-brand); font-weight: 800; font-size: var(--text-lg); line-height: 1.25; }
+.sos-confirm__sub { color: var(--color-gray-46); font-size: var(--text-base); }
+.sos-confirm__close {
+  margin-left: auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--space-24); height: var(--space-24);
+  border: 0; background: transparent; color: var(--color-gray-31);
+  cursor: pointer;
+}
+.sos-confirm__close:hover { color: var(--color-brand); }
+@media (prefers-reduced-motion: reduce) {
+  .sos-confirm { animation: none; }
+}
 
 .sos-btn-validate {
   height: var(--space-48);

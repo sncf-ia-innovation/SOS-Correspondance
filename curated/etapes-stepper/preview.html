@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Étapes / Stepper — preview</title>
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <link rel="stylesheet" href="etapes-stepper.css">
+  <style>
+    body {
+      margin: 0;
+      padding: var(--space-48);
+      background: var(--color-white);
+      font-family: var(--font-sans);
+    }
+  </style>
+</head>
+<body>
+  <ol class="ds-stepper">
+    <li class="ds-stepper__step ds-stepper__step--complete">
+      <span class="ds-stepper__indicator" aria-hidden="true">
+        <svg class="ds-stepper__icon" width="16" height="16" aria-hidden="true">
+          <use href="../../dist/icons.sprite.svg#check-on"></use>
+        </svg>
+      </span>
+      <span class="ds-stepper__label">Réservation</span>
+    </li>
+    <li class="ds-stepper__step ds-stepper__step--active" aria-current="step">
+      <span class="ds-stepper__indicator" aria-hidden="true"></span>
+      <span class="ds-stepper__label">Paiement</span>
+    </li>
+    <li class="ds-stepper__step ds-stepper__step--avenir">
+      <span class="ds-stepper__indicator" aria-hidden="true"></span>
+      <span class="ds-stepper__label">Confirmation</span>
+    </li>
+  </ol>
+</body>
+</html>

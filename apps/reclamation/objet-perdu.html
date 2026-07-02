@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Objet perdu — Réclamation — SNCF Voyageurs</title>
+
+  <!-- Tokens design-system -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <!-- Layout partagé (.recl-*) -->
+  <link rel="stylesheet" href="reclamation.css">
+  <!-- Variantes propres au parcours "Objet perdu" -->
+  <link rel="stylesheet" href="objet-perdu.css">
+</head>
+<body>
+  <main class="recl" aria-label="Réclamation — Objet perdu">
+
+    <!-- En-tête teal + plaque logo SNCF Voyageurs -->
+    <header class="recl-header">
+      <div class="recl-header__bar">
+        <a class="recl-header__logo" href="reclamation.html" aria-label="SNCF Voyageurs — accueil">
+          <span class="recl-header__logo-plate">
+            <svg class="recl-header__logo-svg" viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false">
+              <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+            </svg>
+          </span>
+        </a>
+        <div class="recl-header__actions">
+          <button type="button" class="recl-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="recl-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ ÉCRAN 1 : TYPE (perdu / trouvé) ============ -->
+    <section class="recl-screen is-active" id="screen-type" aria-labelledby="titre-type">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-type">Vous avez</h1>
+
+        <div class="recl-choices" role="group" aria-labelledby="titre-type">
+
+          <!-- Perdu un objet (carte teal plein / sélectionnée comme dans la frame) -->
+          <button type="button" class="recl-choice is-selected" data-goto="screen-ou-perdu">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6 4h9a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H9l-4 3v-3a3 3 0 0 1-1-2.2V7a3 3 0 0 1 3-3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M9.4 8.5a2 2 0 1 1 3 1.9c-.7.4-.9.8-.9 1.5M12 14v.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">Perdu un objet</span>
+            </span>
+          </button>
+
+          <!-- Trouvé un objet -->
+          <button type="button" class="recl-choice" data-goto="screen-ou-trouve">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M6 4h9a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H9l-4 3v-3a3 3 0 0 1-1-2.2V7a3 3 0 0 1 3-3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M12 7.5v3.5M12 13.5v.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">Trouvé un objet</span>
+            </span>
+          </button>
+
+        </div>
+
+        <!-- 1er écran : retour vers le HUB -->
+        <a class="recl-back" href="reclamation.html">
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 2 : OÙ AVEZ-VOUS PERDU L'OBJET ? ============ -->
+    <section class="recl-screen" id="screen-ou-perdu" aria-labelledby="titre-ou-perdu">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-ou-perdu">Ou avez-vous perdu l’objet ?</h1>
+
+        <div class="recl-choices" role="group" aria-labelledby="titre-ou-perdu">
+
+          <!-- En France (carte teal plein / sélectionnée comme dans la frame) -->
+          <button type="button" class="recl-choice is-selected" data-goto="screen-perdu-france">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M11 3l2.4 1.6 2.6-.4 1 2 2 1-.4 2.5L21 15l-2.5 1.2-1 2.6-2.6.2-1.9 1.8-2.4-1.4-2.6.5-1.3-2L4 16.5l.4-2.7L3 11.4l2-1.4.6-2.6 2.6-.2L11 3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">En France</span>
+            </span>
+          </button>
+
+          <!-- À l'étranger (globe) -->
+          <button type="button" class="recl-choice" data-goto="screen-perdu-etranger">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M3 12h18M12 3c2.6 2.4 4 5.7 4 9s-1.4 6.6-4 9c-2.6-2.4-4-5.7-4-9s1.4-6.6 4-9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">A l’étranger</span>
+            </span>
+          </button>
+
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 3 : OÙ AVEZ-VOUS TROUVÉ L'OBJET ? ============ -->
+    <section class="recl-screen" id="screen-ou-trouve" aria-labelledby="titre-ou-trouve">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-ou-trouve">Ou avez-vous trouvé l’objet ?</h1>
+
+        <div class="recl-choices" role="group" aria-labelledby="titre-ou-trouve">
+
+          <!-- En France -->
+          <button type="button" class="recl-choice" data-goto="screen-trouve-france">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M11 3l2.4 1.6 2.6-.4 1 2 2 1-.4 2.5L21 15l-2.5 1.2-1 2.6-2.6.2-1.9 1.8-2.4-1.4-2.6.5-1.3-2L4 16.5l.4-2.7L3 11.4l2-1.4.6-2.6 2.6-.2L11 3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">En France</span>
+            </span>
+          </button>
+
+          <!-- À l'étranger (globe) -->
+          <button type="button" class="recl-choice" data-goto="screen-trouve-etranger">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M3 12h18M12 3c2.6 2.4 4 5.7 4 9s-1.4 6.6-4 9c-2.6-2.4-4-5.7-4-9s1.4-6.6 4-9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">A l’étranger</span>
+            </span>
+          </button>
+
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 4 : PERDU EN FRANCE ============ -->
+    <section class="recl-screen" id="screen-perdu-france" aria-labelledby="titre-perdu-france">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-perdu-france">Si vous avez perdu un objet en France</h1>
+
+        <div class="recl-prose">
+          <p>Vous pouvez <strong>contacter notre service objets trouvés</strong></p>
+          <p>Vous vous êtes fait voler un objet en gare ou à bord de votre train ? Nous vous invitons à déposer plainte auprès d'un commissariat de police.</p>
+        </div>
+
+        <!-- TODO: URL du service objets trouvés SNCF -->
+        <a class="recl-cta" href="#" target="_blank" rel="noopener">
+          Contacter le service objets trouvés
+          <svg class="recl-cta__ext" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M8 6h10v10M18 6 7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 5 : TROUVÉ EN FRANCE ============ -->
+    <section class="recl-screen" id="screen-trouve-france" aria-labelledby="titre-trouve-france">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-trouve-france">Si vous avez trouvé un objet en France</h1>
+
+        <div class="recl-prose">
+          <p>Si vous trouvez un objet en gare ou dans un train, n’hésitez pas à le déposer dans l’<strong>un de nos bureaux Objets Trouvés</strong> ou <strong>auprès du personnel en gare.</strong></p>
+          <p>L’objet sera ainsi enregistré dans la base informatique des objets trouvés, ce qui donnera toutes les chances à son propriétaire de le retrouver.</p>
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 6 : PERDU À L'ÉTRANGER ============ -->
+    <!-- TODO: confirmer texte exact (frame étranger non récupérée) -->
+    <section class="recl-screen" id="screen-perdu-etranger" aria-labelledby="titre-perdu-etranger">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-perdu-etranger">Si vous avez perdu un objet à l’étranger</h1>
+
+        <div class="recl-prose">
+          <p>Pour un objet perdu hors de France, nous vous invitons à <strong>contacter directement le service objets trouvés de l’opérateur ferroviaire</strong> ou de la gare du pays concerné.</p>
+          <p>Le personnel de la gare de départ ou d’arrivée pourra vous orienter vers la procédure de réclamation locale.</p>
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 7 : TROUVÉ À L'ÉTRANGER ============ -->
+    <!-- TODO: confirmer texte exact (frame étranger non récupérée) -->
+    <section class="recl-screen" id="screen-trouve-etranger" aria-labelledby="titre-trouve-etranger">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-trouve-etranger">Si vous avez trouvé un objet à l’étranger</h1>
+
+        <div class="recl-prose">
+          <p>Si vous trouvez un objet hors de France, n’hésitez pas à le <strong>déposer auprès du personnel de la gare</strong> ou de l’opérateur ferroviaire du pays concerné.</p>
+          <p>L’objet sera ainsi enregistré localement, ce qui donnera toutes les chances à son propriétaire de le retrouver.</p>
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Navigation simple entre écrans : pile d'historique pour le Retour.
+    (function () {
+      var stack = ['screen-type'];
+
+      function show(id) {
+        document.querySelectorAll('.recl-screen').forEach(function (s) {
+          s.classList.toggle('is-active', s.id === id);
+        });
+        window.scrollTo(0, 0);
+      }
+      function goto(id) {
+        if (stack[stack.length - 1] !== id) stack.push(id);
+        show(id);
+      }
+      function back() {
+        if (stack.length > 1) {
+          stack.pop();
+          show(stack[stack.length - 1]);
+        }
+      }
+      document.querySelectorAll('[data-goto]').forEach(function (el) {
+        el.addEventListener('click', function () { goto(el.getAttribute('data-goto')); });
+      });
+      document.querySelectorAll('[data-back]').forEach(function (el) {
+        el.addEventListener('click', back);
+      });
+    })();
+  </script>
+</body>
+</html>

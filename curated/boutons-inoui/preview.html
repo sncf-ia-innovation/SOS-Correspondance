@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boutons INOUI — preview</title>
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <link rel="stylesheet" href="boutons-inoui.css">
+  <style>
+    body {
+      margin: 0;
+      padding: var(--space-32);
+      background: var(--color-white);
+      color: var(--color-gray-20);
+      font-family: var(--font-sans);
+    }
+    h1 { font-size: var(--text-2xl); margin: 0 0 var(--space-24); }
+    h2 { font-size: var(--text-md); margin: var(--space-32) 0 var(--space-12); color: var(--color-gray-46); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, max-content));
+      gap: var(--space-20);
+      align-items: start;
+    }
+    .cell { display: flex; flex-direction: column; gap: var(--space-8); }
+    .cell small { font-size: var(--text-xs); color: var(--color-gray-46); }
+    /* simulation visuelle de :hover pour la preview */
+    .is-hover.ds-bouton--primary {
+      background-color: var(--color-accent-9);
+      border-color: var(--color-accent-9);
+    }
+    .is-hover.ds-bouton--secondary {
+      background-color: var(--color-accent-9);
+      border-color: var(--color-accent-9);
+      color: var(--color-white);
+    }
+  </style>
+</head>
+<body>
+  <h1>Boutons INOUI</h1>
+
+  <h2>Primaire</h2>
+  <div class="grid">
+    <div class="cell"><small>défaut</small>
+      <button type="button" class="ds-bouton ds-bouton--primary">Bouton</button></div>
+    <div class="cell"><small>survol</small>
+      <button type="button" class="ds-bouton ds-bouton--primary is-hover">Bouton</button></div>
+    <div class="cell"><small>désactivé</small>
+      <button type="button" class="ds-bouton ds-bouton--primary" disabled>Bouton</button></div>
+    <div class="cell"><small>icône droite</small>
+      <button type="button" class="ds-bouton ds-bouton--primary">Bouton
+        <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8h-2V6.4L4.7 12.7 3.3 11.3 9.6 5H5V3Z"/></svg>
+      </button></div>
+    <div class="cell"><small>icône gauche</small>
+      <button type="button" class="ds-bouton ds-bouton--primary">
+        <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8h-2V6.4L4.7 12.7 3.3 11.3 9.6 5H5V3Z"/></svg>Bouton
+      </button></div>
+    <div class="cell"><small>icône droite, désactivé</small>
+      <button type="button" class="ds-bouton ds-bouton--primary" disabled>Bouton
+        <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8h-2V6.4L4.7 12.7 3.3 11.3 9.6 5H5V3Z"/></svg>
+      </button></div>
+  </div>
+
+  <h2>Secondaire</h2>
+  <div class="grid">
+    <div class="cell"><small>défaut</small>
+      <button type="button" class="ds-bouton ds-bouton--secondary">Bouton</button></div>
+    <div class="cell"><small>survol</small>
+      <button type="button" class="ds-bouton ds-bouton--secondary is-hover">Bouton</button></div>
+    <div class="cell"><small>désactivé</small>
+      <button type="button" class="ds-bouton ds-bouton--secondary" disabled>Bouton</button></div>
+    <div class="cell"><small>icône droite</small>
+      <button type="button" class="ds-bouton ds-bouton--secondary">Bouton
+        <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8h-2V6.4L4.7 12.7 3.3 11.3 9.6 5H5V3Z"/></svg>
+      </button></div>
+    <div class="cell"><small>icône gauche</small>
+      <button type="button" class="ds-bouton ds-bouton--secondary">
+        <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8h-2V6.4L4.7 12.7 3.3 11.3 9.6 5H5V3Z"/></svg>Bouton
+      </button></div>
+    <div class="cell"><small>icône droite, désactivé</small>
+      <button type="button" class="ds-bouton ds-bouton--secondary" disabled>Bouton
+        <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8h-2V6.4L4.7 12.7 3.3 11.3 9.6 5H5V3Z"/></svg>
+      </button></div>
+  </div>
+</body>
+</html>

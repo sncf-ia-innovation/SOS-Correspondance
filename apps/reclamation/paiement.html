@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Achat, paiement, bon de réduction — Réclamation — SNCF Voyageurs</title>
+
+  <!-- Tokens design-system -->
+  <link rel="stylesheet" href="../../dist/tokens.css">
+  <!-- Layout partagé (.recl-*) -->
+  <link rel="stylesheet" href="reclamation.css">
+  <!-- Variantes propres au parcours "Achat, paiement, bon de réduction" -->
+  <link rel="stylesheet" href="paiement.css">
+</head>
+<!-- TODO: sous-arbres profonds non reconstruits ; libellés écran 1 à confirmer (périmètre hub) -->
+<body>
+  <main class="recl" aria-label="Réclamation — Achat, paiement, bon de réduction">
+
+    <!-- En-tête teal + plaque logo SNCF Voyageurs -->
+    <header class="recl-header">
+      <div class="recl-header__bar">
+        <a class="recl-header__logo" href="reclamation.html" aria-label="SNCF Voyageurs — accueil">
+          <span class="recl-header__logo-plate">
+            <svg class="recl-header__logo-svg" viewBox="0 0 44 32" width="50" height="36" aria-hidden="true" focusable="false">
+              <use href="../../dist/icons.sprite.svg#logo-sncf-voyageurs"/>
+            </svg>
+          </span>
+        </a>
+        <div class="recl-header__actions">
+          <button type="button" class="recl-header__icon-btn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button type="button" class="recl-header__icon-btn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ ÉCRAN 1 : QUELLE DEMANDE ============ -->
+    <section class="recl-screen is-active" id="screen-demande" aria-labelledby="titre-demande">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-demande">Quelle est votre demande ?</h1>
+
+        <div class="recl-choices" role="group" aria-labelledby="titre-demande">
+
+          <!-- Je n'arrive pas à payer -->
+          <button type="button" class="recl-choice" data-goto="screen-connexion">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M3 10h18" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M7 14.5h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M16 3l5 5M21 3l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">Je n'arrive pas à payer</span>
+            </span>
+          </button>
+
+          <!-- J'ai été débité deux fois pour un même achat -->
+          <button type="button" class="recl-choice" data-goto="screen-connexion">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="3" y="8" width="13" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M8 5h13v9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3 11.5h13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">J'ai été débité deux fois pour un même achat</span>
+            </span>
+          </button>
+
+          <!-- Je n'arrive pas à utiliser mon bon de réduction -->
+          <button type="button" class="recl-choice" data-goto="screen-bon-train">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 6h16a0 0 0 0 1 0 0v3a2 2 0 0 0 0 4v3a0 0 0 0 1 0 0H4a0 0 0 0 1 0 0v-3a2 2 0 0 0 0-4V6a0 0 0 0 1 0 0Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M14 9.5l-4 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M10 9.7v.01M14 14.3v.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">Je n'arrive pas à utiliser mon bon de réduction</span>
+            </span>
+          </button>
+
+        </div>
+
+        <!-- 1er écran : retour vers le HUB -->
+        <a class="recl-back" href="reclamation.html">
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 2 : TYPE DE TRAIN (branche bon de réduction) ============ -->
+    <section class="recl-screen" id="screen-bon-train" aria-labelledby="titre-bon-train">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-bon-train">Pour quel type de train ce bon est-il valable ?</h1>
+
+        <div class="recl-choices" role="group" aria-labelledby="titre-bon-train">
+
+          <!-- TGV INOUI et Intercités -->
+          <button type="button" class="recl-choice" data-goto="screen-connexion">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 9h11c2.5 0 4 1.4 4 3.2 0 1-.7 1.8-1.8 1.8H4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 12.5h9M3 15.5h13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">TGV INOUI et Intercités</span>
+            </span>
+          </button>
+
+          <!-- OUIGO -->
+          <button type="button" class="recl-choice" data-goto="screen-connexion">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M12 8.2a3.8 3.8 0 1 0 3.6 2.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M12 12h3.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">OUIGO</span>
+            </span>
+          </button>
+
+          <!-- Trains régionaux (TER) -->
+          <button type="button" class="recl-choice" data-goto="screen-connexion">
+            <svg class="recl-choice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="6" y="4" width="12" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M6 11h12M9.5 14.2v.01M14.5 14.2v.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M8 17l-2 3M16 17l2 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="recl-choice__body">
+              <span class="recl-choice__label">Trains régionaux (TER)</span>
+            </span>
+          </button>
+
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 3 : CONNEXION (recopié à l'identique de train-supprime.html) ============ -->
+    <section class="recl-screen" id="screen-connexion" aria-labelledby="titre-connexion">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-connexion">Connectez-vous pour gagner du temps</h1>
+        <p class="recl-lead">Avec Mon Identifiant SNCF, vos données de contact et de voyage sont remontées automatiquement.</p>
+
+        <div class="recl-btn-stack">
+          <button type="button" class="recl-cta" data-goto="screen-login">Se connecter</button>
+          <a class="recl-cta recl-cta--outline" href="#"><!-- TODO: création de compte SNCF -->Créer un compte</a>
+          <button type="button" class="recl-cta recl-cta--outline" data-goto="screen-coordonnees">Continuer sans compte client</button>
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 4 : CONNEXION MON IDENTIFIANT SNCF (recopié à l'identique) ============ -->
+    <section class="recl-screen" id="screen-login" aria-labelledby="titre-login">
+      <div class="recl-body">
+        <p class="recl-login-banner">Bienvenue sur <strong>Mon Identifiant SNCF</strong></p>
+
+        <h1 class="recl-titre recl-titre--center" id="titre-login">Connexion à mon compte</h1>
+        <p class="recl-login-intro">Ces identifiants vous donneront accès aux espaces clients des sites et applications SNCF et partenaires <strong>**</strong>.</p>
+        <p class="recl-asterisk-note recl-asterisk-note--right"><span class="recl-req">*</span> champs obligatoires</p>
+
+        <div class="recl-grid">
+          <div class="recl-field">
+            <label class="recl-field__label" for="login-email">Adresse e-mail<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="email" id="login-email" name="login-email"
+                   placeholder="Ex : jules.maigret@pj-paris.fr" autocomplete="email">
+          </div>
+
+          <div class="recl-field recl-field--password">
+            <label class="recl-field__label" for="login-password">Mot de passe<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="password" id="login-password" name="login-password" autocomplete="current-password">
+            <button type="button" class="recl-eye" data-eye="login-password" aria-label="Afficher le mot de passe" aria-pressed="false">
+              <svg class="recl-eye__on" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+              <svg class="recl-eye__off" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+                <path d="M2 12s3.5-7 10-7c2 0 3.7.6 5.2 1.5M22 12s-3.5 7-10 7c-2 0-3.7-.6-5.2-1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M9.5 9.5a3 3 0 0 0 4 4M3 3l18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="recl-login-row">
+            <label class="recl-check" for="remember">
+              <input class="recl-check__input" type="checkbox" id="remember" name="remember">
+              <span class="recl-check__box">
+                <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false">
+                  <path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Se souvenir de moi
+            </label>
+            <a class="recl-link" href="#"><!-- TODO: récupération de mot de passe -->Mot de passe oublié
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <p class="recl-fineprint">** Identifiants uniques valables sur : Bornes libre-service en gares et boutiques, Chatbot TOUT'OUI, Site Ma Place à Bord, Site MAX ACTIF / MAX ACTIF+, Site MAX Jeune, Site MAX Senior, Site Mon Chauffeur TGV INOUI, Site Mon espace TGV INOUI, Appli OUIGO, Site OUIGO, Appli SNCF Connect, Site SNCF Connect, Sites TER, Portail TGV INOUI, Appli TGV INOUI Pro et Chatbot TGV INOUI.</p>
+
+        <div class="recl-actions recl-actions--pair">
+          <button type="button" class="recl-cta recl-cta--outline" data-back>Annuler</button>
+          <button type="button" class="recl-cta" data-goto="screen-coordonnees">Me connecter</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ÉCRAN 5 : COORDONNÉES ============ -->
+    <section class="recl-screen" id="screen-coordonnees" aria-labelledby="titre-coordonnees">
+      <div class="recl-body">
+        <h1 class="recl-titre" id="titre-coordonnees">Renseignez vos coordonnées</h1>
+        <p class="recl-asterisk-note"><span class="recl-req">*</span>champs obligatoires</p>
+
+        <div class="recl-grid">
+          <div class="recl-field">
+            <label class="recl-field__label" for="nom">Nom<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="text" id="nom" name="nom" placeholder="Ex : Dupont" autocomplete="family-name">
+          </div>
+
+          <div class="recl-field">
+            <label class="recl-field__label" for="prenom">Prénom<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="text" id="prenom" name="prenom" placeholder="Ex : Jeanne" autocomplete="given-name">
+          </div>
+
+          <div class="recl-field">
+            <label class="recl-field__label" for="naissance">Date de naissance<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="text" id="naissance" name="naissance"
+                   placeholder="jj/mm/aaaa" inputmode="numeric" autocomplete="bday"
+                   aria-describedby="naissance-help">
+            <p class="recl-field__help" id="naissance-help">Format : jour/mois/année</p>
+          </div>
+
+          <div class="recl-field">
+            <label class="recl-field__label" for="email">Adresse email<span class="recl-req">*</span></label>
+            <input class="recl-field__input" type="email" id="email" name="email" placeholder="Ex : email@email.fr" autocomplete="email">
+          </div>
+        </div>
+
+        <div class="recl-actions">
+          <button type="button" class="recl-cta" data-goto="screen-coordonnees">Suivant</button>
+        </div>
+
+        <button type="button" class="recl-back" data-back>
+          <svg class="recl-back__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Navigation simple entre écrans : pile d'historique pour le Retour.
+    (function () {
+      var stack = ['screen-demande'];
+
+      function show(id) {
+        document.querySelectorAll('.recl-screen').forEach(function (s) {
+          s.classList.toggle('is-active', s.id === id);
+        });
+        window.scrollTo(0, 0);
+      }
+      function goto(id) {
+        if (stack[stack.length - 1] !== id) stack.push(id);
+        show(id);
+      }
+      function back() {
+        if (stack.length > 1) {
+          stack.pop();
+          show(stack[stack.length - 1]);
+        }
+      }
+      document.querySelectorAll('[data-goto]').forEach(function (el) {
+        el.addEventListener('click', function () { goto(el.getAttribute('data-goto')); });
+      });
+      document.querySelectorAll('[data-back]').forEach(function (el) {
+        el.addEventListener('click', back);
+      });
+
+      // Toggle œil mot de passe
+      document.querySelectorAll('[data-eye]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var input = document.getElementById(btn.getAttribute('data-eye'));
+          var field = btn.closest('.recl-field--password');
+          var revealed = input.type === 'text';
+          input.type = revealed ? 'password' : 'text';
+          field.classList.toggle('is-revealed', !revealed);
+          btn.setAttribute('aria-pressed', String(!revealed));
+          btn.setAttribute('aria-label', revealed ? 'Afficher le mot de passe' : 'Masquer le mot de passe');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!-- Boutons INOUI — base .ds-bouton + modifiers. L'icône SVG est une flèche « lien externe » (absente du sprite, inlinée). -->
+
+<!-- Primaire, commun -->
+<button type="button" class="ds-bouton ds-bouton--primary">Bouton</button>
+
+<!-- Secondaire, commun -->
+<button type="button" class="ds-bouton ds-bouton--secondary">Bouton</button>
+
+<!-- Primaire, icône à droite -->
+<button type="button" class="ds-bouton ds-bouton--primary">
+  Bouton
+  <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+    <path d="M5 3h8v8h-2V6.4L4.7 12.7 3.3 11.3 9.6 5H5V3Z"/>
+  </svg>
+</button>
+
+<!-- Primaire, icône à gauche -->
+<button type="button" class="ds-bouton ds-bouton--primary">
+  <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+    <path d="M5 3h8v8h-2V6.4L4.7 12.7 3.3 11.3 9.6 5H5V3Z"/>
+  </svg>
+  Bouton
+</button>
+
+<!-- Secondaire, icône à droite -->
+<button type="button" class="ds-bouton ds-bouton--secondary">
+  Bouton
+  <svg class="ds-bouton__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+    <path d="M5 3h8v8h-2V6.4L4.7 12.7 3.3 11.3 9.6 5H5V3Z"/>
+  </svg>
+</button>
+
+<!-- Désactivé (attribut disabled natif) -->
+<button type="button" class="ds-bouton ds-bouton--primary" disabled>Bouton</button>
