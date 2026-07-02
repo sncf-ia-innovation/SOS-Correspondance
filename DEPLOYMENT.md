@@ -1,0 +1,136 @@
+# Déploiement & CI/CD — standard SOS Correspondance
+
+> **Règle projet.** Toutes les applications développées dans ce dépôt (et les
+> futures apps de la même famille) sont **livrées en continu via GitHub Actions**.
+> Chaque `push` sur `main` **déploie automatiquement** le site statique, avec une
+> **surcouche mot de passe** injectée au moment du build. Aucun déploiement manuel.
+
+Le site est 100 % statique (HTML/CSS/JS, aucun build). La chaîne CI/CD se contente
+donc de : injecter la gate → publier les fichiers → invalider le cache.
+
+---
+
+## 1. Cible principale — AWS S3 + CloudFront
+
+Workflow : [`.github/workflows/deploy-aws.yml`](.github/workflows/deploy-aws.yml)
+
+```
+push main ─▶ inject-gate.mjs ─▶ aws s3 sync ─▶ CloudFront invalidation ─▶ URL live
+```
+
+### Bootstrap AWS (une seule fois, côté compte SNCF)
+
+À exécuter par quelqu'un ayant accès au compte AWS (toi, via `!` dans la session,
+ou l'équipe cloud). Remplace `NOM-DU-BUCKET` et la région si besoin.
+
+```bash
+# 1) Bucket privé pour le site
+aws s3api create-bucket --bucket NOM-DU-BUCKET \
+  --region eu-west-3 --create-bucket-configuration LocationConstraint=eu-west-3
+
+# 2) Distribution CloudFront devant le bucket (OAC + default root object index.html)
+#    → le plus simple : créer via la console AWS, "Origin = S3 bucket",
+#      "Origin access = Origin access control", "Default root object = index.html".
+#    Récupère ensuite le Distribution ID (ex. E1XXXXXXXXXXXX) et le domaine
+#    (ex. dxxxxxxxxxxxxx.cloudfront.net) → c'est ton URL live.
+
+# 3) Utilisateur IAM déploiement (clés) — permissions minimales :
+#    s3:ListBucket, s3:PutObject, s3:DeleteObject sur le bucket
+#    cloudfront:CreateInvalidation sur la distribution
+```
+
+> **URL live** = le domaine CloudFront (`https://dxxxx.cloudfront.net`), ou un
+> domaine custom (`sos-correspondance.sncf.fr`) via Route 53 + certificat ACM.
+
+### Secrets GitHub à créer
+
+`Repo → Settings → Secrets and variables → Actions → New repository secret` :
+
+| Secret | Valeur | Exemple |
+|---|---|---|
+| `AWS_ACCESS_KEY_ID` | clé IAM déploiement | `AKIA…` |
+| `AWS_SECRET_ACCESS_KEY` | secret IAM | `…` |
+| `AWS_REGION` | région du bucket | `eu-west-3` |
+| `S3_BUCKET` | nom du bucket | `sos-correspondance-prod` |
+| `CLOUDFRONT_DISTRIBUTION_ID` | ID distribution | `E1XXXXXXXXXXXX` |
+| `SOS_GATE_SHA256` | hash du mot de passe (voir §3) | `9b7bdd…12d7` |
+
+Une fois les 6 secrets en place, chaque `push main` déploie tout seul.
+
+### Variante recommandée — OIDC (sans clés longues)
+
+Plutôt que des clés IAM statiques, utiliser un rôle assumé par OIDC
+(pas de secret à faire tourner) :
+
+1. Créer un IAM Identity Provider `token.actions.githubusercontent.com`.
+2. Créer un rôle avec trust policy sur ce repo, secret `AWS_ROLE_ARN`.
+3. Dans `deploy-aws.yml` : décommenter `id-token: write` + `role-to-assume`,
+   commenter les 2 lignes `aws-access-key-id`/`aws-secret-access-key`.
+
+---
+
+## 2. Cible alternative — GitHub Pages (URL instantanée, sans AWS)
+
+Workflow : [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)
+
+Pour une URL live **immédiate** sans toucher à AWS :
+
+1. `Repo → Settings → Pages → Source = GitHub Actions`.
+2. Lancer le workflow (`Actions → Deploy to GitHub Pages → Run workflow`),
+   ou décommenter le trigger `push` dans le fichier.
+3. URL → `https://sncf-ia-innovation.github.io/SOS-Correspondance/`.
+
+> ⚠️ **Repo privé** : Pages exige un plan **GitHub Team/Enterprise**. Sinon,
+> rester sur AWS (§1) ou passer le repo public (déconseillé pour un projet SNCF).
+
+---
+
+## 3. Surcouche mot de passe (la "gate")
+
+- Code : [`deploy/gate.js`](deploy/gate.js) — injecté dans **chaque `.html`** par
+  [`scripts/inject-gate.mjs`](scripts/inject-gate.mjs) **au déploiement seulement**.
+  Le repo source reste sans gate (dev local en `file://` non gêné).
+- Le mot de passe **n'est jamais stocké en clair** : seul son **SHA-256** est
+  embarqué (secret `SOS_GATE_SHA256`). La page compare `SHA-256(saisie)` au hash.
+- Déverrouillage mémorisé en `sessionStorage` (redemandé à chaque nouvelle session).
+
+### ⚠️ Portée de sécurité — à lire
+
+Ceci est un **voile de confidentialité**, pas une vraie authentification. Le HTML
+est livré au navigateur : un utilisateur averti peut contourner (view-source, JS
+désactivé, lecture réseau). Suffisant pour des **prototypes internes** partagés à
+des parties prenantes. Pour une vraie protection : Basic Auth côté serveur
+(CloudFront Function / Amplify Access control) ou un vrai SSO.
+
+### Mot de passe courant (démo)
+
+```
+Mot de passe : 4BLMUOGCj0QwjBnIu6nWXkDxOc6U
+SHA-256      : 9b7bdd15adad75e864c439254712896d297559d184be8c348ed2d8b6501b12d7
+```
+
+**À copier-coller** (28 caractères, volontairement non mémorisable).
+Mettre le SHA-256 dans le secret `SOS_GATE_SHA256`. **Ne pas** committer le mot de
+passe en clair ailleurs que dans cette note de démo.
+
+### Changer le mot de passe
+
+```bash
+# 1) générer un mot de passe fort
+NEW=$(openssl rand -base64 24 | tr -d '/+=' | cut -c1-28); echo "$NEW"
+# 2) calculer son hash
+printf '%s' "$NEW" | shasum -a 256
+# 3) mettre le hash dans le secret GitHub SOS_GATE_SHA256, puis re-déployer
+```
+
+---
+
+## 4. Tester l'injection en local
+
+```bash
+# copie jetable pour ne pas modifier le repo
+cp -r . /tmp/sos-test && cd /tmp/sos-test
+SOS_GATE_SHA256=9b7bdd15adad75e864c439254712896d297559d184be8c348ed2d8b6501b12d7 \
+  node scripts/inject-gate.mjs
+python3 -m http.server 8080   # → http://localhost:8080/apps/index.html (gate active)
+```
