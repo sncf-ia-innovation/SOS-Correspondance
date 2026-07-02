@@ -18,6 +18,22 @@ python3 -m http.server 8080
 # → http://localhost:8080/apps/index.html
 ```
 
+## Déploiement (CI/CD) — standard projet
+
+> **Toutes les applications de ce dépôt sont déployées en continu via GitHub Actions.**
+> Chaque `push` sur `main` déclenche le déploiement automatique du site statique, avec
+> une **surcouche mot de passe** injectée au moment du build. Détails, secrets et
+> bootstrap → **[`DEPLOYMENT.md`](DEPLOYMENT.md)**.
+
+- **Cible principale** : AWS **S3 + CloudFront** (`.github/workflows/deploy-aws.yml`)
+  → sync S3 + invalidation CloudFront. URL live = domaine CloudFront.
+- **Cible instantanée** : **GitHub Pages** (`.github/workflows/deploy-pages.yml`)
+  → URL sans compte AWS (repo privé ⇒ plan GitHub Team requis).
+- **Accès protégé** : `deploy/gate.js` injecté dans chaque page par
+  `scripts/inject-gate.mjs`. Mot de passe stocké en **SHA-256** (secret
+  `SOS_GATE_SHA256`), jamais en clair. Voile de confidentialité pour démo interne
+  — **pas** une vraie authentification (voir DEPLOYMENT.md §3).
+
 ## Écrans (`apps/`)
 
 ### 🆘 SOS Correspondance — `apps/sos-correspondance/`
