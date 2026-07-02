@@ -102,16 +102,14 @@ désactivé, lecture réseau). Suffisant pour des **prototypes internes** partag
 des parties prenantes. Pour une vraie protection : Basic Auth côté serveur
 (CloudFront Function / Amplify Access control) ou un vrai SSO.
 
-### Mot de passe courant (démo)
+### Mot de passe courant
 
-```
-Mot de passe : 4BLMUOGCj0QwjBnIu6nWXkDxOc6U
-SHA-256      : 9b7bdd15adad75e864c439254712896d297559d184be8c348ed2d8b6501b12d7
-```
+Le mot de passe **n'est pas stocké dans ce dépôt** (repo public). Il est communiqué
+hors-repo (chat / canal privé). Seul son **SHA-256** vit dans le secret GitHub
+`SOS_GATE_SHA256` — un hash n'est pas réversible, donc son exposition est sans risque.
 
-**À copier-coller** (28 caractères, volontairement non mémorisable).
-Mettre le SHA-256 dans le secret `SOS_GATE_SHA256`. **Ne pas** committer le mot de
-passe en clair ailleurs que dans cette note de démo.
+**Ne jamais committer le mot de passe en clair** (le dépôt est public + l'historique
+git est consultable). Pour le distribuer : copier-coller via un canal privé.
 
 ### Changer le mot de passe
 
@@ -130,7 +128,8 @@ printf '%s' "$NEW" | shasum -a 256
 ```bash
 # copie jetable pour ne pas modifier le repo
 cp -r . /tmp/sos-test && cd /tmp/sos-test
-SOS_GATE_SHA256=9b7bdd15adad75e864c439254712896d297559d184be8c348ed2d8b6501b12d7 \
+# hash = valeur du secret SOS_GATE_SHA256 (le hash du mot de passe actif)
+SOS_GATE_SHA256=98bf9ed6c0336d9d1f55abe012b15d4891445b045e5e3263dffbcafd582f585a \
   node scripts/inject-gate.mjs
 python3 -m http.server 8080   # → http://localhost:8080/apps/index.html (gate active)
 ```
