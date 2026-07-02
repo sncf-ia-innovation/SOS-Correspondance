@@ -255,3 +255,24 @@
 
 html, body { overflow-x: hidden; }
 *, *::before, *::after { box-sizing: border-box; }
+
+/* Rangée du bas des filtres : Transporteur / Typologie client / Statut */
+.sos-filters__break { flex-basis: 100%; height: 0; margin: 0; padding: 0; }
+
+/* Case à cocher « Traitée en escale » à côté du badge (l'agent d'escale modifie l'état — diapos 39-40) */
+.sos-esc-check {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: var(--space-8);
+  cursor: pointer;
+}
+/* badge + case sur la même ligne, sans déborder sur la colonne voisine :
+   pill compacte quand une case l'accompagne, case rapprochée et réduite */
+.sos-table--consult .sos-cell-statut { white-space: nowrap; }
+.sos-esc-check { margin-top: 0; margin-left: var(--space-4); }
+.sos-esc-check .sos-check__box,
+.sos-esc-check .sos-check__icon { width: 15px; height: 15px; }
+.sos-cell-statut:has(.sos-esc-check) .ds-status-badge {
+  padding: 2px var(--space-6);
+  font-size: var(--text-xs);
+}

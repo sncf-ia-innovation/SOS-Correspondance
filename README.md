@@ -67,3 +67,16 @@ python3 -m http.server 8080
 
 ---
 Reconstruit avec le design system **Patrick DS** (tokens + composants tokenisés). HTML + CSS + JS inline.
+
+---
+
+## Mise à jour 2026-07-02 — workflows bout-en-bout + admin messages
+
+- **Workflows câblés** (étude DSI) : diapo 28 ZOU!→TGV* (étapes 0-6 : doublon / PAO / TIC TAC / SIDH / typo / gare) et diapo 29 TGV*→ZOU! (TIC TAC, règle avant/après 17h, doublon → IHM 18/19). Base partagée localStorage `sos-demandes` ; déclencheurs démo : Référence=`ERREUR`→IHM 3, Nom=`TICTAC`→codes TIC TAC, Gare=`AUCUN…`/Heure=`00:00`→IHM 4, `client.html?reset` vide la base.
+- **Chaîne client ↔ supervision** : les demandes « A traiter supervision » alimentent la file (onglet selon le sens) ; les 4 motifs de la barre (= actions 12-15 diapo 37) mettent à jour le statut → le doublon client affiche IHM 2/12/15/16/17. Retour automatique au formulaire après la confirmation d'envoi.
+- **Consultation** : filtres fonctionnels (date, gares réelles en autocomplete, transporteur, typologie, statut), tri, pagination, export CSV ; l'agent d'escale bascule « À traiter escale » → « Traitée escale » (case à cocher, diapos 39-40).
+- **21 écrans IHM** (1-22 sans 10) — wordings « Version du 30-06 » (onglet « IHM Rassurance pour validation », validation SNCF prévue 03/07). Source unique JSON `assets/ihm-messages.js`.
+- **`admin.html`** : panneau d'édition des messages — télécharger CSV/JSON, éditer dans Excel, recharger (parseur tolérant : `;`/`,`/tab, BOM, .xlsx détecté) ; la démo reflète aussitôt.
+- **Gares réelles** : `assets/gares.js` (2 949 gares voyageurs SNCF, autocomplete accent-insensible) ; form.html applique « 1 train avant l'heure client + 5 après » (SIDH, diapo 24).
+- **`workflows.html`** : comparaison côte à côte diapos PPT ↔ reconstruction (client / supervision / consultation + mapping statuts BDD).
+- Pages toujours **serverless** : sprite DS inliné, tout fonctionne en `file://`.

@@ -3,21 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consultation — SOS Correspondance</title>
-  <!-- Tokens du design system -->
+  <title>Admin — messages IHM — SOS Correspondance</title>
+  <!-- Tokens design-system -->
   <link rel="stylesheet" href="../../dist/tokens.css">
-  <!-- Composants curated réutilisés -->
   <link rel="stylesheet" href="../../curated/boutons-inoui/boutons-inoui.css">
-  <link rel="stylesheet" href="../../curated/ligne-de-tableau/ligne-de-tableau.css">
-  <link rel="stylesheet" href="../../curated/component-1/component-1.css">
-  <link rel="stylesheet" href="../../curated/sticky-desktop/sticky-desktop.css">
-  <link rel="stylesheet" href="../../curated/suggestion-liste/suggestion-liste.css">
-  <!-- Réutilise le chrome / patterns de l'écran Supervision -->
+  <!-- Chrome desktop (header, main) repris de Supervision -->
   <link rel="stylesheet" href="supervision.css">
-  <!-- Widgets partagés (autocomplete gares, datepicker, menus) -->
-  <link rel="stylesheet" href="assets/sos-widgets.css">
-  <!-- Surcharges spécifiques à Consultation -->
-  <link rel="stylesheet" href="consultation.css">
+  <style>
+    .adm-intro { margin: 0 0 var(--space-24); color: var(--color-gray-31); font-size: var(--text-base); line-height: 1.5; max-width: 72ch; }
+    .adm-toolbar { display: flex; flex-wrap: wrap; gap: var(--space-12); align-items: center; margin-bottom: var(--space-16); }
+    .adm-status {
+      margin: 0 0 var(--space-24);
+      padding: var(--space-12) var(--space-16);
+      border-radius: var(--radius-r6);
+      font-size: var(--text-base);
+      font-weight: 700;
+    }
+    .adm-status[hidden] { display: none; }
+    .adm-status--ok { background: var(--color-accent-7); color: var(--color-accent-2); }
+    .adm-status--err { background: var(--color-accent-17); color: var(--color-white); }
+    .adm-table { width: 100%; border-collapse: collapse; background: var(--color-white); border: 1px solid var(--color-accent-1); border-radius: var(--radius-r8); overflow: hidden; }
+    .adm-table th, .adm-table td { padding: var(--space-10) var(--space-16); text-align: left; font-size: var(--text-base); border-bottom: 1px solid var(--color-gray-94); }
+    .adm-table th { background: var(--color-brand); color: var(--color-white); font-weight: 700; }
+    .adm-table td { color: var(--color-gray-31); }
+    .adm-table td:first-child { font-weight: 800; color: var(--color-brand); white-space: nowrap; }
+    .adm-table a { color: var(--color-brand); }
+    .adm-titre { color: var(--color-brand); }
+    .adm-badge {
+      font-size: var(--text-xs); font-weight: 700; white-space: nowrap;
+      padding: 2px var(--space-8); border-radius: var(--radius-pill);
+      background: var(--color-accent-7); color: var(--color-accent-2);
+    }
+  </style>
 </head>
 <body class="sos">
 <!-- sprite DS inliné : les <use href="#id"> fonctionnent aussi en file:// (serverless) -->
@@ -660,9 +677,8 @@
 </div>
 
 
-  <!-- 1. Bandeau header teal pleine largeur -->
   <header class="sos-header">
-    <a class="sos-header__logo" href="#" aria-label="SNCF Voyageurs — accueil">
+    <a class="sos-header__logo" href="index.html" aria-label="SOS Correspondance — écrans">
       <span class="sos-header__logo-plate">
         <svg class="sos-header__logo-svg" viewBox="0 0 44 32" width="56" height="40" aria-hidden="true" focusable="false">
           <use href="#logo-sncf-voyageurs" />
@@ -678,458 +694,125 @@
   </header>
 
   <main class="sos-main">
-
-    <!-- 2. Titre -->
     <div class="sos-titlebar">
-      <h1 class="sos-title">Consultation</h1>
+      <h1 class="sos-title">Admin — messages IHM</h1>
+    </div>
+    <p class="adm-intro">
+      <strong>1.</strong> Télécharge le fichier des messages (CSV, s'ouvre dans Excel).
+      <strong>2.</strong> Modifie les textes (colonnes <code>titre</code>, <code>corps</code>, <code>signature</code>, <code>bouton_texte</code>, <code>bouton_href</code>, <code>note</code> —
+      dans <code>corps</code>, une ligne vide sépare les paragraphes, <code>**gras**</code> et <code>- puce</code> sont acceptés).
+      <strong>3.</strong> Charge le fichier ci-dessous : la démo utilise aussitôt les nouveaux textes.
+    </p>
+
+    <div class="adm-toolbar">
+      <button type="button" class="ds-bouton ds-bouton--secondary" id="btn-csv">Télécharger les messages (CSV)</button>
+      <button type="button" class="ds-bouton ds-bouton--secondary" id="btn-json">Télécharger (JSON)</button>
+      <label class="ds-bouton ds-bouton--primary" style="cursor:pointer">
+        Charger un fichier (CSV ou JSON)…
+        <input type="file" id="file-input" accept=".csv,.json,text/csv,application/json" hidden>
+      </label>
+      <button type="button" class="sos-link-reset" id="btn-reset-all">Tout réinitialiser (défauts)</button>
     </div>
 
-    <!-- 3. Onglets -->
-    <nav class="sos-tabs" aria-label="Sens de correspondance">
-      <button type="button" class="sos-tab sos-tab--active" aria-current="true" data-tab>
-        ZOU! vers TGV*
-      </button>
-      <button type="button" class="sos-tab" data-tab>
-        TGV* vers ZOU!
-      </button>
-    </nav>
+    <p class="adm-status" id="status" hidden></p>
 
-    <!-- 4. Ligne de filtres -->
-    <form class="sos-filters" onsubmit="return false">
-      <div class="sos-field sos-field--date">
-        <label class="sos-field__label" for="f-date">Date</label>
-        <div class="sos-input sos-input--icon" id="f-date-input">
-          <input class="sos-input__el" id="f-date" type="text" placeholder="jj/mm/aaaa" aria-haspopup="dialog">
-          <svg class="sos-input__icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#calendrier"/></svg>
-        </div>
-      </div>
-      <div class="sos-field sos-field--sm">
-        <label class="sos-field__label" for="f-hd">Heure départ TGV*</label>
-        <div class="sos-input"><input class="sos-input__el" id="f-hd" type="text" placeholder="Ex : 09"></div>
-      </div>
-      <div class="sos-field sos-field--sm">
-        <label class="sos-field__label" for="f-zou">N° ZOU!</label>
-        <div class="sos-input"><input class="sos-input__el" id="f-zou" type="text" placeholder="Ex : 90199"></div>
-      </div>
-      <div class="sos-field sos-field--sm">
-        <label class="sos-field__label" for="f-tgv">N° TGV*</label>
-        <div class="sos-input"><input class="sos-input__el" id="f-tgv" type="text" placeholder="Ex : 9010"></div>
-      </div>
-      <div class="sos-field">
-        <label class="sos-field__label" for="f-gare">Gare de correspondance</label>
-        <div class="sos-input sos-ac"><input class="sos-input__el" id="f-gare" type="text" placeholder="Ex : Marseille-St-Charles" autocomplete="off"></div>
-      </div>
-      <div class="sos-field">
-        <label class="sos-field__label" for="f-dest">Destination</label>
-        <div class="sos-input sos-ac"><input class="sos-input__el" id="f-dest" type="text" placeholder="Ex : Paris-Gare-de-Lyon" autocomplete="off"></div>
-      </div>
-      <!-- saut de ligne : Transporteur / Typologie / Statut sur la rangée du bas -->
-      <div class="sos-filters__break" aria-hidden="true"></div>
-      <div class="sos-field sos-field--sm">
-        <label class="sos-field__label" for="f-transp">Transporteur</label>
-        <div class="sos-input sos-input--select">
-          <input class="sos-input__el" id="f-transp" type="text" placeholder="Sélectionner">
-          <svg class="sos-input__caret" viewBox="0 0 8 8" aria-hidden="true"><path d="M0 2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="sos-field sos-field--sm">
-        <label class="sos-field__label" for="f-typo">Typologie client</label>
-        <div class="sos-input sos-input--select">
-          <input class="sos-input__el" id="f-typo" type="text" placeholder="Toutes">
-          <svg class="sos-input__caret" viewBox="0 0 8 8" aria-hidden="true"><path d="M0 2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="sos-field sos-field--statut">
-        <label class="sos-field__label" for="f-statut">Statut</label>
-        <div class="sos-input sos-input--select">
-          <input class="sos-input__el" id="f-statut" type="text" placeholder="Sélectionner">
-          <svg class="sos-input__caret" viewBox="0 0 8 8" aria-hidden="true"><path d="M0 2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="sos-field sos-field--actions">
-        <button type="submit" class="ds-bouton ds-bouton--primary sos-btn-filter">Filtrer</button>
-        <button type="reset" class="sos-link-reset">Réinitialiser</button>
-      </div>
-    </form>
-    <p class="sos-legend">*TGV INOUI, OUIGO, INTERCITÉS et TGV LYRIA</p>
-
-    <!-- 5. Compteur + export -->
-    <div class="sos-tablebar">
-      <p class="sos-count">200 demandes <span class="sos-count__sub">/ 215 passagers</span></p>
-      <button type="button" class="sos-link-export">
-        <svg class="sos-link-export__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-          <path d="M8 1v9M4.5 6.5L8 10l3.5-3.5M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Exporter en .xlsx
-      </button>
-    </div>
-
-    <!-- 6. Tableau de consultation -->
-    <div class="sos-table-wrap">
-      <table class="ds-ligne-tableau sos-table sos-table--consult">
-        <thead>
-          <tr class="ds-ligne-tableau__row ds-ligne-tableau__row--entete">
-            <th class="ds-ligne-tableau__cell" scope="col">N° ZOU!</th>
-            <th class="ds-ligne-tableau__cell" scope="col">N° TGV* initial</th>
-            <th class="ds-ligne-tableau__cell" scope="col">
-              <button type="button" class="sos-sort">Horaire
-                <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1v7M2 5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-            </th>
-            <th class="ds-ligne-tableau__cell" scope="col">Gare de correspondance</th>
-            <th class="ds-ligne-tableau__cell" scope="col">Destination</th>
-            <th class="ds-ligne-tableau__cell sos-cell-num" scope="col">Pax</th>
-            <th class="ds-ligne-tableau__cell" scope="col">Type</th>
-            <th class="ds-ligne-tableau__cell" scope="col">Statut</th>
-            <th class="ds-ligne-tableau__cell" scope="col">Date départ report</th>
-            <th class="ds-ligne-tableau__cell" scope="col">Commentaire</th>
-          </tr>
-        </thead>
-        <tbody id="table-body">
-          <!-- lignes injectées au chargement -->
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 7. Footer table -->
-    <div class="sos-pagination">
-      <div class="sos-pagination__left">
-        <div class="sos-input sos-input--select sos-perpage">
-          <select class="sos-input__el sos-perpage__select" aria-label="Éléments par page">
-            <option>10</option><option>25</option><option>50</option>
-          </select>
-        </div>
-        <span class="sos-pagination__txt">éléments par page</span>
-      </div>
-      <span class="sos-pagination__center">200 éléments</span>
-      <div class="sos-pagination__right">
-        <button type="button" class="sos-page-btn" aria-label="Première page" disabled>«</button>
-        <button type="button" class="sos-page-btn" aria-label="Page précédente" disabled>‹</button>
-        <span class="sos-pagination__cur">1 sur 20</span>
-        <button type="button" class="sos-page-btn" aria-label="Page suivante">›</button>
-        <button type="button" class="sos-page-btn" aria-label="Dernière page">»</button>
-      </div>
-    </div>
-
+    <table class="adm-table" aria-label="Messages IHM">
+      <thead>
+        <tr><th>Message</th><th>Titre actuel</th><th></th><th></th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
   </main>
 
-  <!-- 8. Barre Récapitulatif collante (étend ds-sticky) -->
-  <aside class="ds-sticky sos-sticky sos-recap is-open" id="recap" role="region" aria-label="Récapitulatif">
-    <div class="sos-recap__head">
-      <span class="sos-recap__title">Récapitulatif</span>
-      <button type="button" class="sos-recap__toggle" id="recap-toggle" aria-expanded="true">
-        <span class="sos-recap__toggle-txt">Réduire</span>
-        <svg class="sos-recap__toggle-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path class="sos-recap__plus-v" d="M8 3v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-
-    <div class="sos-recap__cards">
-      <!-- total (bleu) -->
-      <div class="sos-recap-card sos-recap-card--total">
-        <div class="sos-recap-card__top">
-          <span class="sos-recap-card__stats">
-            <span class="sos-recap-card__stat"><strong>2000</strong><span>demandes</span></span>
-            <span class="sos-recap-card__stat"><strong>2700</strong><span>pax</span></span>
-          </span>
-          <svg class="sos-recap-card__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3 19v-1c0-2.2 2.7-4 6-4s6 1.8 6 4v1H3Zm14 0v-1c0-1.3-.6-2.4-1.6-3.2 2 .3 4.6 1.4 4.6 3.2v1h-3Z" fill="currentColor"/></svg>
-        </div>
-        <span class="sos-recap-card__label">total</span>
-      </div>
-
-      <!-- correspondances assurées (vert) -->
-      <div class="sos-recap-card sos-recap-card--green">
-        <div class="sos-recap-card__top">
-          <span class="sos-recap-card__stats">
-            <span class="sos-recap-card__stat"><strong>2</strong><span>demandes</span></span>
-            <span class="sos-recap-card__stat"><strong>12</strong><span>pax</span></span>
-          </span>
-          <span class="sos-recap-card__badge" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </div>
-        <span class="sos-recap-card__label">correspondances assurées</span>
-      </div>
-
-      <!-- Traitée escale (vert) -->
-      <div class="sos-recap-card sos-recap-card--green">
-        <div class="sos-recap-card__top">
-          <span class="sos-recap-card__stats">
-            <span class="sos-recap-card__stat"><strong>2</strong><span>demandes</span></span>
-            <span class="sos-recap-card__stat"><strong>12</strong><span>pax</span></span>
-          </span>
-          <svg class="sos-recap-card__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v7a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2Zm0 4h10M9 20l-2 0m10 0-2 0M9.5 13h.01M14.5 13h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <span class="sos-recap-card__label">Traitée escale</span>
-      </div>
-
-      <!-- à traiter supervision (jaune) -->
-      <div class="sos-recap-card sos-recap-card--yellow">
-        <div class="sos-recap-card__top">
-          <span class="sos-recap-card__stats">
-            <span class="sos-recap-card__stat"><strong>2</strong><span>demandes</span></span>
-            <span class="sos-recap-card__stat"><strong>12</strong><span>pax</span></span>
-          </span>
-          <svg class="sos-recap-card__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H4zM3 19h18M9 19v-4h6v4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <span class="sos-recap-card__label">à traiter supervision</span>
-      </div>
-
-      <!-- à prendre en charge (rouge) -->
-      <div class="sos-recap-card sos-recap-card--red">
-        <div class="sos-recap-card__top">
-          <span class="sos-recap-card__stats">
-            <span class="sos-recap-card__stat"><strong>2</strong><span>demandes</span></span>
-            <span class="sos-recap-card__stat"><strong>12</strong><span>pax</span></span>
-          </span>
-          <svg class="sos-recap-card__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v7a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2Zm0 4h10M9 20l-2 0m10 0-2 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <span class="sos-recap-card__label">à prendre en charge</span>
-      </div>
-    </div>
-  </aside>
-
-  <script src="assets/gares.js"></script>
-  <script src="assets/sos-widgets.js"></script>
+  <script src="assets/ihm-messages.js"></script>
   <script>
-    // --- Mapping statut -> { variant badge, libellé, type } ---
-    var STATUTS = {
-      report:   { cls:'ds-status-badge--report',   label:'Traité report' },
-      corresp:  { cls:'ds-status-badge--valid',    label:'Corresp. OK' },
-      pursuit:  { cls:'ds-status-badge--pursuit',  label:'Poursuite TGV*' },
-      todoSup:  { cls:'ds-status-badge--todo-sup', label:'À traiter sup.' },
-      todoEsc:  { cls:'ds-status-badge--todo-esc', label:'À traiter escale' },
-      traiteEsc:{ cls:'ds-status-badge--report',   label:'Traitée escale' }
-    };
-    /* Diapos 39-40 : états que l'agent d'escale peut basculer vers « Traitée en Escale » */
-    var MODIFIABLES = { todoEsc: true };
-
-    // --- Données de démo générées (déterministes, gares réelles du CSV) ---
-    var G_GARES = ['Marseille-St-Charles','Aix-en-Provence-TGV','Toulon','Nice-Ville','Cannes','Antibes'];
-    var G_DESTS = ['Paris-Gare-de-Lyon','Lyon-Part-Dieu','Paris-Austerlitz','Paris-Est'];
-    var G_TGVS  = ['8901','7801','4761','9261','8907','7805','8915','8923'];
-    var G_TYPES = ['Pers. à mob. réduite','Pers. à mob. réduite','Groupe','Mineur','Client T'];
-    var G_DATES = ['01/03/2026','02/03/2026','03/03/2026'];
-    var G_STS   = ['report','corresp','pursuit','todoSup','todoEsc'];
-    function transpOf(tgv) {
-      if (tgv.charAt(0) === '7') return 'OUIGO';
-      if (tgv.charAt(0) === '4') return 'INTERCITÉS';
-      if (tgv.charAt(0) === '9') return 'TGV LYRIA';
-      return 'INOUI';
-    }
-    function fmtH(mins) {
-      var h = Math.floor(mins / 60), mn = mins % 60;
-      return (h < 10 ? '0' : '') + h + ':' + (mn < 10 ? '0' : '') + mn;
-    }
-    function genRows(n, seed) {
-      var rows = [];
-      for (var i = 0; i < n; i++) {
-        var tgv = G_TGVS[(i + seed) % G_TGVS.length];
-        var st = G_STS[(i * 3 + seed) % G_STS.length];
-        var jour = G_DATES[(i * 7 + ((i / 6) | 0) + seed) % G_DATES.length];
-        rows.push({
-          zou: String(17400 + seed + i * 7), tgv: tgv,
-          h: fmtH(6 * 60 + ((i * 47 + seed * 13) % 720)),
-          gare: G_GARES[(i + seed) % G_GARES.length],
-          dest: G_DESTS[(i * 2 + seed) % G_DESTS.length],
-          pax: ((i * 3 + seed) % 5) + 1,
-          type: G_TYPES[(i * 2 + seed) % G_TYPES.length],
-          st: st, transp: transpOf(tgv),
-          jour: jour,
-          date: st === 'report' ? jour : '—',
-          com: st === 'report' ? 'Train 62' + ((i % 9) + 1) + '0' : (st === 'pursuit' && i % 3 === 0 ? 'Voy. maintenu' : '')
-        });
-      }
-      rows.sort(function(a, b){ return a.h < b.h ? -1 : 1; });
-      return rows;
-    }
-    var DATA = { 'zou-tgv': genRows(60, 0), 'tgv-zou': genRows(20, 4) };
-    var sens = 'zou-tgv';
-    var filters = null;
-    var sortDir = 1;
-
-    function badgeHtml(st){
-      var s = STATUTS[st];
-      return '<span class="ds-status-badge '+s.cls+'">'
-        + '<span class="ds-status-badge__dot" aria-hidden="true"></span>'
-        + '<span class="ds-status-badge__label">'+s.label+'</span></span>';
-    }
-    function rowHtml(r){
-      return '<td class="ds-ligne-tableau__cell">'+r.zou+'</td>'
-        + '<td class="ds-ligne-tableau__cell">'+r.tgv+'</td>'
-        + '<td class="ds-ligne-tableau__cell">'+r.h+'</td>'
-        + '<td class="ds-ligne-tableau__cell">'+r.gare+'</td>'
-        + '<td class="ds-ligne-tableau__cell">'+r.dest+'</td>'
-        + '<td class="ds-ligne-tableau__cell sos-cell-num">'+r.pax+'</td>'
-        + '<td class="ds-ligne-tableau__cell sos-cell-type">'+r.type+'</td>'
-        + '<td class="ds-ligne-tableau__cell sos-cell-statut">'+badgeHtml(r.st)
-        +   (MODIFIABLES[r.st]
-              ? ' <label class="sos-check sos-esc-check" title="Marquer « Traitée en escale »">'
-                + '<input type="checkbox" class="sos-check__input" data-esc>'
-                + '<span class="sos-check__box" aria-hidden="true">'
-                + '<svg class="sos-check__icon sos-check__icon--on" viewBox="0 0 16 16"><use href="#check-on"/></svg>'
-                + '<svg class="sos-check__icon sos-check__icon--off" viewBox="0 0 16 16"><use href="#check-off"/></svg>'
-                + '</span></label>'
-              : '')
-        + '</td>'
-        + '<td class="ds-ligne-tableau__cell">'+r.date+'</td>'
-        + '<td class="ds-ligne-tableau__cell sos-cell-com">'+(r.com || '—')+'</td>';
+  (function () {
+    'use strict';
+    var status = document.getElementById('status');
+    function say(ok, text) {
+      status.hidden = false;
+      status.className = 'adm-status ' + (ok ? 'adm-status--ok' : 'adm-status--err');
+      status.textContent = text;
     }
 
-    // --- Filtrage + tri + pagination ---
-    var tbody      = document.getElementById('table-body');
-    var perPageSel = document.querySelector('.sos-perpage__select');
-    var pageCur    = document.querySelector('.sos-pagination__cur');
-    var totalTxt   = document.querySelector('.sos-pagination__center');
-    var countTxt   = document.querySelector('.sos-count');
-    var pagerBtns  = document.querySelectorAll('.sos-pagination__right .sos-page-btn');
-    var btnFirst = pagerBtns[0], btnPrev = pagerBtns[1], btnNext = pagerBtns[2], btnLast = pagerBtns[3];
-    var perPage = parseInt(perPageSel.value, 10) || 10;
-    var page = 1;
-
-    function applyFilters(rows){
-      if (!filters) return rows.slice();
-      return rows.filter(function(r){
-        if (filters.date && r.jour !== filters.date) return false;
-        if (filters.hd) {
-          var hh = ('0' + filters.hd.split(/[:hH]/)[0]).slice(-2);
-          if (r.h.slice(0, 2) !== hh) return false;
-        }
-        if (filters.zou && r.zou.indexOf(filters.zou) === -1) return false;
-        if (filters.tgv && r.tgv.indexOf(filters.tgv) === -1) return false;
-        if (filters.gare && SOSW.norm(r.gare).indexOf(SOSW.norm(filters.gare)) === -1) return false;
-        if (filters.dest && SOSW.norm(r.dest).indexOf(SOSW.norm(filters.dest)) === -1) return false;
-        if (filters.transp && r.transp !== filters.transp) return false;
-        if (filters.typo && r.type !== filters.typo) return false;
-        if (filters.statut && STATUTS[r.st].label !== filters.statut) return false;
-        return true;
-      });
-    }
-    function currentRows(){
-      var rows = applyFilters(DATA[sens]);
-      rows.sort(function(a, b){ return sortDir * (a.h < b.h ? -1 : a.h > b.h ? 1 : 0); });
-      return rows;
-    }
-    function totalPages(n){ return Math.max(1, Math.ceil(n / perPage)); }
-    function render(){
-      var rows = currentRows();
-      page = Math.min(page, totalPages(rows.length));
-      var slice = rows.slice((page - 1) * perPage, (page - 1) * perPage + perPage);
+    /* --- liste en lecture seule --- */
+    function renderRows() {
+      var tbody = document.getElementById('rows');
       tbody.innerHTML = '';
-      lastSlice = slice;
-      slice.forEach(function(r, i){
+      SOS_IHM.ORDER.forEach(function (id) {
+        var m = SOS_IHM.get(id);
         var tr = document.createElement('tr');
-        tr.className = 'ds-ligne-tableau__row sos-row';
-        tr.dataset.i = i;
-        tr.innerHTML = rowHtml(r);
+        var tdId = document.createElement('td');
+        tdId.textContent = SOS_IHM.defaults[id].label.split('—')[0].trim();
+        tdId.title = SOS_IHM.defaults[id].label;
+        var tdTitre = document.createElement('td');
+        tdTitre.className = 'adm-titre';
+        tdTitre.textContent = (m.titre || '').slice(0, 90) + ((m.titre || '').length > 90 ? '…' : '');
+        var tdBadge = document.createElement('td');
+        if (SOS_IHM.isOverridden(id)) {
+          var b = document.createElement('span');
+          b.className = 'adm-badge';
+          b.textContent = 'modifié';
+          tdBadge.appendChild(b);
+        }
+        var tdLink = document.createElement('td');
+        var a = document.createElement('a');
+        a.href = 'messages.html?' + id;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = 'Aperçu ↗';
+        tdLink.appendChild(a);
+        tr.appendChild(tdId); tr.appendChild(tdTitre); tr.appendChild(tdBadge); tr.appendChild(tdLink);
         tbody.appendChild(tr);
       });
-      var pax = rows.reduce(function(s, r){ return s + r.pax; }, 0);
-      countTxt.innerHTML = rows.length + ' demande' + (rows.length > 1 ? 's' : '')
-        + ' <span class="sos-count__sub">/ ' + pax + ' passager' + (pax > 1 ? 's' : '') + '</span>';
-      pageCur.textContent = page + ' sur ' + totalPages(rows.length);
-      totalTxt.textContent = rows.length + ' élément' + (rows.length > 1 ? 's' : '');
-      btnFirst.disabled = btnPrev.disabled = (page <= 1);
-      btnNext.disabled = btnLast.disabled = (page >= totalPages(rows.length));
     }
-    var lastSlice = [];
-    tbody.addEventListener('change', function(e){
-      if (!e.target.matches('[data-esc]')) return;
-      var r = lastSlice[+e.target.closest('tr').dataset.i];
-      if (r) { r.st = 'traiteEsc'; render(); }   /* l'agent d'escale modifie l'état */
-    });
-    function goTo(p){ page = Math.min(Math.max(1, p), totalPages(currentRows().length)); render(); }
-    btnFirst.addEventListener('click', function(){ goTo(1); });
-    btnPrev.addEventListener('click', function(){ goTo(page - 1); });
-    btnNext.addEventListener('click', function(){ goTo(page + 1); });
-    btnLast.addEventListener('click', function(){ goTo(Infinity); });
-    perPageSel.addEventListener('change', function(){ perPage = parseInt(this.value, 10) || 10; page = 1; render(); });
+    renderRows();
 
-    // --- Widgets filtres : datepicker, autocomplete gares réelles, menus Transporteur / Statut ---
-    SOSW.datepicker(document.getElementById('f-date-input'), document.getElementById('f-date'));
-    SOSW.autocomplete(document.getElementById('f-gare'));
-    SOSW.autocomplete(document.getElementById('f-dest'));
-    SOSW.selectMenu(document.getElementById('f-transp').closest('.sos-input'),
-                    document.getElementById('f-transp'),
-                    ['Tous', 'INOUI', 'OUIGO', 'INTERCITÉS', 'TGV LYRIA']);
-    SOSW.selectMenu(document.getElementById('f-typo').closest('.sos-input'),
-                    document.getElementById('f-typo'),
-                    ['Toutes', 'Pers. à mob. réduite', 'Groupe', 'Mineur', 'Client T'],
-                    { allLabel: 'Toutes' });
-    SOSW.selectMenu(document.getElementById('f-statut').closest('.sos-input'),
-                    document.getElementById('f-statut'),
-                    ['Tous', 'Traité report', 'Corresp. OK', 'Poursuite TGV*', 'À traiter sup.', 'À traiter escale']);
-
-    // --- Filtrer / Réinitialiser ---
-    document.querySelector('.sos-filters').addEventListener('submit', function(){
-      filters = {
-        date:   document.getElementById('f-date').value.trim(),
-        hd:     document.getElementById('f-hd').value.trim(),
-        zou:    document.getElementById('f-zou').value.trim(),
-        tgv:    document.getElementById('f-tgv').value.trim(),
-        gare:   document.getElementById('f-gare').value.trim(),
-        dest:   document.getElementById('f-dest').value.trim(),
-        transp: document.getElementById('f-transp').value.trim(),
-        typo:   document.getElementById('f-typo').value.trim(),
-        statut: document.getElementById('f-statut').value.trim()
-      };
-      page = 1;
-      render();
-    });
-    document.querySelector('.sos-link-reset').addEventListener('click', function(){
-      setTimeout(function(){ filters = null; page = 1; render(); }, 0);
-    });
-
-    // --- Tri Horaire (asc/desc) ---
-    document.querySelector('.sos-sort').addEventListener('click', function(){
-      sortDir = -sortDir;
-      this.classList.toggle('is-desc', sortDir === -1);
-      render();
-    });
-
-    // --- Export : télécharge les lignes filtrées (CSV « ; » + BOM, s'ouvre dans Excel).
-    //     TODO : vrai .xlsx si une lib est autorisée un jour — le libellé du bouton vient de la maquette. ---
-    document.querySelector('.sos-link-export').addEventListener('click', function(){
-      var rows = currentRows();
-      var head = ['N° ZOU!','N° TGV* initial','Horaire','Gare de correspondance','Destination','Pax','Type','Statut','Date départ report','Commentaire'];
-      var lines = [head.join(';')].concat(rows.map(function(r){
-        return [r.zou, r.tgv, r.h, r.gare, r.dest, r.pax, r.type, STATUTS[r.st].label, r.date, r.com || ''].join(';');
-      }));
-      var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    /* --- téléchargements --- */
+    function download(name, content, mime) {
+      var blob = new Blob([content], { type: mime + ';charset=utf-8' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'sos-correspondance-demandes.csv';
-      document.body.appendChild(a);
-      a.click();
-      URL.revokeObjectURL(a.href);
-      a.remove();
+      a.download = name;
+      document.body.appendChild(a); a.click();
+      URL.revokeObjectURL(a.href); a.remove();
+    }
+    document.getElementById('btn-csv').addEventListener('click', function () {
+      download('ihm-messages.csv', SOS_IHM.toCsv(), 'text/csv');
+    });
+    document.getElementById('btn-json').addEventListener('click', function () {
+      download('ihm-messages.json', SOS_IHM.exportJson(), 'application/json');
     });
 
-    render();
-
-    // --- Récapitulatif : réduire / afficher ---
-    (function(){
-      var recap = document.getElementById('recap');
-      var toggle = document.getElementById('recap-toggle');
-      var txt = toggle.querySelector('.sos-recap__toggle-txt');
-      toggle.addEventListener('click', function(){
-        var open = recap.classList.toggle('is-open');
-        toggle.setAttribute('aria-expanded', String(open));
-        txt.textContent = open ? 'Réduire' : 'Afficher';
-      });
-    })();
-
-    // --- Bascule onglets : change le jeu de données ---
-    document.querySelectorAll('[data-tab]').forEach(function(btn, idx){
-      btn.addEventListener('click', function(){
-        document.querySelectorAll('[data-tab]').forEach(function(b){
-          b.classList.remove('sos-tab--active'); b.removeAttribute('aria-current');
-        });
-        btn.classList.add('sos-tab--active'); btn.setAttribute('aria-current','true');
-        sens = idx === 1 ? 'tgv-zou' : 'zou-tgv';
-        page = 1;
-        render();
-      });
+    /* --- upload CSV / JSON --- */
+    document.getElementById('file-input').addEventListener('change', function () {
+      var file = this.files[0];
+      this.value = '';
+      if (!file) { return; }
+      var reader = new FileReader();
+      reader.onload = function () {
+        var text = String(reader.result);
+        try {
+          var res = /^\s*[\{\[]/.test(text) ? SOS_IHM.importJson(text) : SOS_IHM.fromCsv(text);
+          renderRows();
+          say(true, '✓ ' + res.applied.length + ' message(s) chargé(s) — la démo les utilise dès maintenant.'
+            + (res.ignored.length ? ' Ids ignorés (inconnus) : ' + res.ignored.join(', ') : ''));
+        } catch (e) {
+          say(false, 'Fichier refusé : ' + e.message);
+        }
+      };
+      reader.readAsText(file, 'utf-8');
     });
+
+    /* --- réinitialisation --- */
+    document.getElementById('btn-reset-all').addEventListener('click', function () {
+      if (confirm('Rétablir tous les messages aux wordings par défaut (Version du 30-06) ?')) {
+        SOS_IHM.resetAll();
+        renderRows();
+        say(true, '✓ Défauts restaurés.');
+      }
+    });
+  })();
   </script>
 </body>
 </html>

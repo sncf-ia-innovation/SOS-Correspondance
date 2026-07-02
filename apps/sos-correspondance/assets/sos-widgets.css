@@ -1,0 +1,135 @@
+/* SOS Correspondance — styles des widgets partagés (autocomplete + datepicker + menus).
+   100% tokens. Utilisé par supervision.html et consultation.html
+   (client.css garde ses propres styles .sos-autocomplete). */
+
+/* ---------- Autocomplete gares (réutilise le curated ds-suggestion-liste) ---------- */
+.sos-ac { position: relative; }
+.sos-ac .ds-suggestion-liste {
+  position: absolute;
+  top: calc(100% + var(--space-4));
+  left: 0;
+  z-index: 40;
+  min-width: 100%;          /* au moins la largeur du champ… */
+  width: max-content;       /* …mais s'élargit pour les noms de gares longs */
+  max-width: 360px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: var(--space-4);
+  gap: 0; /* en dropdown, items jointifs (l'itemSpacing 4 du curated vaut pour la liste posée) */
+  background: var(--color-white);
+  border: 1px solid var(--color-accent-1);
+  border-radius: var(--radius-r8);
+  box-shadow: 0 8px 24px rgba(6, 86, 84, .15);
+}
+.sos-ac .ds-suggestion-liste[hidden] { display: none; }
+.sos-ac .ds-suggestion-liste__item { white-space: nowrap; }
+
+/* ---------- Sélecteur de date (calendrier, thème DS) ---------- */
+.sos-field--dp { position: relative; }
+.sos-dp {
+  position: absolute;
+  top: calc(100% + var(--space-4));
+  left: 0;
+  z-index: 40;
+  width: 288px;
+  padding: var(--space-12);
+  background: var(--color-white);
+  border: 1px solid var(--color-accent-1);
+  border-radius: var(--radius-r8);
+  box-shadow: 0 8px 24px rgba(6, 86, 84, .15);
+}
+.sos-dp[hidden] { display: none; }
+.sos-dp__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+}
+.sos-dp__month {
+  font-size: var(--text-base);
+  font-weight: 800;
+  color: var(--color-brand);
+  text-transform: capitalize;
+}
+.sos-dp__nav {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--space-32); height: var(--space-32);
+  border: 0; border-radius: var(--radius-r6);
+  background: transparent;
+  color: var(--color-brand);
+  font-size: var(--text-xl);
+  line-height: 1;
+  cursor: pointer;
+}
+.sos-dp__nav:hover { background: var(--color-accent-18); }
+.sos-dp__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.sos-dp__dow {
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-gray-46);
+  padding: var(--space-4) 0;
+}
+.sos-dp__day {
+  aspect-ratio: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: var(--radius-r6);
+  background: transparent;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+.sos-dp__day:hover { background: var(--color-accent-18); }
+.sos-dp__day--empty { visibility: hidden; pointer-events: none; }
+.sos-dp__day.is-today { box-shadow: inset 0 0 0 1.5px var(--color-brand); }
+.sos-dp__day.is-selected { background: var(--color-brand); color: var(--color-white); }
+
+/* ---------- Options des menus mono-sélection (Transporteur / Statut consultation) ---------- */
+.sos-menu__opt {
+  display: block;
+  width: 100%;
+  padding: var(--space-8) var(--space-12);
+  border: 0;
+  background: transparent;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  text-align: left;
+  cursor: pointer;
+}
+.sos-menu__opt:hover { background: var(--color-accent-18); }
+
+/* ---------- Saisie de chips (N° TGV* supervision) : input inline dans la boîte ---------- */
+.sos-input--chips .sos-chip-input {
+  flex: 1 1 60px;
+  min-width: 60px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-brand);
+}
+
+/* ---------- Tri de colonne : flèche retournée en ordre décroissant ---------- */
+.sos-sort svg { transition: transform .15s; }
+.sos-sort.is-desc svg { transform: rotate(180deg); }
+
+/* ---------- Menu « Gérer les colonnes » (supervision) ---------- */
+.sos-tablebar { position: relative; }
+.sos-columns-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 40;
+  min-width: 220px;
+  padding: var(--space-8);
+  background: var(--color-white);
+  border: 1px solid var(--color-accent-1);
+  border-radius: var(--radius-r8);
+  box-shadow: 0 8px 24px rgba(6, 86, 84, .15);
+  list-style: none;
+  margin: 0;
+}
+.sos-columns-menu[hidden] { display: none; }

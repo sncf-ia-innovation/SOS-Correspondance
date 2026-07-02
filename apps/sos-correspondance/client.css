@@ -362,6 +362,19 @@ html, body {
   line-height: 1.35;
 }
 
+/* Erreur de champ (wordings validés : « Le champ est requis », formats…) */
+.sos-field__input.is-invalid {
+  border-color: var(--color-accent-4); /* #9b2743 — même rouge que l'astérisque obligatoire */
+  outline: 1px solid var(--color-accent-4);
+}
+.sos-field__error {
+  margin: 0;
+  color: var(--color-accent-4);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
 /* Lien "Où trouver la référence dossier ?" */
 .sos-help-link {
   display: inline-flex;
@@ -408,6 +421,7 @@ html, body {
   left: 0;
   right: 0;
   padding: var(--space-4);
+  gap: 0; /* en dropdown, items jointifs (l'itemSpacing 4 du curated vaut pour la liste posée) */
   border: 1px solid var(--color-gray-84);
   border-radius: var(--radius-r6);
   background: var(--color-white);

@@ -423,6 +423,18 @@ button.sos-input--select .sos-chips::-webkit-scrollbar-thumb {
   border-top: 1px solid var(--color-gray-94);
 }
 .sos-sticky--hidden { display: none; }
+
+/* Barre d'action supervision : même largeur que le tableau
+   (conteneur 1180px moins le padding horizontal de .sos-main) */
+#action-bar {
+  width: 100%;
+  max-width: calc(1180px - 2 * var(--space-32));
+  margin: 0 auto;
+  border: 1px solid var(--color-gray-94);
+  border-bottom: 0;
+  border-radius: var(--radius-r8) var(--radius-r8) 0 0;
+  box-shadow: 0 -2px 10px #00000008; /* TODO: pas de token (noir alpha 3%) */
+}
 .sos-sticky__close {
   position: absolute; top: var(--space-12); right: var(--space-16);
   width: var(--space-24); height: var(--space-24);
@@ -463,18 +475,26 @@ button.sos-input--select .sos-chips::-webkit-scrollbar-thumb {
 /* Cartes radio compactes */
 .sos-option { padding: var(--space-10) var(--space-12); gap: var(--space-10); }
 .sos-option .ds-radio__label { font-size: var(--text-base); font-weight: 700; }
-.sos-option .ds-radio__trailing { width: var(--space-20); height: var(--space-20); }
-.sos-option .ds-radio__trailing { fill: currentColor; }
+.sos-option .ds-radio__trailing {
+  width: var(--space-20);
+  height: var(--space-20);
+  margin-left: auto;   /* icône calée à droite de la carte motif */
+  flex: 0 0 auto;
+  fill: currentColor;
+}
 
 .sos-sticky__form {
-  flex: 1 1 420px;
+  flex: 1 1 0;          /* basis 0 : ne provoque jamais de passage à la ligne */
+  min-width: 0;         /* autorise la compression (report ouvert compris) */
   display: flex;
+  flex-wrap: nowrap;    /* rien ne descend sur une 2e ligne */
   align-items: flex-end;
   gap: var(--space-16);
 }
-.sos-sticky__form .sos-field { flex: 0 1 150px; }
-.sos-sticky__form .sos-field--grow { flex: 1 1 220px; }
+.sos-sticky__form .sos-field { flex: 0 1 150px; min-width: 0; }
+.sos-sticky__form .sos-field--grow { flex: 1 1 160px; min-width: 120px; }
 .sos-sticky__form .sos-field--actions { flex: 0 0 auto; }
+.sos-sticky__form .sos-input__el { min-width: 0; }
 /* Date de départ + N° train report : apparition animée (largeur + fondu + glissement) */
 .sos-report-fields {
   display: flex;
@@ -488,7 +508,7 @@ button.sos-input--select .sos-chips::-webkit-scrollbar-thumb {
   transform: translateX(0);
   transition: max-width .32s ease, opacity .24s ease, transform .32s ease, margin-right .32s ease;
 }
-.sos-report-fields .sos-field { flex: 0 0 150px; }
+.sos-report-fields .sos-field { flex: 0 1 140px; min-width: 96px; }
 .sos-report-fields.is-hidden {
   max-width: 0;
   opacity: 0;
@@ -615,3 +635,6 @@ button.sos-input--select .sos-chips::-webkit-scrollbar-thumb {
    ni des .sos-tabs (overflow-x:auto) — défilements VOULUS conservés. */
 html, body { overflow-x: hidden; }
 *, *::before, *::after { box-sizing: border-box; }
+
+/* Colonne Typologie (PMR/PSH, Groupe, Mineur, Client T — diapo 24) */
+.sos-cell-type { color: var(--color-gray-46); white-space: nowrap; }

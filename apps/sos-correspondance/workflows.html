@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflows — comparaison PPT ↔ reconstruction — SOS Correspondance</title>
+<link rel="stylesheet" href="../../dist/tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans, system-ui, sans-serif); background: var(--color-gray-98, #f1fcf0); color: var(--color-gray-31, #4d4f53); }
+  .top { background: var(--color-brand, #065654); color: var(--color-white, #fff); padding: var(--space-20) var(--space-32); }
+  .top h1 { margin: 0 0 var(--space-4); font-size: var(--text-xl, 18px); }
+  .top p { margin: 0; opacity: .85; font-size: var(--text-sm, 12px); }
+  .wrap { max-width: 1500px; margin: 0 auto; padding: var(--space-24) var(--space-32) var(--space-64); }
+  .part { margin: var(--space-40) 0 var(--space-16); font-size: var(--text-2xl, 20px); color: var(--color-brand); border-bottom: 2px solid var(--color-brand); padding-bottom: var(--space-8); }
+  .wf { background: var(--color-white); border: 1px solid var(--color-accent-1, #749998); border-radius: var(--radius-r8, 16px); margin-bottom: var(--space-24); overflow: hidden; }
+  .wf > h3 { margin: 0; padding: var(--space-12) var(--space-20); background: var(--color-accent-18, #e3f3ef); color: var(--color-brand); font-size: var(--text-md, 16px); }
+  .wf-grid { display: grid; grid-template-columns: minmax(0, 58%) minmax(0, 42%); }
+  .wf-img { padding: var(--space-12); border-right: 1px solid var(--color-gray-94, #ededed); background: #fff; }
+  .wf-img img { width: 100%; height: auto; display: block; border: 1px solid var(--color-gray-94); border-radius: var(--radius-r4, 6px); }
+  .wf-img .src { margin: var(--space-6) 0 0; font-size: var(--text-xs, 10px); color: var(--color-gray-46, #747678); }
+  .wf-txt { padding: var(--space-16) var(--space-20); font-size: var(--text-sm, 13px); line-height: 1.55; }
+  .wf-txt h4 { margin: var(--space-12) 0 var(--space-4); font-size: var(--text-base, 14px); color: var(--color-brand); }
+  .wf-txt h4:first-child { margin-top: 0; }
+  .wf-txt ul, .wf-txt ol { margin: var(--space-4) 0; padding-left: var(--space-20); }
+  .wf-txt li { margin-bottom: 3px; }
+  .wf-txt table { border-collapse: collapse; width: 100%; margin: var(--space-8) 0; font-size: var(--text-xs, 11px); }
+  .wf-txt th, .wf-txt td { border: 1px solid var(--color-gray-84, #d1d1d1); padding: 4px 7px; text-align: left; vertical-align: top; }
+  .wf-txt th { background: var(--color-accent-18); color: var(--color-brand); }
+  .tr { display: block; margin: 0 0 var(--space-10); padding: var(--space-8) var(--space-12); background: #fff8e6; border-left: 3px solid #ffd245; font-size: var(--text-xs, 11px); }
+  code { background: var(--color-gray-94); padding: 0 4px; border-radius: 3px; font-size: .95em; }
+  .st { display: inline-block; padding: 0 6px; border-radius: 8px; font-weight: 700; font-size: .9em; white-space: nowrap; }
+  .st-j { background: #ffd245; color: #5a3d00; }        /* jaune : à traiter supervision */
+  .st-r { background: var(--color-accent-17, #ff3c00); color: #fff; }   /* rouge : rejetée / escale */
+  .st-v { background: #1f9d57; color: #fff; }           /* vert : traité */
+  .st-c { background: #00e5ff33; color: #045; }         /* cyan : message existant */
+  .st-p { background: #ff73d066; color: #6b0040; }      /* rose : message à créer */
+  @media (max-width: 1000px) { .wf-grid { grid-template-columns: 1fr; } .wf-img { border-right: 0; border-bottom: 1px solid var(--color-gray-94); } }
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>Workflows SOS Correspondance — PPT ↔ reconstruction</h1>
+  <p>Solda « ETUDE DSI – Cadrage transverse – SOS Correspondance – IHM_V1.0.2.pptx » slaytının birebir görüntüsü, sağda çıkardığım akış. Karşılaştır : aynı mı ? Görsele tıkla → tam boyut.</p>
+</div>
+<div class="wrap">
+
+<!-- ============================================================ CLIENT -->
+<h2 class="part">1 — CLIENT (formulaire)</h2>
+
+<section class="wf">
+  <h3>Diapo 27 — §4.2.1 · Choix du sens de son voyage</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d27.png" target="_blank"><img src="assets/workflow-slides/d27.png" alt="Diapo 27"></a><p class="src">PPT diapo 27</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : giriş yönlendirici. Sadece iki dal çizilmiş; ZOU!→TGV ve TGV→ZOU! ayrı diapolarda (28, 29).</span>
+      <h4>Choix : Autres</h4>
+      <ul>
+        <li><code>Pré-demande</code> Enregistrer la demande → <span class="st st-r">Rejetée</span> ⇒ <span class="st st-c">IHM 1</span></li>
+        <li>→ (FIN) <strong>Page Principale SOS Correspondance</strong> (fl. pointillée)</li>
+      </ul>
+      <h4>Choix : ZOU! vers ZOU! <em>(barré sur la diapo = supprimé)</em></h4>
+      <ul>
+        <li><code>Pré-demande</code> Enregistrer la demande → <span class="st st-r">Rejetée</span> ⇒ <span class="st st-c">IHM 11</span> → (FIN) Page Principale</li>
+      </ul>
+      <p>ZOU!→TGV* → diapo 28 · TGV*→ZOU! → diapo 29.</p>
+      <p><strong>Uygulamada :</strong> Autres → <code>messages.html?1</code> · ZOU!→ZOU! → <code>?11</code> ✓</p>
+    </div>
+  </div>
+</section>
+
+<section class="wf">
+  <h3>Diapo 24 — §4.1 · Formulaire Client « ZOU! Vers TGV » (vue UX + sondes Analytics)</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d24.png" target="_blank"><img src="assets/workflow-slides/d24.png" alt="Diapo 24"></a><p class="src">PPT diapo 24 — octogones rouges 1-9 = sondes Analytics</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : aynı parcours'un müşteri/form görünümü. Saisie sırası + düzeltme döngüleri + abandon çıkışları.</span>
+      <ol>
+        <li>Choix du sens → <code>ZOU!→ZOU!/TER</code> ⇒ IHM 11 · <code>autre</code> ⇒ IHM 1</li>
+        <li>Saisie gare de départ ZOU! + heure → saisie référence DV + nom → le client valide <span class="st st-j">A traiter</span> → demande enregistrée (statut pré-demande)</li>
+        <li><strong>Contrôle doublon</strong> (DV + date de dépôt) → doublon ⇒ <span class="st st-c">IHM 2</span> <em>(sur cette diapo : « réaffichage du message IHM 6/7/8 initialement affiché » — version antérieure)</em></li>
+        <li><strong>Récupération données DV (PAO)</strong> → <code>DV+NOM inconnu</code> ⇒ <span class="st st-c">IHM 3</span> + correction <strong>sans tout ressaisir</strong> ; « le client abandonne » → Rejetée</li>
+        <li><strong>Identification des 6 trajets TER ZOU! (SIDH)</strong> : <strong>« 1 avant l'heure indiquée et 5 après »</strong> ; pas de résultat ⇒ <span class="st st-c">IHM 4</span> → retour saisie</li>
+        <li>Client valide le train / « ne trouve pas son train » ⇒ <span class="st st-c">IHM 5</span> → corriger la saisie</li>
+        <li><strong>Contrôle + stockage des typologies</strong> (PMR/PSH, Client T, mineur, Groupes)</li>
+        <li><code>DV éligible</code> ⇒ <span class="st st-c">IHM 6</span> <span class="st st-j">A traiter Supervision</span> · <code>non éligible digitalisé</code> → contrôle gare : équipée ⇒ <span class="st st-c">IHM 7</span> (escale) · non équipée ⇒ <span class="st st-c">IHM 8</span> (3635) <span class="st st-r">Typo à traiter Escale</span></li>
+      </ol>
+      <p><strong>Uygulamada :</strong> 1 avant + 5 après kuralı <code>form.html</code>'de ✓ · IHM 3/4/5 düzeltme döngüleri ✓ · typoloji kolonu/filtre ✓</p>
+    </div>
+  </div>
+</section>
+
+<section class="wf">
+  <h3>Diapo 28 — §4.2.2 · Workflow « ZOU! Vers TGV* » (orchestration SI) — UYGULANAN AKIŞ</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d28.png" target="_blank"><img src="assets/workflow-slides/d28.png" alt="Diapo 28"></a><p class="src">PPT diapo 28 — badges ⓪①②③ = appels système (interne / PAO / TIC TAC / SIDH)</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : uygulamanın birebir izlediği zincir. Demo tetikleri : ERREUR→IHM3 · Nom=TICTAC→?12 · Gare=AUCUN…/Heure=00:00→IHM4 · aynı Référence 2. kez→doublon.</span>
+      <h4>Étape 0 ⓪ — Enregistrer + vérif existence (Date + DV)</h4>
+      <ul><li>pas en base → A (nouvelle demande) · déjà en base → B (doublon)</li></ul>
+      <h4>A. Nouvelle demande</h4>
+      <ol>
+        <li>① PAO : <code>DV+nom PAS dans PAO</code> → <span class="st st-r">Rejetée</span> ⇒ <span class="st st-c">IHM 3</span> · <code>dans PAO</code> → 2</li>
+        <li>② TIC TAC : <code>traité</code> → <span class="st st-v">Traitée : poursuite du voy TGV</span> ⇒ <span class="st st-p">IHM 12/13/14/22</span> · <code>non traité</code> → 3</li>
+        <li>③ SIDH : <code>aucun train</code> → <span class="st st-r">Rejetée</span> ⇒ <span class="st st-c">IHM 4</span> · <code>liste de 6 trains</code> → 4</li>
+        <li>Demande choix train : <code>pas trouvé</code> → <span class="st st-r">Rejetée</span> ⇒ <span class="st st-c">IHM 5</span> · <code>trouvé/choisi</code> → Saisie client « Choix train Zou! » → 5</li>
+        <li>Contrôle typo client : <code>éligible TIC TAC</code> → <span class="st st-j">A traiter supervision</span> ⇒ <span class="st st-c">IHM 6</span> · <code>non éligible</code> → 6</li>
+        <li>Contrôle gare de correspondance : <code>avec agents</code> ⇒ <span class="st st-c">IHM 7</span> · <code>sans agents</code> ⇒ <span class="st st-c">IHM 8</span> — <span class="st st-r">Typo à traiter Escale</span></li>
+      </ol>
+      <p>↩ Retour « Page ZOU! Vers TGV* » (pointillé) : IHM 3, 4, 5 et l'affichage TIC TAC seulement. <strong>IHM 6/7/8 : pas de flèche retour.</strong></p>
+      <h4>B. Doublon — ⓪ Récupérer le statut de la 1ʳᵉ demande</h4>
+      <table>
+        <tr><th>Statut 1ʳᵉ demande</th><th>Suite</th><th>⇒ Message</th></tr>
+        <tr><td><span class="st st-j">A traiter supervision</span></td><td>② vérif TIC TAC : non traité / traité</td><td><span class="st st-c">IHM 2</span> / <span class="st st-p">IHM 12/13/14/22</span></td></tr>
+        <tr><td>Traitée – report</td><td rowspan="2">② contrôle message envoyé par TIC TAC (selon type)</td><td rowspan="2"><span class="st st-p">IHM 12/13/14</span></td></tr>
+        <tr><td>Traitée – Poursuite du voyage TGV</td></tr>
+        <tr><td>Traitée – Correspondance OK</td><td>—</td><td><span class="st st-p">IHM 15</span></td></tr>
+        <tr><td>Typo à traiter / A traiter / Traitée escale</td><td>—</td><td><span class="st st-p">IHM 16</span></td></tr>
+        <tr><td>Non traitée par supervision</td><td>—</td><td><span class="st st-p">IHM 17</span></td></tr>
+      </table>
+      <p>Tous ⇒ (FIN) Page ZOU! Vers TGV*.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wf">
+  <h3>Diapo 25 — §4.2 · Formulaire Client « TGV vers ZOU! » (vue UX)</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d25.png" target="_blank"><img src="assets/workflow-slides/d25.png" alt="Diapo 25"></a><p class="src">PPT diapo 25 — sondes 10, 11, 4* (doublon)</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : TGV→ZOU formunun UX görünümü. « IHM 10 gerek yok » kararı bu diapoda (turuncu not) — numaralandırmada 10 bu yüzden atlanır.</span>
+      <ol>
+        <li>Autre trajet ⇒ <span class="st st-c">IHM 1</span></li>
+        <li>Saisie référence DV + nom → gare de destination → le client valide <span class="st st-j">A traiter</span></li>
+        <li><strong>Contrôle doublon</strong> → doublon ⇒ <span class="st st-c">IHM 2</span> <em>(demande déjà faite)</em> <span class="st st-r">Rejetée</span> — sonde <code>4*</code></li>
+        <li><strong>Récupération DV (PAO)</strong> → <code>DV inconnu</code> ⇒ <span class="st st-c">IHM 3</span> (correction sans tout ressaisir) ; abandon → Rejetée</li>
+        <li><code>DV à traiter</code> → demande enregistrée ⇒ <span class="st st-c">IHM 9</span> <em>(report prochain train + aide en gare)</em> :
+          <ul><li>avant 17h00 → <strong>Correspondance en journée</strong></li><li>après 17h00 → <span class="st st-j">A traiter Supervision</span></li></ul></li>
+      </ol>
+      <p>📌 Encart : <em>« Modification : pas de besoin IHM 10 (OP le 16-03) »</em>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wf">
+  <h3>Diapo 29 — §4.2.3 · Workflow « TGV* vers ZOU! » — parcours enrichi pour rassurance</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d29.png" target="_blank"><img src="assets/workflow-slides/d29.png" alt="Diapo 29"></a><p class="src">PPT diapo 29</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : TGV→ZOU'nun zenginleştirilmiş SI hali. UYGULANDI — demo tetikleri : Nom=TICTAC→?19 · Heure alanı 17 öncesi/sonrası → statut journée/supervision (boşsa gerçek saat) · aynı Référence 2. kez → ?18 (veya ?19 poursuite-TER ise) · ERREUR→IHM 3.</span>
+      <h4>Étape 0 ⓪ — Enregistrer + vérif existence (Date + DV)</h4>
+      <h4>A. Nouvelle demande</h4>
+      <ol>
+        <li>① PAO : <code>DV+nom PAS dans PAO</code> → <span class="st st-r">Rejetée</span> ⇒ <span class="st st-c">IHM 3</span> · <code>dans PAO</code> → 2</li>
+        <li>② TIC TAC : <code>DV+nom traité par TIC TAC</code> → <span class="st st-v">Traitée – poursuite du voyage TER</span> ⇒ <span class="st st-p">IHM 19/20/21/22</span> · sinon → 3</li>
+        <li>Vérification heure de réception demande :
+          <ul>
+            <li><code>avant 17h</code> → <strong>Correspondance en journée</strong> ⇒ <span class="st st-c">IHM 9</span></li>
+            <li><code>après 17h</code> → <span class="st st-j">A traiter Supervision</span> ⇒ <span class="st st-c">IHM 9</span></li>
+          </ul></li>
+      </ol>
+      <h4>B. Doublon (client resollicite) — ② vérif TIC TAC, deux issues</h4>
+      <ul>
+        <li><code>Typo message TIC TAC</code> → <span class="st st-r">Rejetée</span> ⇒ <span class="st st-p">IHM 19/20/21/22</span></li>
+        <li><code>Doublon – DV non recontacté par TIC TAC</code> → <span class="st st-r">Rejetée</span> ⇒ <span class="st st-p">IHM 18</span></li>
+      </ul>
+      <p>Toutes les fins ⇒ (FIN) <strong>Page TGV* vers ZOU!</strong> (pointillé).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SUPERVISION -->
+<h2 class="part">2 — SUPERVISION (interface agent)</h2>
+
+<section class="wf">
+  <h3>Diapo 37 — §4.3 · Gestion de rupture, Interface Supervision (ZOU!→TGV*)</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d37.png" target="_blank"><img src="assets/workflow-slides/d37.png" alt="Diapo 37"></a><p class="src">PPT diapo 37 — octogones 12-15 = sondes PowerBI</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : supervision.html'in bar'ındaki 4 motif = buradaki 4 aksiyon. Bar'da Valider → statü değişir → client doublon mesajı ona göre gelir.</span>
+      <p>Entrée : <span class="st st-j">A traiter Supervision</span> → « l'agent consulte les ruptures », 4 actions :</p>
+      <table>
+        <tr><th>#</th><th>Action agent</th><th>Statut</th><th>TIC TAC → client</th></tr>
+        <tr><td>12</td><td>Supprime les demandes + commentaire + valide</td><td><span class="st st-r">Non traité par Supervision (Abandon)</span></td><td>—</td></tr>
+        <tr><td>13</td><td>Valide le maintien de la correspondance</td><td><span class="st st-v">Traitée – Correspondance OK</span></td><td><strong>Mail/SMS 1</strong> (réassurance)</td></tr>
+        <tr><td>14</td><td>Ne saisit PAS de train de report (liste de DVs) + valide</td><td><span class="st st-r">A traiter Escale</span></td><td><strong>Mail 2</strong> générique (+ <strong>SMS 5</strong> si mail absent ; SMS 5 = SMS 2)</td></tr>
+        <tr><td>15</td><td>Saisit un train de report + valide</td><td><span class="st st-v">Traitée - Report</span></td><td>RC00 déjà envoyé → fin · sinon réservation RC00 via PAO : place assise → <strong>Mail 3</strong> · sans garantie → <strong>Mail 4</strong></td></tr>
+      </table>
+      <p>Cas d'erreur : « N° train erroné / retour PAO KO » → retour Mail 2.</p>
+      <p><strong>Uygulamada :</strong> Train de report → <code>traitee-report</code>→?12 · Renvoi escale → ?16 · Correspondance OK → ?15 · Non traitable → ?17 ✓</p>
+    </div>
+  </div>
+</section>
+
+<section class="wf">
+  <h3>Diapo 67 — §4.3 révisé · même workflow, version post-MVP</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d67.png" target="_blank"><img src="assets/workflow-slides/d67.png" alt="Diapo 67"></a><p class="src">PPT diapo 67 — zone grise = « Version post MVP »</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : 37'nin güncellenmiş hali. Farklar :</span>
+      <ul>
+        <li>Statut d'entrée : <span class="st st-j">A traiter Supervision</span> → <strong>« En cours de traitement »</strong></li>
+        <li>Statuts renommés : <em>Traitée - Maintien</em> (13), <em>Traitée - Abandon</em> (12)</li>
+        <li>Branche 14 passe par un <strong>Contrôle gare de correspondance</strong> :
+          <ul>
+            <li>gare équipée de personnel → <span class="st st-v">Traitée - Escale</span> → <strong>Mail 2</strong></li>
+            <li>gare non équipée → <span class="st st-v">Traitée – Support tél.</span> → <strong>Mail 2 bis</strong> (spécifique) — <em>zone post-MVP</em></li>
+          </ul></li>
+        <li>Branche 15 (report / RC00 / Mail 3-4) inchangée</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wf">
+  <h3>Diapo 38 — §4.4 · Interface Supervision (TGV*→ZOU!)</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d38.png" target="_blank"><img src="assets/workflow-slides/d38.png" alt="Diapo 38"></a><p class="src">PPT diapo 38</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : diğer yönün süpervizyonu çok daha basit.</span>
+      <ul>
+        <li>Horaire initial d'arrivée du TGV <code>avant 17h</code> → <strong>Traitée – Correspondance en journée</strong> (otomatik, agent yok)</li>
+        <li><code>Demandes arrivant après 17h00</code> → l'agent traite la demande :
+          <ul>
+            <li>(16) <span class="st st-v">Correspondance OK</span></li>
+            <li>(17) <span class="st st-j">PEC Escale</span></li>
+          </ul>
+          <em>« Modification : nouvelle action par l'agent — 25/03 »</em></li>
+      </ul>
+      <p><strong>Uygulamada :</strong> 17h sonrası talepler TGV*→ZOU! sekmesinin kuyruğuna düşer ; bar ortak 4 motif (16/17'ye özel bar yok — bilinen sapma).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CONSULTATION -->
+<h2 class="part">3 — CONSULTATION (agent d'escale)</h2>
+
+<section class="wf">
+  <h3>Diapo 39 — §4.5 · Consultation agent d'escale (ZOU!→TGV*)</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d39.png" target="_blank"><img src="assets/workflow-slides/d39.png" alt="Diapo 39"></a><p class="src">PPT diapo 39</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : consultation.html bu diapoyu karşılıyor — kriterlerle satır listeleme = filtre satırı ✓ ; « l'agent modifie l'état » UYGULANDI : « À traiter escale » rozetinin yanındaki checkbox işaretlenince « Traitée escale » olur.</span>
+      <ul>
+        <li>L'agent consulte les ruptures → <strong>« afficher des lignes selon des critères de sélection »</strong></li>
+        <li>États visibles : <span class="st st-v">Traitée - Report</span> · <span class="st st-v">Traitée – Correspondance OK</span> · <span class="st st-r">A traiter Escale</span> · <span class="st st-r">Typo à traiter Escale</span> · <span class="st st-r">Non traité par Supervision (Abandon)</span> · <span class="st st-j">A traiter Supervision</span></li>
+        <li>L'agent d'escale <strong>modifie l'état</strong> : <code>A traiter Escale / Typo à traiter Escale / Non traité par Supervision</code> → <span class="st st-v">Traitée en Escale</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wf">
+  <h3>Diapo 40 — §4.5 · Consultation agent d'escale (TGV*→ZOU!)</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d40.png" target="_blank"><img src="assets/workflow-slides/d40.png" alt="Diapo 40"></a><p class="src">PPT diapo 40</p></div>
+    <div class="wf-txt">
+      <ul>
+        <li>États visibles : <span class="st st-v">Traitée – Correspondance OK</span> · <strong>Traitée – Correspondance en journée</strong> · <span class="st st-j">PEC Escale</span> · <span class="st st-j">A traiter Supervision</span></li>
+        <li>Modifications agent : <code>Correspondance en journée / PEC Escale</code> → <span class="st st-v">Traitée en Escale</span></li>
+        <li>⚠ Note dév (surlignée) : différencier techniquement la provenance (« PEC escale » vs « Correspondance en journée ») du même état « Traitée en escale » — <em>à confirmer dév.</em></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ ANNEXE -->
+<h2 class="part">Annexe — statuts BDD ↔ IHM</h2>
+
+<section class="wf">
+  <h3>Diapo 30 — mapping statuts (version initiale)</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d30.png" target="_blank"><img src="assets/workflow-slides/d30.png" alt="Diapo 30"></a><p class="src">PPT diapo 30</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : workflow statüsü ↔ veritabanı kodu ↔ ekranda görünen etiket. consultation.html'deki badge'ler « Statuts affichés dans les IHM » kolonundan.</span>
+      <p><strong>ZOU!→TGV :</strong> A traiter Supervision=<code>A_TRAITER</code> · A traiter Escale=<code>A_TRAITER_ESCALE</code> · Non traitée=<code>TRAITE_ABANDON</code> · Traitée-Report=<code>TRAITE_REPORT</code> · Corr. OK=<code>TRAITE_MAINTIEN_TGV</code> · Typo escale=<code>A_TRAITER_TYPOLOGIE</code> · Traitée en Escale=<code>TRAITE_ESCALE / TRAITE_TYPOLOGIE</code> · Pré-demande=<code>DEMANDE_EN_COURS</code></p>
+      <p><strong>TGV→ZOU! :</strong> + <code>TRAITE_POURSUITE_VOYAGE_TER</code>, <code>A_TRAITER_CORRESPONDANCE_JOURNEE</code>, <code>A_TRAITER_PEC_ESCALE</code>, <code>TRAITE_MAINTIEN_TER</code>, <code>TRAITE_PEC_ESCALE / TRAITE_CORRESPONDANCE_JOURNEE</code></p>
+    </div>
+  </div>
+</section>
+
+<section class="wf">
+  <h3>Diapo 65 — mapping statuts (version révisée)</h3>
+  <div class="wf-grid">
+    <div class="wf-img"><a href="assets/workflow-slides/d65.png" target="_blank"><img src="assets/workflow-slides/d65.png" alt="Diapo 65"></a><p class="src">PPT diapo 65</p></div>
+    <div class="wf-txt">
+      <span class="tr">TR : 30'un revizesi. Farklar :</span>
+      <ul>
+        <li><code>TRAITE_MAINTIEN_TGV</code> → <code>TRAITE_MAINTIEN</code></li>
+        <li>Traitée en Escale : sadece <code>TRAITE_ESCALE</code></li>
+        <li>Yeni satır : <strong>« Traité – poursuite du voyage TGV »</strong> (IHM'de yeşil etiket)</li>
+        <li>NB : <code>DEMANDE_EN_COURS</code> = pré-demande durumu</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<p style="font-size:var(--text-xs);color:var(--color-gray-46)">Kaynak dokümantasyon : <code>references/sos-correspondance-workflows.md</code> · Slayt görüntüleri : <code>assets/workflow-slides/</code> (pdftoppm 150 dpi)</p>
+</div>
+</body>
+</html>
