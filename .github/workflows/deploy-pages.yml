@@ -50,3 +50,6 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 1200000   # 20 min — le 1er provisioning Pages (repo récemment public) est lent
+          error_count: 25
