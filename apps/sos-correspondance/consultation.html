@@ -898,10 +898,57 @@
       pursuit:  { cls:'ds-status-badge--pursuit',  label:'Poursuite TGV*' },
       todoSup:  { cls:'ds-status-badge--todo-sup', label:'À traiter sup.' },
       todoEsc:  { cls:'ds-status-badge--todo-esc', label:'À traiter escale' },
+      typoEsc:  { cls:'ds-status-badge--todo-esc', label:'Typo à traiter escale' },
+      nonTraitee:{ cls:'ds-status-badge--todo-esc', label:'Non traitée par sup.' },
+      journee:  { cls:'ds-status-badge--pursuit',  label:'Corresp. en journée' },
       traiteEsc:{ cls:'ds-status-badge--report',   label:'Traitée escale' }
     };
     /* Diapos 39-40 : états que l'agent d'escale peut basculer vers « Traitée en Escale » */
-    var MODIFIABLES = { todoEsc: true };
+    var MODIFIABLES = { todoEsc: true, typoEsc: true, nonTraitee: true };
+
+    /* --- Base partagée avec client.html / supervision.html : les demandes créées
+       dans la SOS App apparaissent ici avec leur statut réel (diapo 39-40). --- */
+    var BASE_KEY = 'sos-demandes';
+    function baseGet() { try { return JSON.parse(localStorage.getItem(BASE_KEY)) || {}; } catch (err) { return {}; } }
+    function baseSet(b) { localStorage.setItem(BASE_KEY, JSON.stringify(b)); }
+    function today() {
+      var d = new Date();
+      return ('0'+d.getDate()).slice(-2) + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + d.getFullYear();
+    }
+    /* statut de la demande (base) -> clé de badge consultation */
+    var DEMANDE_ST = {
+      'a-traiter-supervision':   'todoSup',
+      'typo-escale':             'typoEsc',
+      'a-traiter-escale':        'todoEsc',
+      'traitee-escale':          'traiteEsc',
+      'traitee-report':          'report',
+      'traitee-corr-ok':         'corresp',
+      'non-traitee-supervision': 'nonTraitee',
+      'traitee-poursuite-tgv':   'pursuit',
+      'traitee-poursuite-ter':   'pursuit',
+      'correspondance-en-journee': 'journee'
+    };
+    function clientRows(sensWanted) {
+      var base = baseGet();
+      var rows = [];
+      Object.keys(base).forEach(function(ref){
+        var rec = base[ref];
+        var statut = (typeof rec === 'string') ? rec : rec.statut;
+        var recSens = (rec && rec.sens) || 'zou-tgv';
+        var st = DEMANDE_ST[statut];
+        if (!st || recSens !== (sensWanted === 'zou-tgv' ? 'zou-tgv' : 'tgv-zou')) return;
+        rows.push({
+          ref: ref,
+          zou: (rec.train || '—'), tgv: recSens === 'tgv-zou' ? '8902' : '8901',
+          h: (rec.heure || '—'),
+          gare: 'Marseille-St-Charles',
+          dest: recSens === 'tgv-zou' ? (rec.gare || '—') : 'Paris-Gare-de-Lyon',
+          pax: 1, type: 'Pers. à mob. réduite', st: st, transp: 'INOUI',
+          jour: today(), date: '—', com: ''
+        });
+      });
+      return rows;
+    }
 
     // --- Données de démo générées (déterministes, gares réelles du CSV) ---
     var G_GARES = ['Marseille-St-Charles','Aix-en-Provence-TGV','Toulon','Nice-Ville','Cannes','Antibes'];
@@ -954,7 +1001,7 @@
         + '<span class="ds-status-badge__label">'+s.label+'</span></span>';
     }
     function rowHtml(r){
-      return '<td class="ds-ligne-tableau__cell">'+r.zou+'</td>'
+      return '<td class="ds-ligne-tableau__cell">'+r.zou+(r.ref ? ' <small>('+r.ref+')</small>' : '')+'</td>'
         + '<td class="ds-ligne-tableau__cell">'+r.tgv+'</td>'
         + '<td class="ds-ligne-tableau__cell">'+r.h+'</td>'
         + '<td class="ds-ligne-tableau__cell">'+r.gare+'</td>'
@@ -1005,7 +1052,7 @@
       });
     }
     function currentRows(){
-      var rows = applyFilters(DATA[sens]);
+      var rows = applyFilters(clientRows(sens).concat(DATA[sens]));
       rows.sort(function(a, b){ return sortDir * (a.h < b.h ? -1 : a.h > b.h ? 1 : 0); });
       return rows;
     }
@@ -1035,7 +1082,19 @@
     tbody.addEventListener('change', function(e){
       if (!e.target.matches('[data-esc]')) return;
       var r = lastSlice[+e.target.closest('tr').dataset.i];
-      if (r) { r.st = 'traiteEsc'; render(); }   /* l'agent d'escale modifie l'état */
+      if (!r) return;
+      if (r.ref) {                                /* demande client : persiste dans la base */
+        var base = baseGet();
+        var rec = base[r.ref];
+        if (rec) {
+          if (typeof rec === 'string') { base[r.ref] = { statut: 'traitee-escale' }; }
+          else { rec.statut = 'traitee-escale'; }
+          baseSet(base);
+        }
+      } else {
+        r.st = 'traiteEsc';                       /* ligne de démo : bascule en mémoire */
+      }
+      render();                                   /* l'agent d'escale modifie l'état (diapos 39-40) */
     });
     function goTo(p){ page = Math.min(Math.max(1, p), totalPages(currentRows().length)); render(); }
     btnFirst.addEventListener('click', function(){ goTo(1); });
