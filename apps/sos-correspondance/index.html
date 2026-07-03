@@ -19,6 +19,11 @@
   .tag{display:inline-block;margin-top:var(--space-12,12px);font-size:var(--text-xs,10px);background:var(--color-accent-7,#bbffbe);color:var(--color-accent-2,#002b28);padding:2px 8px;border-radius:var(--radius-pill,104px)}
   body{min-height:100vh}
   .wrap{display:flex;flex-direction:column;min-height:calc(100vh - 2*var(--space-48,48px))}
+  .util{margin-top:var(--space-32,32px);display:flex;flex-wrap:wrap;gap:var(--space-12,12px);align-items:center}
+  .util span{font-size:var(--text-sm,12px);font-weight:700;color:var(--color-gray-46,#747678)}
+  .util a{display:inline-block;padding:var(--space-8,8px) var(--space-16,16px);border:1px solid var(--color-brand,#065654);border-radius:var(--radius-pill,104px);color:var(--color-brand,#065654);text-decoration:none;font-size:var(--text-sm,12px);font-weight:700;background:var(--color-white,#fff)}
+  .util a:hover{background:var(--color-accent-18,#e3f3ef)}
+  .util a.warn{border-color:var(--color-accent-17,#ff3c00);color:var(--color-accent-17,#ff3c00)}
   .credit{margin-top:auto;padding-top:var(--space-20,20px);border-top:1px solid var(--color-accent-1,#749998);display:flex;align-items:center;justify-content:center;gap:var(--space-16,16px);flex-wrap:wrap}
   .credit img{height:34px;width:auto;display:block}
   .credit p{margin:0;font-size:var(--text-sm,12px);color:var(--color-accent-2,#002b28)}
@@ -33,6 +38,13 @@
     <a class="card" href="supervision.html"><b>Supervision</b><span>Traitement des demandes, barre d'action</span><span class="tag">desktop</span></a>
     <a class="card" href="consultation.html"><b>Consultation</b><span>Suivi des statuts, récapitulatif</span><span class="tag">desktop</span></a>
     <a class="card" href="admin.html"><b>Admin — messages IHM</b><span>Éditer les 21 écrans (IHM 1…22) — effet immédiat dans l'app</span><span class="tag">desktop</span></a>
+  </div>
+
+  <div class="util">
+    <span>Démo :</span>
+    <a class="warn" href="client.html?error1">Bandeau crise</a>
+    <a class="warn" href="client.html?error2">Bandeau incident technique</a>
+    <a href="client.html?reset">Réinitialiser la base de démo</a>
   </div>
 
   <footer class="credit">
