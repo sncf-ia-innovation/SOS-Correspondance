@@ -974,7 +974,7 @@
       rows.sort(function(a, b){ return a.h < b.h ? -1 : 1; });
       return rows;
     }
-    var DATA = { 'zou-tgv': gen(36, 0), 'tgv-zou': gen(9, 3) };
+    var DATA = { 'zou-tgv': gen(5, 0), 'tgv-zou': gen(5, 3) };   /* 5 exemples par sens : les demandes client (REF) ressortent */
 
     // --- État : sens, filtres, tri, pagination, colonnes masquées ---
     var sens = 'zou-tgv';
@@ -1008,15 +1008,16 @@
           ref: ref,
           zou: (rec.train || '—'), tgv: recSens === 'tgv-zou' ? '8902' : '8901',
           h: (rec.heure || '—'),
-          gare: 'Marseille-St-Charles',
-          dest: recSens === 'tgv-zou' ? (rec.gare || '—') : 'Paris-Gare-de-Lyon',
+          /* gare saisie par le client (plus de valeurs codées en dur) */
+          gare: recSens === 'tgv-zou' ? '—' : (rec.gare || '—'),
+          dest: recSens === 'tgv-zou' ? (rec.gare || '—') : 'Marseille-St-Charles',
           pax: 1, transp: 'INOUI', date: today(), type: 'PMR / PSH'
         });
       });
       return rows;
     }
 
-    var SPRITE = '';   /* sprite inliné : réfs locales #id */
+    var SPRITE = '';   /* sprite inliné */
     function checkCellHtml() {
       return '<td class="ds-ligne-tableau__cell sos-cell-check">'
         + '<label class="sos-check"><input type="checkbox" class="sos-check__input sos-row-check">'

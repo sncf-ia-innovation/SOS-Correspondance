@@ -941,8 +941,9 @@
           ref: ref,
           zou: (rec.train || '—'), tgv: recSens === 'tgv-zou' ? '8902' : '8901',
           h: (rec.heure || '—'),
-          gare: 'Marseille-St-Charles',
-          dest: recSens === 'tgv-zou' ? (rec.gare || '—') : 'Paris-Gare-de-Lyon',
+          /* gare saisie par le client (plus de valeurs codées en dur) */
+          gare: recSens === 'tgv-zou' ? '—' : (rec.gare || '—'),
+          dest: recSens === 'tgv-zou' ? (rec.gare || '—') : 'Marseille-St-Charles',
           pax: 1, type: 'Pers. à mob. réduite', st: st, transp: 'INOUI',
           jour: today(), date: '—', com: ''
         });
@@ -989,7 +990,7 @@
       rows.sort(function(a, b){ return a.h < b.h ? -1 : 1; });
       return rows;
     }
-    var DATA = { 'zou-tgv': genRows(60, 0), 'tgv-zou': genRows(20, 4) };
+    var DATA = { 'zou-tgv': genRows(5, 0), 'tgv-zou': genRows(5, 4) };   /* 5 exemples par sens */
     var sens = 'zou-tgv';
     var filters = null;
     var sortDir = 1;
