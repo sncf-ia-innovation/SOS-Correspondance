@@ -1049,6 +1049,7 @@
     function totalPages(n) { return Math.max(1, Math.ceil(n / perPage)); }
 
     var tbody = document.getElementById('table-body');
+    var lastSlice = [];
     var pageCur = document.querySelector('.sos-pagination__cur');
     var totalTxt = document.querySelector('.sos-pagination__center');
     var countTxt = document.querySelector('.sos-count');
@@ -1073,9 +1074,11 @@
       page = Math.min(page, totalPages(rows.length));
       var slice = rows.slice((page - 1) * perPage, (page - 1) * perPage + perPage);
       tbody.innerHTML = '';
-      slice.forEach(function(r){
+      lastSlice = slice;
+      slice.forEach(function(r, i){
         var tr = document.createElement('tr');
         tr.className = 'ds-ligne-tableau__row sos-row';
+        tr.dataset.i = i;
         if (r.ref) { tr.dataset.ref = r.ref; }
         tr.innerHTML = checkCellHtml()
           + '<td class="ds-ligne-tableau__cell">'+r.zou+(r.ref ? ' <small>('+r.ref+')</small>' : '')+'</td>'
@@ -1323,10 +1326,19 @@
         if (statut) {
           var base = baseGet();
           checked.forEach(function(c){
-            var ref = c.closest('tr').dataset.ref;
-            if (!ref || !base[ref]) return;
-            if (typeof base[ref] === 'string') { base[ref] = { statut: statut }; }
-            else { base[ref].statut = statut; }
+            var tr = c.closest('tr');
+            var ref = tr.dataset.ref;
+            if (ref && base[ref]) {
+              /* demande client : nouveau statut dans la base partagée -> quitte la file,
+                 visible dans la consultation avec son badge */
+              if (typeof base[ref] === 'string') { base[ref] = { statut: statut }; }
+              else { base[ref].statut = statut; }
+            } else {
+              /* ligne de démo : traitée -> retirée de la file (et du compteur d'onglet) */
+              var row = lastSlice[+tr.dataset.i];
+              var idx = DATA[sens].indexOf(row);
+              if (idx > -1) { DATA[sens].splice(idx, 1); }
+            }
           });
           baseSet(base);
         }
