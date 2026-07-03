@@ -27,8 +27,10 @@ python3 -m http.server 8080
 
 - **Cible principale** : AWS **S3 + CloudFront** (`.github/workflows/deploy-aws.yml`)
   → sync S3 + invalidation CloudFront. URL live = domaine CloudFront.
-- **Cible instantanée** : **GitHub Pages** (`.github/workflows/deploy-pages.yml`)
-  → URL sans compte AWS (repo privé ⇒ plan GitHub Team requis).
+- **Cible actuelle en ligne** : **GitHub Pages** via branche `gh-pages`
+  (`.github/workflows/publish-ghpages.yml`) → chaque `push` sur `main` reconstruit
+  le site (gate injectée) et le publie automatiquement.
+  URL : https://sncf-ia-innovation.github.io/SOS-Correspondance/ (repo public).
 - **Accès protégé** : `deploy/gate.js` injecté dans chaque page par
   `scripts/inject-gate.mjs`. Mot de passe stocké en **SHA-256** (secret
   `SOS_GATE_SHA256`), jamais en clair. Voile de confidentialité pour démo interne

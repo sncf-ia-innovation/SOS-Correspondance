@@ -1,0 +1,51 @@
+name: Publish to GitHub Pages (branche gh-pages)
+
+# Auto-déploiement : chaque push sur main reconstruit le site (avec la surcouche
+# mot de passe injectée) et le publie sur la branche gh-pages, que GitHub Pages
+# sert (build_type=legacy, source = gh-pages /). Remplace l'ancien flux
+# actions/deploy-pages (resté bloqué "deployment_queued" sur ce repo).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # pour pousser sur la branche gh-pages via GITHUB_TOKEN
+
+concurrency:
+  group: publish-ghpages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Construire le dossier publié (+ injecter la gate)
+        env:
+          SOS_GATE_SHA256: ${{ secrets.SOS_GATE_SHA256 }}
+        run: |
+          rm -rf _site && mkdir _site
+          cp -r apps curated dist index.html _site/
+          touch _site/.nojekyll                 # sert les fichiers tels quels (pas de Jekyll)
+          node scripts/inject-gate.mjs _site      # surcouche mot de passe dans chaque .html
+
+      - name: Publier sur la branche gh-pages
+        run: |
+          cd _site
+          git init -q
+          git checkout -q -b gh-pages
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "deploy: ${GITHUB_SHA::8} (auto depuis main)"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:gh-pages
+
+      - name: Récapitulatif
+        run: echo "✅ Publié sur gh-pages → https://sncf-ia-innovation.github.io/SOS-Correspondance/"

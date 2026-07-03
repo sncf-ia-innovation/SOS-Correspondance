@@ -69,19 +69,23 @@ Plutôt que des clés IAM statiques, utiliser un rôle assumé par OIDC
 
 ---
 
-## 2. Cible alternative — GitHub Pages (URL instantanée, sans AWS)
+## 2. Cible en ligne actuelle — GitHub Pages (branche gh-pages), auto sur push main
 
-Workflow : [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)
+Workflow : [`.github/workflows/publish-ghpages.yml`](.github/workflows/publish-ghpages.yml)
 
-Pour une URL live **immédiate** sans toucher à AWS :
+**En place et automatique.** À chaque `push` sur `main` :
+1. le workflow copie le site (`apps/ curated/ dist/ index.html`) dans `_site/` + `.nojekyll` ;
+2. injecte la surcouche mot de passe (`scripts/inject-gate.mjs`) ;
+3. force-push le résultat sur la branche **`gh-pages`** (via `GITHUB_TOKEN`) ;
+4. GitHub Pages (config `build_type=legacy`, source `gh-pages /`) reconstruit et sert.
 
-1. `Repo → Settings → Pages → Source = GitHub Actions`.
-2. Lancer le workflow (`Actions → Deploy to GitHub Pages → Run workflow`),
-   ou décommenter le trigger `push` dans le fichier.
-3. URL → `https://sncf-ia-innovation.github.io/SOS-Correspondance/`.
+URL → `https://sncf-ia-innovation.github.io/SOS-Correspondance/` (repo **public**).
 
-> ⚠️ **Repo privé** : Pages exige un plan **GitHub Team/Enterprise**. Sinon,
-> rester sur AWS (§1) ou passer le repo public (déconseillé pour un projet SNCF).
+> Pourquoi pas le flux `actions/deploy-pages` officiel ? Sur ce repo il restait
+> bloqué en `deployment_queued` (provisioning). La publication par branche est
+> fiable ici. Repo privé aurait exigé un plan **GitHub Team** → repo passé public.
+>
+> Rien à faire à la main : le seul secret nécessaire est `SOS_GATE_SHA256` (déjà posé).
 
 ---
 
