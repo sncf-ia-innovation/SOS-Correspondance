@@ -391,6 +391,12 @@ window.SOS_IHM = (function () {
     overrides: overrides,
     isOverridden: function (id) { return !!overrides()[id]; },
     get: function (id) { return overrides()[id] || window.SOS_IHM_DEFAULTS[id]; },
+    setOverride: function (id, msg) {
+      var o = overrides(); o[id] = msg; localStorage.setItem(KEY, JSON.stringify(o));
+    },
+    resetOverride: function (id) {
+      var o = overrides(); delete o[id]; localStorage.setItem(KEY, JSON.stringify(o));
+    },
     resetAll: function () { localStorage.removeItem(KEY); },
     blockHtml: blockHtml,
     inline: inline,

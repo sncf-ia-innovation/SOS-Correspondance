@@ -10,10 +10,10 @@
   <!-- Chrome desktop (header, main) repris de Supervision -->
   <link rel="stylesheet" href="supervision.css">
   <style>
-    .adm-intro { margin: 0 0 var(--space-24); color: var(--color-gray-31); font-size: var(--text-base); line-height: 1.5; max-width: 72ch; }
+    .adm-intro { margin: 0 0 var(--space-20); color: var(--color-gray-31); font-size: var(--text-base); line-height: 1.5; max-width: 78ch; }
     .adm-toolbar { display: flex; flex-wrap: wrap; gap: var(--space-12); align-items: center; margin-bottom: var(--space-16); }
     .adm-status {
-      margin: 0 0 var(--space-24);
+      margin: 0 0 var(--space-20);
       padding: var(--space-12) var(--space-16);
       border-radius: var(--radius-r6);
       font-size: var(--text-base);
@@ -22,18 +22,53 @@
     .adm-status[hidden] { display: none; }
     .adm-status--ok { background: var(--color-accent-7); color: var(--color-accent-2); }
     .adm-status--err { background: var(--color-accent-17); color: var(--color-white); }
-    .adm-table { width: 100%; border-collapse: collapse; background: var(--color-white); border: 1px solid var(--color-accent-1); border-radius: var(--radius-r8); overflow: hidden; }
-    .adm-table th, .adm-table td { padding: var(--space-10) var(--space-16); text-align: left; font-size: var(--text-base); border-bottom: 1px solid var(--color-gray-94); }
-    .adm-table th { background: var(--color-brand); color: var(--color-white); font-weight: 700; }
-    .adm-table td { color: var(--color-gray-31); }
-    .adm-table td:first-child { font-weight: 800; color: var(--color-brand); white-space: nowrap; }
-    .adm-table a { color: var(--color-brand); }
-    .adm-titre { color: var(--color-brand); }
+    .adm-cards { display: flex; flex-direction: column; gap: var(--space-16); }
+    .adm-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-accent-1);
+      border-radius: var(--radius-r8);
+      padding: var(--space-16) var(--space-24) var(--space-20);
+    }
+    .adm-card__head { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-12); }
+    .adm-card__num {
+      flex: 0 0 auto;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 58px; height: 26px; padding: 0 var(--space-8);
+      border-radius: var(--radius-pill);
+      background: var(--color-brand); color: var(--color-white);
+      font-size: var(--text-sm); font-weight: 800; white-space: nowrap;
+    }
+    .adm-card__label { flex: 1 1 auto; font-size: var(--text-base); font-weight: 700; color: var(--color-gray-31); margin: 0; min-width: 0; }
     .adm-badge {
       font-size: var(--text-xs); font-weight: 700; white-space: nowrap;
       padding: 2px var(--space-8); border-radius: var(--radius-pill);
       background: var(--color-accent-7); color: var(--color-accent-2);
     }
+    .adm-badge[hidden] { display: none; }
+    .adm-saved { font-size: var(--text-sm); color: var(--color-accent-16, #00997c); font-weight: 700; opacity: 0; transition: opacity .2s; white-space: nowrap; }
+    .adm-saved.is-visible { opacity: 1; }
+    .adm-card__preview { font-size: var(--text-sm); color: var(--color-brand); white-space: nowrap; }
+    .adm-reset { border: 0; background: none; color: var(--color-gray-46); font-family: var(--font-sans); font-size: var(--text-sm); text-decoration: underline; cursor: pointer; white-space: nowrap; }
+    .adm-reset:hover { color: var(--color-brand); }
+    .adm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-10) var(--space-20); }
+    .adm-field { display: flex; flex-direction: column; gap: var(--space-4); }
+    .adm-field--full { grid-column: 1 / -1; }
+    .adm-field label { font-size: var(--text-sm); font-weight: 700; color: var(--color-gray-46); }
+    .adm-field input, .adm-field textarea {
+      width: 100%;
+      padding: var(--space-8) var(--space-12);
+      border: 1px solid var(--color-accent-1);
+      border-radius: var(--radius-r6);
+      background: var(--color-white);
+      color: var(--color-brand);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.45;
+      box-sizing: border-box;
+    }
+    .adm-field textarea { resize: vertical; }
+    .adm-field input:focus, .adm-field textarea:focus { outline: 2px solid var(--color-brand); outline-offset: 1px; }
+    .adm-import[hidden] { display: none; }
   </style>
 </head>
 <body class="sos">
@@ -698,17 +733,18 @@
       <h1 class="sos-title">Admin — messages IHM</h1>
     </div>
     <p class="adm-intro">
-      <strong>1.</strong> Télécharge le fichier des messages (CSV, s'ouvre dans Excel).
-      <strong>2.</strong> Modifie les textes (colonnes <code>titre</code>, <code>corps</code>, <code>signature</code>, <code>bouton_texte</code>, <code>bouton_href</code>, <code>note</code> —
-      dans <code>corps</code>, une ligne vide sépare les paragraphes, <code>**gras**</code> et <code>- puce</code> sont acceptés).
-      <strong>3.</strong> Charge le fichier ci-dessous : la démo utilise aussitôt les nouveaux textes.
+      Modifie un champ : c'est <strong>enregistré automatiquement</strong> et l'app l'affiche aussitôt
+      (vérifie avec « Aperçu ↗ »). Dans le <strong>corps</strong>, une ligne vide sépare les paragraphes ;
+      <code>**gras**</code>, <code>[lien](https://…)</code> et les puces <code>- item</code> sont acceptés.
+      Les textes par défaut = grille « Version du 30-06 ». Sauvegarde locale au navigateur —
+      <strong>Télécharger</strong> pour exporter, <strong>Charger</strong> pour importer (CSV ou JSON).
     </p>
 
     <div class="adm-toolbar">
-      <button type="button" class="ds-bouton ds-bouton--secondary" id="btn-csv">Télécharger les messages (CSV)</button>
+      <button type="button" class="ds-bouton ds-bouton--secondary" id="btn-csv">Télécharger (CSV)</button>
       <button type="button" class="ds-bouton ds-bouton--secondary" id="btn-json">Télécharger (JSON)</button>
-      <label class="ds-bouton ds-bouton--primary" style="cursor:pointer">
-        Charger un fichier (CSV ou JSON)…
+      <label class="ds-bouton ds-bouton--secondary" style="cursor:pointer">
+        Charger un fichier…
         <input type="file" id="file-input" accept=".csv,.json,text/csv,application/json" hidden>
       </label>
       <button type="button" class="sos-link-reset" id="btn-reset-all">Tout réinitialiser (défauts)</button>
@@ -716,12 +752,7 @@
 
     <p class="adm-status" id="status" hidden></p>
 
-    <table class="adm-table" aria-label="Messages IHM">
-      <thead>
-        <tr><th>Message</th><th>Titre actuel</th><th></th><th></th></tr>
-      </thead>
-      <tbody id="rows"></tbody>
-    </table>
+    <div class="adm-cards" id="cards"></div>
   </main>
 
   <script src="assets/ihm-messages.js"></script>
@@ -735,40 +766,95 @@
       status.textContent = text;
     }
 
-    /* --- liste en lecture seule --- */
-    function renderRows() {
-      var tbody = document.getElementById('rows');
-      tbody.innerHTML = '';
-      SOS_IHM.ORDER.forEach(function (id) {
-        var m = SOS_IHM.get(id);
-        var tr = document.createElement('tr');
-        var tdId = document.createElement('td');
-        tdId.textContent = SOS_IHM.defaults[id].label.split('—')[0].trim();
-        tdId.title = SOS_IHM.defaults[id].label;
-        var tdTitre = document.createElement('td');
-        tdTitre.className = 'adm-titre';
-        tdTitre.textContent = (m.titre || '').slice(0, 90) + ((m.titre || '').length > 90 ? '…' : '');
-        var tdBadge = document.createElement('td');
-        if (SOS_IHM.isOverridden(id)) {
-          var b = document.createElement('span');
-          b.className = 'adm-badge';
-          b.textContent = 'modifié';
-          tdBadge.appendChild(b);
-        }
-        var tdLink = document.createElement('td');
-        var a = document.createElement('a');
-        a.href = 'messages.html?' + id;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.textContent = 'Aperçu ↗';
-        tdLink.appendChild(a);
-        tr.appendChild(tdId); tr.appendChild(tdTitre); tr.appendChild(tdBadge); tr.appendChild(tdLink);
-        tbody.appendChild(tr);
-      });
+    function numLabel(id) {
+      if (id === 'crise') { return 'CRISE'; }
+      if (id === 'bug') { return 'BUG'; }
+      return 'IHM ' + id;
     }
-    renderRows();
 
-    /* --- téléchargements --- */
+    /* ---------- cartes d'édition, dans l'ordre officiel ---------- */
+    function buildCard(id) {
+      var def = SOS_IHM.defaults[id];
+      var card = document.createElement('article');
+      card.className = 'adm-card';
+      card.innerHTML =
+          '<div class="adm-card__head">'
+        +   '<span class="adm-card__num"></span>'
+        +   '<h2 class="adm-card__label"></h2>'
+        +   '<span class="adm-badge" data-badge hidden>modifié</span>'
+        +   '<span class="adm-saved" data-saved>✓ enregistré</span>'
+        +   '<button type="button" class="adm-reset" data-reset>défaut</button>'
+        +   '<a class="adm-card__preview" target="_blank" rel="noopener">Aperçu ↗</a>'
+        + '</div>'
+        + '<div class="adm-grid">'
+        +   '<div class="adm-field adm-field--full"><label>Titre</label><textarea data-f="titre" rows="2"></textarea></div>'
+        +   '<div class="adm-field adm-field--full"><label>Corps</label><textarea data-f="corps" rows="6" spellcheck="false"></textarea></div>'
+        +   '<div class="adm-field"><label>Signature</label><input data-f="signature"></div>'
+        +   '<div class="adm-field"><label>Note (facultatif)</label><input data-f="note"></div>'
+        +   '<div class="adm-field"><label>Bouton — texte (vide = pas de bouton)</label><input data-f="btexte"></div>'
+        +   '<div class="adm-field"><label>Bouton — lien</label><input data-f="bhref"></div>'
+        + '</div>';
+
+      card.querySelector('.adm-card__num').textContent = numLabel(id);
+      /* label sans le préfixe « IHM n — » (déjà dans la pastille) */
+      card.querySelector('.adm-card__label').textContent = def.label.replace(/^[^—]*—\s*/, '');
+      card.querySelector('.adm-card__preview').href = 'messages.html?' + id;
+
+      var f = function (name) { return card.querySelector('[data-f="' + name + '"]'); };
+      function fill(m) {
+        f('titre').value = m.titre || '';
+        f('corps').value = (m.corps || []).join('\n\n');
+        f('signature').value = m.signature || '';
+        f('note').value = m.note || '';
+        f('btexte').value = m.bouton ? (m.bouton.texte || '') : '';
+        f('bhref').value = m.bouton ? (m.bouton.href || '') : '';
+      }
+      function badge() { card.querySelector('[data-badge]').hidden = !SOS_IHM.isOverridden(id); }
+
+      /* enregistrement automatique (debounce) : chaque frappe est reflétée dans l'app */
+      var timer = null;
+      function save() {
+        var btexte = f('btexte').value.trim();
+        SOS_IHM.setOverride(id, {
+          label: def.label,
+          alerte: !!def.alerte,
+          titre: f('titre').value.trim(),
+          corps: f('corps').value.split(/\n\s*\n/).map(function (b) { return b.trim(); }).filter(Boolean),
+          signature: f('signature').value.trim(),
+          bouton: btexte ? { texte: btexte, href: f('bhref').value.trim() || '#' } : null,
+          note: f('note').value.trim() || null
+        });
+        badge();
+        var ok = card.querySelector('[data-saved]');
+        ok.classList.add('is-visible');
+        clearTimeout(ok._t);
+        ok._t = setTimeout(function () { ok.classList.remove('is-visible'); }, 1400);
+      }
+      card.querySelectorAll('[data-f]').forEach(function (input) {
+        input.addEventListener('input', function () {
+          clearTimeout(timer);
+          timer = setTimeout(save, 450);
+        });
+      });
+
+      card.querySelector('[data-reset]').addEventListener('click', function () {
+        SOS_IHM.resetOverride(id);
+        fill(SOS_IHM.defaults[id]);
+        badge();
+      });
+
+      fill(SOS_IHM.get(id)); badge();
+      return card;
+    }
+
+    var cards = document.getElementById('cards');
+    function renderAll() {
+      cards.innerHTML = '';
+      SOS_IHM.ORDER.forEach(function (id) { cards.appendChild(buildCard(id)); });
+    }
+    renderAll();
+
+    /* ---------- téléchargements ---------- */
     function download(name, content, mime) {
       var blob = new Blob([content], { type: mime + ';charset=utf-8' });
       var a = document.createElement('a');
@@ -784,7 +870,7 @@
       download('ihm-messages.json', SOS_IHM.exportJson(), 'application/json');
     });
 
-    /* --- upload CSV / JSON --- */
+    /* ---------- upload CSV / JSON ---------- */
     document.getElementById('file-input').addEventListener('change', function () {
       var file = this.files[0];
       this.value = '';
@@ -794,7 +880,7 @@
         var text = String(reader.result);
         try {
           var res = /^\s*[\{\[]/.test(text) ? SOS_IHM.importJson(text) : SOS_IHM.fromCsv(text);
-          renderRows();
+          renderAll();
           say(true, '✓ ' + res.applied.length + ' message(s) chargé(s) — la démo les utilise dès maintenant.'
             + (res.ignored.length ? ' Ids ignorés (inconnus) : ' + res.ignored.join(', ') : ''));
         } catch (e) {
@@ -804,11 +890,11 @@
       reader.readAsText(file, 'utf-8');
     });
 
-    /* --- réinitialisation --- */
+    /* ---------- réinitialisation globale ---------- */
     document.getElementById('btn-reset-all').addEventListener('click', function () {
       if (confirm('Rétablir tous les messages aux wordings par défaut (Version du 30-06) ?')) {
         SOS_IHM.resetAll();
-        renderRows();
+        renderAll();
         say(true, '✓ Défauts restaurés.');
       }
     });
