@@ -823,6 +823,7 @@
         base[ref.toUpperCase()] = {
           statut: STATUTS[ihm],
           sens: 'zou-tgv',
+          mail: params.get('mail') !== '0',   /* SANSMAIL : pas d'e-mail dans PAO */
           gare: gareDepart,
           heure: params.get('heure') || '09:00',
           train: (train || TRAINS[1].val).replace(/-\d$/, ''),

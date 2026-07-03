@@ -954,6 +954,8 @@
          · Référence = ERREUR                 -> étape 1 PAO : IHM 3 inline
          · Nom = TICTAC                       -> étape 2 : DV déjà traité par TIC TAC -> ?12
          · Gare = AUCUN… ou Heure = 00:00     -> étape 3 SIDH : aucun train ZOU! -> IHM 4
+         · Nom = SANSMAIL                     -> pas d'e-mail dans PAO : TIC TAC n'envoie que le SMS,
+                                                 la resollicitation affiche IHM 14 (ZOU→TGV) / IHM 21 (TGV→ZOU)
          · client.html?reset                  -> vide la base démo */
     var BASE_KEY = 'sos-demandes';
     function baseGet() { try { return JSON.parse(localStorage.getItem(BASE_KEY)) || {}; } catch (err) { return {}; } }
@@ -1078,7 +1080,14 @@
         var rec = baseGet()[dv];
         var statut = rec && (typeof rec === 'string' ? rec : rec.statut);
         if (statut) {
-          window.location.href = DOUBLON_ROUTES[statut] || 'messages.html?2';
+          var cible = DOUBLON_ROUTES[statut] || 'messages.html?2';
+          /* Coordonnée e-mail absente (PAO) : TIC TAC n'a envoyé qu'un SMS ->
+             l'affichage du code message devient IHM 14 (diapo 37 « Coordonnées mail absentes ») */
+          if (rec && rec.mail === false &&
+              (statut === 'traitee-report' || statut === 'traitee-poursuite-tgv')) {
+            cible = 'messages.html?14';
+          }
+          window.location.href = cible;
           return;
         }
 
@@ -1111,7 +1120,8 @@
            du statut aux étapes 5-6 et gare/heure pour construire la liste. */
         window.location.href = 'form.html?ref=' + encodeURIComponent(dv)
           + '&gare=' + encodeURIComponent(gareVal)
-          + '&heure=' + encodeURIComponent(heureZouVal);
+          + '&heure=' + encodeURIComponent(heureZouVal)
+          + (nomVal.toUpperCase() === 'SANSMAIL' ? '&mail=0' : '');
         return;
       }
 
@@ -1125,7 +1135,12 @@
         var rec29 = baseGet()[dv29];
         if (rec29) {
           var st29 = typeof rec29 === 'string' ? rec29 : rec29.statut;
-          window.location.href = (st29 === 'traitee-poursuite-ter') ? 'messages.html?19' : 'messages.html?18';
+          var cible29 = 'messages.html?18';                       /* doublon non recontacté */
+          if (st29 === 'traitee-poursuite-ter' || st29 === 'traitee-report') {
+            /* TIC TAC a recontacté : billet par mail (IHM 19) ou, sans e-mail, SMS seul (IHM 21) */
+            cible29 = (rec29.mail === false) ? 'messages.html?21' : 'messages.html?19';
+          }
+          window.location.href = cible29;
           return;
         }
 
@@ -1135,13 +1150,16 @@
           return;
         }
 
-        /* Étape 2 [2] — DV déjà traité par TIC TAC (démo : Nom = TICTAC)
-           -> statut « Traitée – poursuite du voyage TER » + affichage code message */
-        if (nomVal.toUpperCase() === 'TICTAC') {
+        /* Étape 2 [2] — DV déjà traité par TIC TAC (démo : Nom = TICTAC, ou SANSMAIL
+           pour le cas « coordonnée e-mail manquante, seul SMS envoyé »)
+           -> statut « Traitée – poursuite du voyage TER » + affichage code message :
+           IHM 19 (billet par mail) ou IHM 21 (SMS seul, pas d'e-mail dans PAO) */
+        var nom29 = nomVal.toUpperCase();
+        if (nom29 === 'TICTAC' || nom29 === 'SANSMAIL') {
           var b29 = baseGet();
-          b29[dv29] = { statut: 'traitee-poursuite-ter', sens: 'tgv-zou', gare: gareVal };
+          b29[dv29] = { statut: 'traitee-poursuite-ter', sens: 'tgv-zou', gare: gareVal, mail: nom29 !== 'SANSMAIL' };
           baseSet(b29);
-          window.location.href = 'messages.html?19';
+          window.location.href = (nom29 === 'SANSMAIL') ? 'messages.html?21' : 'messages.html?19';
           return;
         }
 
@@ -1155,7 +1173,8 @@
           statut: hRecue < 17 ? 'correspondance-en-journee' : 'a-traiter-supervision',
           sens: 'tgv-zou',
           gare: gareVal,
-          heure: heureZouVal || null
+          heure: heureZouVal || null,
+          mail: nomVal.toUpperCase() !== 'SANSMAIL'
         };
         baseSet(base29);
         window.location.href = 'messages.html?9';   /* IHM 9 dans les deux cas (diapo 29) */
