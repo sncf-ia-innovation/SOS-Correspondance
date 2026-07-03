@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: write   # pour pousser sur la branche gh-pages via GITHUB_TOKEN
+  pages: write      # pour relancer le build Pages en cas d'échec transitoire
 
 concurrency:
   group: publish-ghpages
@@ -46,6 +47,29 @@ jobs:
           git add -A
           git commit -q -m "deploy: ${GITHUB_SHA::8} (auto depuis main)"
           git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:gh-pages
+
+      - name: Vérifier le build Pages (relance auto si échec transitoire GitHub)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Le build interne "pages build and deployment" échoue parfois avec
+          # "Deployment failed, try again later" (flake GitHub, surtout quand deux
+          # déploiements se suivent de près). On surveille et on relance jusqu'à 3 fois.
+          sleep 20
+          for i in 1 2 3; do
+            st=$(gh api "repos/${{ github.repository }}/pages/builds/latest" -q .status || echo unknown)
+            echo "build Pages ($i): $st"
+            [ "$st" = "built" ] && exit 0
+            if [ "$st" = "errored" ]; then
+              echo "→ relance du build Pages"
+              gh api -X POST "repos/${{ github.repository }}/pages/builds" >/dev/null || true
+            fi
+            sleep 30
+          done
+          st=$(gh api "repos/${{ github.repository }}/pages/builds/latest" -q .status || echo unknown)
+          if [ "$st" != "built" ]; then
+            echo "::warning::build Pages toujours '$st' après relances — vérifier manuellement"
+          fi
 
       - name: Récapitulatif
         run: echo "✅ Publié sur gh-pages → https://sncf-ia-innovation.github.io/SOS-Correspondance/"
