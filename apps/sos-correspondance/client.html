@@ -1084,9 +1084,9 @@
           var cible = DOUBLON_ROUTES[statut] || 'messages.html?2';
           /* Coordonnée e-mail absente (PAO) : TIC TAC n'a envoyé qu'un SMS ->
              l'affichage du code message devient IHM 14 (diapo 37 « Coordonnées mail absentes ») */
-          if (rec && rec.mail === false &&
-              (statut === 'traitee-report' || statut === 'traitee-poursuite-tgv')) {
-            cible = 'messages.html?14';
+          if (rec && (statut === 'traitee-report' || statut === 'traitee-poursuite-tgv')) {
+            if (rec.code) { cible = 'messages.html?' + rec.code; }
+            else if (rec.mail === false) { cible = 'messages.html?14'; }
           }
           window.location.href = cible;
           return;
@@ -1104,10 +1104,11 @@
            Traité -> statut « Traitée : poursuite du voy TGV » + affichage code message
            TIC TAC : IHM 12 (billet par mail) ou IHM 14 si e-mail absent de PAO. */
         if (pao.tictac) {
+          var codeZT = (pao.code && pao.code['zou-tgv']) || (pao.mail ? '12' : '14');
           var base = baseGet();
-          base[dv] = { statut: 'traitee-poursuite-tgv', sens: 'zou-tgv', gare: gareVal, mail: pao.mail };
+          base[dv] = { statut: 'traitee-poursuite-tgv', sens: 'zou-tgv', gare: gareVal, mail: pao.mail, code: codeZT };
           baseSet(base);
-          window.location.href = pao.mail ? 'messages.html?12' : 'messages.html?14';
+          window.location.href = 'messages.html?' + codeZT;
           return;
         }
 
@@ -1140,8 +1141,9 @@
           var st29 = typeof rec29 === 'string' ? rec29 : rec29.statut;
           var cible29 = 'messages.html?18';                       /* doublon non recontacté */
           if (st29 === 'traitee-poursuite-ter' || st29 === 'traitee-report') {
-            /* TIC TAC a recontacté : billet par mail (IHM 19) ou, sans e-mail, SMS seul (IHM 21) */
-            cible29 = (rec29.mail === false) ? 'messages.html?21' : 'messages.html?19';
+            /* TIC TAC a recontacté : code mémorisé, sinon billet par mail (19) / SMS seul (21) */
+            if (rec29.code) { cible29 = 'messages.html?' + rec29.code; }
+            else { cible29 = (rec29.mail === false) ? 'messages.html?21' : 'messages.html?19'; }
           }
           window.location.href = cible29;
           return;
@@ -1158,10 +1160,11 @@
            -> statut « Traitée – poursuite du voyage TER » + affichage code message :
            IHM 19 (billet par mail) ou IHM 21 (SMS seul, pas d'e-mail dans PAO) */
         if (pao29.tictac) {
+          var codeTZ = (pao29.code && pao29.code['tgv-zou']) || (pao29.mail ? '19' : '21');
           var b29 = baseGet();
-          b29[dv29] = { statut: 'traitee-poursuite-ter', sens: 'tgv-zou', gare: gareVal, mail: pao29.mail };
+          b29[dv29] = { statut: 'traitee-poursuite-ter', sens: 'tgv-zou', gare: gareVal, mail: pao29.mail, code: codeTZ };
           baseSet(b29);
-          window.location.href = pao29.mail ? 'messages.html?19' : 'messages.html?21';
+          window.location.href = 'messages.html?' + codeTZ;
           return;
         }
 

@@ -8,6 +8,8 @@
               -> l'affichage code message devient IHM 14 / IHM 21)
      tictac : true = DV déjà traité par TIC TAC (étape 2 -> affichage code message
               direct : IHM 12/14 en ZOU→TGV, IHM 19/21 en TGV→ZOU)
+     code   : (optionnel) code message TIC TAC spécifique par sens, quand le cas
+              n'est pas le simple « billet envoyé » : { "zou-tgv": "13", "tgv-zou": "20" }
 
    ── Couples de démo ────────────────────────────────────────────────
    AAA111 / DUPONT    cas nominal (mail ok)
@@ -17,6 +19,10 @@
    EEE555 / DURAND    pas d'e-mail dans PAO
    FFF666 / ROBERT    déjà traité par TIC TAC (mail ok)
    GGG777 / MOREAU    déjà traité par TIC TAC + pas d'e-mail
+   HHH888 / LEFEBVRE  TIC TAC : billet envoyé mais train complet, pas de place
+                      assise garantie (ZOU→TGV -> IHM 13)
+   III999 / GARCIA    TIC TAC : report + hébergement (TGV→ZOU -> IHM 20)
+   JJJ000 / ROUX      DIGIPEC : hébergement + report J+1 (IHM 22, les deux sens)
    Tout autre couple => IHM 3 (DV non connu).
 */
 window.SOS_PAO = {
@@ -26,7 +32,10 @@ window.SOS_PAO = {
   "DDD444": { "nom": "PETIT",   "mail": true,  "tictac": false },
   "EEE555": { "nom": "DURAND",  "mail": false, "tictac": false },
   "FFF666": { "nom": "ROBERT",  "mail": true,  "tictac": true },
-  "GGG777": { "nom": "MOREAU",  "mail": false, "tictac": true }
+  "GGG777": { "nom": "MOREAU",  "mail": false, "tictac": true },
+  "HHH888": { "nom": "LEFEBVRE", "mail": true, "tictac": true, "code": { "zou-tgv": "13", "tgv-zou": "19" } },
+  "III999": { "nom": "GARCIA",   "mail": true, "tictac": true, "code": { "zou-tgv": "12", "tgv-zou": "20" } },
+  "JJJ000": { "nom": "ROUX",     "mail": true, "tictac": true, "code": { "zou-tgv": "22", "tgv-zou": "22" } }
 };
 
 /* Recherche PAO : couple DV + nom (insensible casse/accents). null = inconnu. */
