@@ -736,18 +736,21 @@
       Modifie un champ : c'est <strong>enregistré automatiquement</strong> et l'app l'affiche aussitôt
       (vérifie avec « Aperçu ↗ »). Dans le <strong>corps</strong>, une ligne vide sépare les paragraphes ;
       <code>**gras**</code>, <code>[lien](https://…)</code> et les puces <code>- item</code> sont acceptés.
-      Les textes par défaut = grille « Version du 30-06 ». Sauvegarde locale au navigateur —
+      <strong>Enregistrer l'état actuel</strong> fige les textes du moment comme référence :
+      le <strong>reset</strong> de chaque message (et « Tout réinitialiser ») ramène à cette référence
+      (sans référence enregistrée : grille « Version du 30-06 »).
       <strong>Télécharger</strong> pour exporter, <strong>Charger</strong> pour importer (CSV ou JSON).
     </p>
 
     <div class="adm-toolbar">
+      <button type="button" class="ds-bouton ds-bouton--primary" id="btn-baseline">Enregistrer l'état actuel</button>
       <button type="button" class="ds-bouton ds-bouton--secondary" id="btn-csv">Télécharger (CSV)</button>
       <button type="button" class="ds-bouton ds-bouton--secondary" id="btn-json">Télécharger (JSON)</button>
       <label class="ds-bouton ds-bouton--secondary" style="cursor:pointer">
         Charger un fichier…
         <input type="file" id="file-input" accept=".csv,.json,text/csv,application/json" hidden>
       </label>
-      <button type="button" class="sos-link-reset" id="btn-reset-all">Tout réinitialiser (défauts)</button>
+      <button type="button" class="sos-link-reset" id="btn-reset-all">Tout réinitialiser</button>
     </div>
 
     <p class="adm-status" id="status" hidden></p>
@@ -783,7 +786,7 @@
         +   '<h2 class="adm-card__label"></h2>'
         +   '<span class="adm-badge" data-badge hidden>modifié</span>'
         +   '<span class="adm-saved" data-saved>✓ enregistré</span>'
-        +   '<button type="button" class="adm-reset" data-reset>défaut</button>'
+        +   '<button type="button" class="adm-reset" data-reset>reset</button>'
         +   '<a class="adm-card__preview" target="_blank" rel="noopener">Aperçu ↗</a>'
         + '</div>'
         + '<div class="adm-grid">'
@@ -809,7 +812,7 @@
         f('btexte').value = m.bouton ? (m.bouton.texte || '') : '';
         f('bhref').value = m.bouton ? (m.bouton.href || '') : '';
       }
-      function badge() { card.querySelector('[data-badge]').hidden = !SOS_IHM.isOverridden(id); }
+      function badge() { card.querySelector('[data-badge]').hidden = !SOS_IHM.isModified(id); }
 
       /* enregistrement automatique (debounce) : chaque frappe est reflétée dans l'app */
       var timer = null;
@@ -838,8 +841,8 @@
       });
 
       card.querySelector('[data-reset]').addEventListener('click', function () {
-        SOS_IHM.resetOverride(id);
-        fill(SOS_IHM.defaults[id]);
+        SOS_IHM.resetToBaseline(id);
+        fill(SOS_IHM.get(id));
         badge();
       });
 
@@ -890,12 +893,22 @@
       reader.readAsText(file, 'utf-8');
     });
 
-    /* ---------- réinitialisation globale ---------- */
+    /* ---------- référence : enregistrer l'état actuel ---------- */
+    document.getElementById('btn-baseline').addEventListener('click', function () {
+      SOS_IHM.saveBaseline();
+      renderAll();   /* les badges « modifié » repartent de cette référence */
+      say(true, '✓ État actuel enregistré — les resets ramèneront désormais à ces textes.');
+    });
+
+    /* ---------- réinitialisation globale (confirmée) ---------- */
     document.getElementById('btn-reset-all').addEventListener('click', function () {
-      if (confirm('Rétablir tous les messages aux wordings par défaut (Version du 30-06) ?')) {
-        SOS_IHM.resetAll();
+      var cible = SOS_IHM.hasBaseline()
+        ? 'l\'état enregistré (référence)'
+        : 'les wordings par défaut (Version du 30-06)';
+      if (confirm('Êtes-vous sûr ? Tous les messages reviendront à ' + cible + '.')) {
+        SOS_IHM.resetAllToBaseline();
         renderAll();
-        say(true, '✓ Défauts restaurés.');
+        say(true, '✓ Tous les messages ont été réinitialisés.');
       }
     });
   })();

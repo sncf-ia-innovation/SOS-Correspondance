@@ -275,8 +275,12 @@ window.SOS_IHM_DEFAULTS = {
 /* API partagée : défauts + surcharges localStorage + rendu + CSV */
 window.SOS_IHM = (function () {
   var KEY = 'sos-ihm-overrides';
+  var BASE_KEY = 'sos-ihm-baseline';   /* « état actuel enregistré » : cible des resets */
   function overrides() {
     try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; }
+  }
+  function baseline() {
+    try { return JSON.parse(localStorage.getItem(BASE_KEY)) || null; } catch (e) { return null; }
   }
 
   /* --- balisage léger -> HTML --- */
@@ -398,6 +402,32 @@ window.SOS_IHM = (function () {
       var o = overrides(); delete o[id]; localStorage.setItem(KEY, JSON.stringify(o));
     },
     resetAll: function () { localStorage.removeItem(KEY); },
+    /* --- référence (« état actuel enregistré ») --- */
+    hasBaseline: function () { return !!baseline(); },
+    saveBaseline: function () {
+      var b = {};
+      this.ORDER.forEach(function (id) { b[id] = api.get(id); });
+      localStorage.setItem(BASE_KEY, JSON.stringify(b));
+    },
+    getBaseline: function (id) {
+      var b = baseline();
+      return (b && b[id]) || window.SOS_IHM_DEFAULTS[id];
+    },
+    isModified: function (id) {
+      var cur = api.get(id), ref = api.getBaseline(id);
+      var pick = function (m) {
+        return JSON.stringify([m.titre, m.corps, m.signature, m.bouton, m.note]);
+      };
+      return pick(cur) !== pick(ref);
+    },
+    resetToBaseline: function (id) {
+      var b = baseline();
+      if (b && b[id]) { api.setOverride(id, b[id]); } else { api.resetOverride(id); }
+    },
+    resetAllToBaseline: function () {
+      var b = baseline();
+      if (b) { localStorage.setItem(KEY, JSON.stringify(b)); } else { api.resetAll(); }
+    },
     blockHtml: blockHtml,
     inline: inline,
     toCsv: toCsv,
