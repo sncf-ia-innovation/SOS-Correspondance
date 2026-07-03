@@ -736,14 +736,12 @@
       Modifie un champ : c'est <strong>enregistré automatiquement</strong> et l'app l'affiche aussitôt
       (vérifie avec « Aperçu ↗ »). Dans le <strong>corps</strong>, une ligne vide sépare les paragraphes ;
       <code>**gras**</code>, <code>[lien](https://…)</code> et les puces <code>- item</code> sont acceptés.
-      <strong>Enregistrer l'état actuel</strong> fige les textes du moment comme référence :
-      le <strong>reset</strong> de chaque message (et « Tout réinitialiser ») ramène à cette référence
-      (sans référence enregistrée : grille « Version du 30-06 »).
-      <strong>Télécharger</strong> pour exporter, <strong>Charger</strong> pour importer (CSV ou JSON).
+Les textes actuels (grille « Version du 30-06 ») sont la référence : on peut modifier
+      par-dessus, et le <strong>reset</strong> de chaque message — ou « Tout réinitialiser » —
+      ramène à cette version. <strong>Télécharger</strong> pour exporter, <strong>Charger</strong> pour importer (CSV ou JSON).
     </p>
 
     <div class="adm-toolbar">
-      <button type="button" class="ds-bouton ds-bouton--primary" id="btn-baseline">Enregistrer l'état actuel</button>
       <button type="button" class="ds-bouton ds-bouton--secondary" id="btn-csv">Télécharger (CSV)</button>
       <button type="button" class="ds-bouton ds-bouton--secondary" id="btn-json">Télécharger (JSON)</button>
       <label class="ds-bouton ds-bouton--secondary" style="cursor:pointer">
@@ -812,7 +810,7 @@
         f('btexte').value = m.bouton ? (m.bouton.texte || '') : '';
         f('bhref').value = m.bouton ? (m.bouton.href || '') : '';
       }
-      function badge() { card.querySelector('[data-badge]').hidden = !SOS_IHM.isModified(id); }
+      function badge() { card.querySelector('[data-badge]').hidden = !SOS_IHM.isOverridden(id); }
 
       /* enregistrement automatique (debounce) : chaque frappe est reflétée dans l'app */
       var timer = null;
@@ -841,8 +839,8 @@
       });
 
       card.querySelector('[data-reset]').addEventListener('click', function () {
-        SOS_IHM.resetToBaseline(id);
-        fill(SOS_IHM.get(id));
+        SOS_IHM.resetOverride(id);          /* retour à l'état de référence (textes actuels) */
+        fill(SOS_IHM.defaults[id]);
         badge();
       });
 
@@ -893,20 +891,10 @@
       reader.readAsText(file, 'utf-8');
     });
 
-    /* ---------- référence : enregistrer l'état actuel ---------- */
-    document.getElementById('btn-baseline').addEventListener('click', function () {
-      SOS_IHM.saveBaseline();
-      renderAll();   /* les badges « modifié » repartent de cette référence */
-      say(true, '✓ État actuel enregistré — les resets ramèneront désormais à ces textes.');
-    });
-
     /* ---------- réinitialisation globale (confirmée) ---------- */
     document.getElementById('btn-reset-all').addEventListener('click', function () {
-      var cible = SOS_IHM.hasBaseline()
-        ? 'l\'état enregistré (référence)'
-        : 'les wordings par défaut (Version du 30-06)';
-      if (confirm('Êtes-vous sûr ? Tous les messages reviendront à ' + cible + '.')) {
-        SOS_IHM.resetAllToBaseline();
+      if (confirm('Êtes-vous sûr ? Tous les messages reviendront aux textes de référence (version actuelle).')) {
+        SOS_IHM.resetAll();
         renderAll();
         say(true, '✓ Tous les messages ont été réinitialisés.');
       }
