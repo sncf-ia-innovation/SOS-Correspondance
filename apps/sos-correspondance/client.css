@@ -764,3 +764,8 @@ html, body { overflow-x: hidden; }
     padding-right: var(--space-24);
   }
 }
+
+/* Champ heure natif : même rendu que les autres inputs, picker du navigateur */
+.sos-field__input--time { appearance: none; -webkit-appearance: none; }
+.sos-field__input--time::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .7; }
+.sos-field__input--time::-webkit-datetime-edit { color: var(--color-brand); }

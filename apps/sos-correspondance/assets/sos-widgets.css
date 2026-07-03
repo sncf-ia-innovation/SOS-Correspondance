@@ -133,3 +133,7 @@
   margin: 0;
 }
 .sos-columns-menu[hidden] { display: none; }
+
+/* Champ heure natif dans les filtres desktop */
+.sos-input__el--time { appearance: none; -webkit-appearance: none; cursor: text; }
+.sos-input__el--time::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .7; }
