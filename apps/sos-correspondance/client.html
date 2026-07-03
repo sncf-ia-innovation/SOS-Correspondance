@@ -905,6 +905,7 @@
     </div>
   </div>
 
+  <script src="assets/pao.js"></script>
   <script src="assets/gares.js"></script>
   <script src="assets/sos-widgets.js"></script>
   <script>
@@ -949,13 +950,13 @@
     /* --- Workflow 4.2.2 « ZOU! Vers TGV* » (diapo 28 étude DSI), étapes 0 à 3 ---
        « Base SOS Corr » simulée en localStorage : { REF: statut }, alimentée par form.html
        à l'issue du parcours (étapes 5-6) ou ici à l'étape 2 (TIC TAC).
-       Déclencheurs démo :
+       PAO simulé : assets/pao.js — seuls les couples DV+nom du registre sont connus
+       (AAA111/DUPONT, BBB222/MARTIN, CCC333/BERNARD, DDD444/PETIT,
+        EEE555/DURAND = sans e-mail, FFF666/ROBERT = déjà traité TIC TAC,
+        GGG777/MOREAU = traité TIC TAC + sans e-mail). Tout autre couple -> IHM 3.
+       Déclencheurs démo restants :
          · même Référence resoumise           -> parcours B doublon (message selon statut stocké)
-         · Référence = ERREUR                 -> étape 1 PAO : IHM 3 inline
-         · Nom = TICTAC                       -> étape 2 : DV déjà traité par TIC TAC -> ?12
          · Gare = AUCUN… ou Heure = 00:00     -> étape 3 SIDH : aucun train ZOU! -> IHM 4
-         · Nom = SANSMAIL                     -> pas d'e-mail dans PAO : TIC TAC n'envoie que le SMS,
-                                                 la resollicitation affiche IHM 14 (ZOU→TGV) / IHM 21 (TGV→ZOU)
          · client.html?reset                  -> vide la base démo */
     var BASE_KEY = 'sos-demandes';
     function baseGet() { try { return JSON.parse(localStorage.getItem(BASE_KEY)) || {}; } catch (err) { return {}; } }
@@ -1091,20 +1092,22 @@
           return;
         }
 
-        /* Étape 1 [1] — Vérification DV + Nom (PAO).
-           DV + nom PAS dans PAO -> Rejetée, IHM 3 inline (démo : Référence = ERREUR). */
-        if (dv === 'ERREUR') {
+        /* Étape 1 [1] — Vérification DV + Nom (PAO simulé, assets/pao.js).
+           Couple absent du registre -> Rejetée, IHM 3 inline. */
+        var pao = SOS_PAO_LOOKUP(dv, nomVal);
+        if (!pao) {
           showErreur();
           return;
         }
 
-        /* Étape 2 [2] — Vérification « DV déjà traité par TIC TAC » (démo : Nom = TICTAC).
-           Traité -> statut « Traitée : poursuite du voy TGV » + affichage code message TIC TAC. */
-        if (nomVal.toUpperCase() === 'TICTAC') {
+        /* Étape 2 [2] — Vérification « DV déjà traité par TIC TAC » (propriété PAO).
+           Traité -> statut « Traitée : poursuite du voy TGV » + affichage code message
+           TIC TAC : IHM 12 (billet par mail) ou IHM 14 si e-mail absent de PAO. */
+        if (pao.tictac) {
           var base = baseGet();
-          base[dv] = { statut: 'traitee-poursuite-tgv', gare: gareVal, heure: heureZouVal };
+          base[dv] = { statut: 'traitee-poursuite-tgv', sens: 'zou-tgv', gare: gareVal, mail: pao.mail };
           baseSet(base);
-          window.location.href = 'messages.html?12';
+          window.location.href = pao.mail ? 'messages.html?12' : 'messages.html?14';
           return;
         }
 
@@ -1121,7 +1124,7 @@
         window.location.href = 'form.html?ref=' + encodeURIComponent(dv)
           + '&gare=' + encodeURIComponent(gareVal)
           + '&heure=' + encodeURIComponent(heureZouVal)
-          + (nomVal.toUpperCase() === 'SANSMAIL' ? '&mail=0' : '');
+          + (pao.mail ? '' : '&mail=0');
         return;
       }
 
@@ -1144,22 +1147,21 @@
           return;
         }
 
-        /* Étape 1 [1] — Vérification DV + Nom (PAO) : démo Référence = ERREUR -> IHM 3 */
-        if (dv29 === 'ERREUR') {
+        /* Étape 1 [1] — Vérification DV + Nom (PAO simulé) : couple inconnu -> IHM 3 */
+        var pao29 = SOS_PAO_LOOKUP(dv29, nomVal);
+        if (!pao29) {
           showErreur();
           return;
         }
 
-        /* Étape 2 [2] — DV déjà traité par TIC TAC (démo : Nom = TICTAC, ou SANSMAIL
-           pour le cas « coordonnée e-mail manquante, seul SMS envoyé »)
+        /* Étape 2 [2] — DV déjà traité par TIC TAC (propriété PAO)
            -> statut « Traitée – poursuite du voyage TER » + affichage code message :
            IHM 19 (billet par mail) ou IHM 21 (SMS seul, pas d'e-mail dans PAO) */
-        var nom29 = nomVal.toUpperCase();
-        if (nom29 === 'TICTAC' || nom29 === 'SANSMAIL') {
+        if (pao29.tictac) {
           var b29 = baseGet();
-          b29[dv29] = { statut: 'traitee-poursuite-ter', sens: 'tgv-zou', gare: gareVal, mail: nom29 !== 'SANSMAIL' };
+          b29[dv29] = { statut: 'traitee-poursuite-ter', sens: 'tgv-zou', gare: gareVal, mail: pao29.mail };
           baseSet(b29);
-          window.location.href = (nom29 === 'SANSMAIL') ? 'messages.html?21' : 'messages.html?19';
+          window.location.href = pao29.mail ? 'messages.html?19' : 'messages.html?21';
           return;
         }
 
@@ -1174,18 +1176,14 @@
           sens: 'tgv-zou',
           gare: gareVal,
           heure: heureZouVal || null,
-          mail: nomVal.toUpperCase() !== 'SANSMAIL'
+          mail: pao29.mail
         };
         baseSet(base29);
         window.location.href = 'messages.html?9';   /* IHM 9 dans les deux cas (diapo 29) */
         return;
       }
 
-      /* Autres sens (diapo 27) : IHM 3 démo (Référence = ERREUR) puis routage direct */
-      if (refVal.toUpperCase() === 'ERREUR') {
-        showErreur();
-        return;
-      }
+      /* Autres sens (diapo 27) : enregistrement simple puis message (IHM 1 / IHM 11) */
       window.location.href = ROUTES[sens] || 'form.html';
     });
 
