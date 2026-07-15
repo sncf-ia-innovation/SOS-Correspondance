@@ -202,5 +202,27 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { menu.hidden = true; } });
   }
 
-  window.SOSW = { norm: norm, searchGares: searchGares, autocomplete: autocomplete, datepicker: datepicker, selectMenu: selectMenu };
+  /* --- Base démo « SOS Corr » : demandes pré-enregistrées (jeu de données 15/07).
+     Semées uniquement quand la base n'existe pas (1re visite, ou juste après
+     « Réinitialiser la base de démo » qui rappelle seedDemoBase()) :
+       LLL222 / FOURNIER  « A traiter Supervision »  -> resoumission = IHM 2
+                          (doublon en cours de traitement) ; visible dans la
+                          file Supervision et dans la Consultation
+       MMM333 / GIRARD    « Traitée : correspondance OK » -> resoumission =
+                          IHM 15 (maintien de correspondance déjà traité) --- */
+  var BASE_KEY = 'sos-demandes';
+  function seedDemoBase() {
+    try {
+      if (localStorage.getItem(BASE_KEY) !== null) { return; }
+      localStorage.setItem(BASE_KEY, JSON.stringify({
+        'LLL222': { statut: 'a-traiter-supervision', sens: 'zou-tgv', gare: 'Toulon',
+                    heure: '14:30', train: '17452', mail: true, ihm: '6', demo: true },
+        'MMM333': { statut: 'traitee-corr-ok', sens: 'zou-tgv', gare: 'Cannes',
+                    heure: '09:15', train: '17468', mail: true, demo: true }
+      }));
+    } catch (e) { /* localStorage indisponible (navigation privée) : démo dégradée */ }
+  }
+  seedDemoBase();
+
+  window.SOSW = { norm: norm, searchGares: searchGares, autocomplete: autocomplete, datepicker: datepicker, selectMenu: selectMenu, seedDemoBase: seedDemoBase };
 })();

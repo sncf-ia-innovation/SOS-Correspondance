@@ -30,6 +30,7 @@ jobs:
       - name: Injecter la surcouche mot de passe
         env:
           SOS_GATE_SHA256: ${{ secrets.SOS_GATE_SHA256 }}
+          SOS_GATE_CLIENT_SHA256: ${{ secrets.SOS_GATE_CLIENT_SHA256 }}   # mdp « client » (parcours formulaire seul — étude Unguess)
         run: node scripts/inject-gate.mjs
 
       # --- Auth AWS : par clés IAM (défaut). Pour OIDC, voir DEPLOYMENT.md. ---

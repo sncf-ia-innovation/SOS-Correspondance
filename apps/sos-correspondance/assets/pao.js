@@ -23,6 +23,17 @@
                       assise garantie (ZOU→TGV -> IHM 13)
    III999 / GARCIA    TIC TAC : report + hébergement (TGV→ZOU -> IHM 20)
    JJJ000 / ROUX      DIGIPEC : hébergement + report J+1 (IHM 22, les deux sens)
+
+   ── Jeux de données demandés (réunion 15/07) — IHM 1 / 2 / 15 ──────
+   KKK111 / LEROY     « autres transporteurs » : à saisir avec le sens
+                      « Autres cas » -> IHM 1
+   LLL222 / FOURNIER  demande PRÉ-ENREGISTRÉE « A traiter Supervision »
+                      (semée par sos-widgets.js) : resoumettre en ZOU!→TGV*
+                      -> doublon en cours de traitement, IHM 2 ; la demande
+                      est visible dans la file Supervision + Consultation
+   MMM333 / GIRARD    demande PRÉ-ENREGISTRÉE « Traitée : correspondance OK »
+                      (semée par sos-widgets.js) : resoumettre en ZOU!→TGV*
+                      -> maintien de correspondance déjà traité, IHM 15
    Tout autre couple => IHM 3 (DV non connu).
 */
 window.SOS_PAO = {
@@ -35,7 +46,10 @@ window.SOS_PAO = {
   "GGG777": { "nom": "MOREAU",  "mail": false, "tictac": true },
   "HHH888": { "nom": "LEFEBVRE", "mail": true, "tictac": true, "code": { "zou-tgv": "13", "tgv-zou": "19" } },
   "III999": { "nom": "GARCIA",   "mail": true, "tictac": true, "code": { "zou-tgv": "12", "tgv-zou": "20" } },
-  "JJJ000": { "nom": "ROUX",     "mail": true, "tictac": true, "code": { "zou-tgv": "22", "tgv-zou": "22" } }
+  "JJJ000": { "nom": "ROUX",     "mail": true, "tictac": true, "code": { "zou-tgv": "22", "tgv-zou": "22" } },
+  "KKK111": { "nom": "LEROY",    "mail": true,  "tictac": false },
+  "LLL222": { "nom": "FOURNIER", "mail": true,  "tictac": false },
+  "MMM333": { "nom": "GIRARD",   "mail": true,  "tictac": false }
 };
 
 /* Recherche PAO : couple DV + nom (insensible casse/accents). null = inconnu. */

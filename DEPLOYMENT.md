@@ -53,7 +53,8 @@ aws s3api create-bucket --bucket NOM-DU-BUCKET \
 | `AWS_REGION` | région du bucket | `eu-west-3` |
 | `S3_BUCKET` | nom du bucket | `sos-correspondance-prod` |
 | `CLOUDFRONT_DISTRIBUTION_ID` | ID distribution | `E1XXXXXXXXXXXX` |
-| `SOS_GATE_SHA256` | hash du mot de passe (voir §3) | `9b7bdd…12d7` |
+| `SOS_GATE_SHA256` | hash du mot de passe « complet » (voir §3) | `9b7bdd…12d7` |
+| `SOS_GATE_CLIENT_SHA256` | hash du mot de passe « client » — parcours formulaire seul (voir §3 bis) | `4f21ac…88e0` |
 
 Une fois les 6 secrets en place, chaque `push main` déploie tout seul.
 
@@ -124,6 +125,27 @@ NEW=$(openssl rand -base64 24 | tr -d '/+=' | cut -c1-28); echo "$NEW"
 printf '%s' "$NEW" | shasum -a 256
 # 3) mettre le hash dans le secret GitHub SOS_GATE_SHA256, puis re-déployer
 ```
+
+---
+
+## 3 bis. Accès externe restreint — mot de passe « client » (étude Unguess)
+
+Deuxième mot de passe, **limité au parcours formulaire client** :
+`apps/sos-correspondance/client.html`, `form.html`, `messages.html`
+(liste `CLIENT_PAGES` dans [`scripts/inject-gate.mjs`](scripts/inject-gate.mjs)).
+
+- Secret GitHub : **`SOS_GATE_CLIENT_SHA256`** (même principe : SHA-256 du mot de
+  passe, jamais le mot de passe en clair). Généré comme en §3, secret optionnel :
+  sans lui, seul le mot de passe complet existe.
+- Sur les pages du parcours client, la gate accepte **les deux** mots de passe.
+  Sur toutes les autres pages (supervision, consultation, admin, hub…), seul le
+  mot de passe **complet** est accepté : un testeur externe qui suit un lien vers
+  ces pages retombe sur la gate.
+- **Lien à communiquer à Unguess** (avec le mot de passe client, par canal privé) :
+  `https://sncf-ia-innovation.github.io/SOS-Correspondance/apps/sos-correspondance/client.html`
+- Même portée de sécurité qu'en §3 : voile de confidentialité côté navigateur,
+  pas une authentification serveur. Les pages internes restent servies (mais
+  voilées) — ne rien mettre de sensible dans ce site statique.
 
 ---
 

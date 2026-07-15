@@ -31,6 +31,7 @@ jobs:
       - name: Construire le dossier publié (+ injecter la gate)
         env:
           SOS_GATE_SHA256: ${{ secrets.SOS_GATE_SHA256 }}
+          SOS_GATE_CLIENT_SHA256: ${{ secrets.SOS_GATE_CLIENT_SHA256 }}   # mdp « client » (parcours formulaire seul — étude Unguess)
         run: |
           rm -rf _site && mkdir _site
           cp -r apps curated dist index.html _site/

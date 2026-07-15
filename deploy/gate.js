@@ -9,14 +9,26 @@
  * Le mot de passe n'apparaît jamais en clair : seul son SHA-256 est embarqué
  * (window.__SOS_GATE_SHA256__, injecté depuis un secret GitHub au déploiement).
  * Sans hash configuré → la gate ne fait rien (dev local en file:// non gêné).
+ *
+ * Deux niveaux d'accès :
+ *  - mot de passe « complet »  (secret SOS_GATE_SHA256)        → toutes les pages ;
+ *  - mot de passe « client »   (secret SOS_GATE_CLIENT_SHA256) → UNIQUEMENT les pages
+ *    du parcours formulaire client (client/form/messages), marquées par
+ *    window.__SOS_GATE_SCOPE__ === "client" à l'injection (étude externe Unguess).
+ *    Sur les autres pages, ce hash n'est pas accepté → la gate se réaffiche.
  */
 (function () {
   var HASH = (window.__SOS_GATE_SHA256__ || "").toLowerCase().trim();
-  if (!HASH) return; // pas de hash → pas de gate (ex. dev local)
+  var CLIENT_HASH = (window.__SOS_GATE_CLIENT_SHA256__ || "").toLowerCase().trim();
+  var ACCEPTED = []; // hashs valables sur CETTE page
+  if (HASH) ACCEPTED.push(HASH);
+  if (CLIENT_HASH && window.__SOS_GATE_SCOPE__ === "client") ACCEPTED.push(CLIENT_HASH);
+  if (!ACCEPTED.length) return; // pas de hash → pas de gate (ex. dev local)
 
   var KEY = "sos-gate-ok";
   try {
-    if (sessionStorage.getItem(KEY) === HASH) return; // déjà déverrouillé cette session
+    // déjà déverrouillé cette session, avec un hash valable sur cette page
+    if (ACCEPTED.indexOf(sessionStorage.getItem(KEY)) !== -1) return;
   } catch (e) {}
 
   // Masque le contenu de la page tant que la gate n'est pas passée (anti-flash).
@@ -95,8 +107,8 @@
       var val = input.value || "";
       if (!val) return fail("Saisissez le mot de passe.");
       sha256hex(val).then(function (h) {
-        if (h === HASH) {
-          try { sessionStorage.setItem(KEY, HASH); } catch (e) {}
+        if (ACCEPTED.indexOf(h) !== -1) {
+          try { sessionStorage.setItem(KEY, h); } catch (e) {}
           scrim.remove();
           root.classList.remove("sos-gate-pending");
         } else {

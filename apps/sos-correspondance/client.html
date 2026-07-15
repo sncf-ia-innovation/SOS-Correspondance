@@ -699,10 +699,9 @@
                   aria-expanded="false" aria-controls="bandeau-body">Lire plus</button>
         </div>
         <div class="sos-bandeau__body" id="bandeau-body">
-          <!-- Encart vert — Version du 30-06 (onglet « IHM Rassurance pour validation ») -->
-          <p>Votre voyage combine un <strong>TGV INOUI, OUIGO, INTERCITÉS, TGV Lyria</strong> et un train <strong>ZOU!</strong></p>
-          <p>SNCF Voyageurs vous accompagne pour trouver la solution la plus adaptée à votre situation.</p>
-          <p>Remplissez ce formulaire : selon votre situation, nous pourrons confirmer votre correspondance, vous proposer un autre train ou vous orienter vers une prise en charge en gare.</p>
+          <!-- Encart vert — Consensus du 03 & 08/07 (« SOS Corr-messages démo pour D.Wattez ») -->
+          <p>Votre voyage d'aujourd'hui comprend un train <strong>ZOU!</strong> en correspondance avec un <strong>TGV INOUI, OUIGO, INTERCITÉS ou TGV Lyria</strong> ?</p>
+          <p>Nous sommes là pour vous accompagner ! Remplissez ce formulaire : selon votre situation, nous pourrons confirmer votre correspondance, vous proposer un autre train ou vous orienter vers une prise en charge en gare.</p>
           <button type="button" class="sos-bandeau__toggle sos-bandeau__less"
                   aria-expanded="true" aria-controls="bandeau-body">Lire moins</button>
         </div>
@@ -819,20 +818,21 @@
 
       <!-- 4c. Écran d'erreur IHM 3 (DV/nom non identifiés) — plein écran, remplace le form -->
       <section class="sos-erreur" id="sos-erreur" role="alert" aria-labelledby="sos-erreur-title" hidden>
-        <h2 class="sos-erreur__title" id="sos-erreur-title" tabindex="-1">La référence de votre dossier voyage et / ou le nom de famille que vous avez saisis ne nous permettent pas d'identifier votre voyage.</h2>
-        <p class="sos-erreur__lead"><strong>Nous vous invitons à les modifier.</strong></p>
-        <p class="sos-erreur__text">Si le problème persiste, votre chef de bord ou le personnel en gare reste à votre disposition pour vous informer et vous accompagner.</p>
+        <!-- IHM 3 — Consensus du 03 & 08/07 -->
+        <h2 class="sos-erreur__title" id="sos-erreur-title" tabindex="-1">Nous sommes désolés mais nous ne retrouvons pas votre voyage avec la référence de votre dossier voyage et / ou le nom de famille saisis.</h2>
+        <p class="sos-erreur__lead"><strong>Nous vous invitons à les vérifier et les corriger.</strong></p>
+        <p class="sos-erreur__text">Si vous rencontrez toujours des difficultés, votre chef de bord et le personnel en gare sont à votre disposition pour vous aider.</p>
         <p class="sos-erreur__text">Merci de votre compréhension.</p>
-        <p class="sos-erreur__signature">L'équipe SNCF Voyageurs.</p>
+        <p class="sos-erreur__signature">L'équipe SNCF Voyageurs</p>
         <button type="button" class="sos-cta" id="sos-erreur-back">Modifier ma demande</button>
       </section>
 
       <!-- Écran d'erreur : site indisponible (crise / événement majeur) -->
       <section class="sos-indispo" id="sos-indispo" role="alert" hidden>
         <div class="sos-alert-box">
-          <h2 class="sos-alert-box__title">Le site est momentanément indisponible.</h2>
-          <p class="sos-alert-box__text">Suite à un événement majeur, le trafic est fortement perturbé. Nos équipes sont pleinement mobilisées pour identifier les meilleures solutions d'accompagnement, et pourront à nouveau répondre à vos sollicitations très prochainement.</p>
-          <p class="sos-alert-box__text">Dans cette attente, <strong>votre chef de bord ou le personnel en gare reste à votre disposition</strong> pour vous informer et vous accompagner.</p>
+          <!-- Bandeau site fermé (crise) — Consensus du 03 & 08/07 -->
+          <h2 class="sos-alert-box__title">En raison d'un événement exceptionnel, nous ne pouvons traiter vos demandes en ligne sur le site « Assistance correspondance ».</h2>
+          <p class="sos-alert-box__text">Le trafic ferroviaire est fortement perturbé et <strong>les agents sont mobilisés pour vous accompagner en gare et à bord</strong> afin de trouver les meilleures solutions pour poursuivre votre voyage.</p>
           <p class="sos-alert-box__text">Merci de votre compréhension.</p>
           <p class="sos-alert-box__signature">L'équipe SNCF Voyageurs</p>
         </div>
@@ -841,10 +841,10 @@
       <!-- Écran d'erreur : site indisponible (incident technique) -->
       <section class="sos-indispo" id="sos-indispo-tech" role="alert" hidden>
         <div class="sos-alert-box">
-          <h2 class="sos-alert-box__title">Le site est momentanément indisponible en raison d'un incident technique.</h2>
-          <p class="sos-alert-box__text">Nos équipes sont pleinement mobilisées pour le rétablir dans les meilleurs délais.</p>
-          <p class="sos-alert-box__text">En attendant, <strong>votre chef de bord ou le personnel en gare reste à votre disposition</strong> pour vous informer et vous accompagner.</p>
-          <p class="sos-alert-box__text">Merci de votre compréhension.</p>
+          <!-- Bandeau site fermé (incident technique) — Consensus du 03 & 08/07 -->
+          <h2 class="sos-alert-box__title">En raison d'un incident technique, nous ne pouvons actuellement pas traiter vos demandes en ligne sur le site « Assistance correspondance ».</h2>
+          <p class="sos-alert-box__text">Les agents en gare et à bord restent disponibles pour vous accompagner afin de trouver les meilleures solutions pour poursuivre votre voyage.</p>
+          <p class="sos-alert-box__text">Nous regrettons cette situation et mettons tout en œuvre pour y remédier.</p>
           <p class="sos-alert-box__signature">L'équipe SNCF Voyageurs</p>
         </div>
       </section>
@@ -939,14 +939,21 @@
        (AAA111/DUPONT, BBB222/MARTIN, CCC333/BERNARD, DDD444/PETIT,
         EEE555/DURAND = sans e-mail, FFF666/ROBERT = déjà traité TIC TAC,
         GGG777/MOREAU = traité TIC TAC + sans e-mail). Tout autre couple -> IHM 3.
+       Jeux de données IHM 1 / 2 / 15 (réunion 15/07) :
+         · KKK111/LEROY + sens « Autres cas »  -> IHM 1 (autres transporteurs)
+         · LLL222/FOURNIER en ZOU!→TGV*        -> IHM 2 (pré-semée « A traiter Supervision »)
+         · MMM333/GIRARD en ZOU!→TGV*          -> IHM 15 (pré-semée « Traitée : corr OK »)
        Déclencheurs démo restants :
          · même Référence resoumise           -> parcours B doublon (message selon statut stocké)
          · Gare = AUCUN… ou Heure = 00:00     -> étape 3 SIDH : aucun train ZOU! -> IHM 4
-         · client.html?reset                  -> vide la base démo */
+         · client.html?reset                  -> remet la base démo à l'état initial (re-seed) */
     var BASE_KEY = 'sos-demandes';
     function baseGet() { try { return JSON.parse(localStorage.getItem(BASE_KEY)) || {}; } catch (err) { return {}; } }
     function baseSet(b) { localStorage.setItem(BASE_KEY, JSON.stringify(b)); }
-    if (/(?:\?|&)reset(?:=|&|$)/.test(window.location.search)) { localStorage.removeItem(BASE_KEY); }
+    if (/(?:\?|&)reset(?:=|&|$)/.test(window.location.search)) {
+      localStorage.removeItem(BASE_KEY);
+      if (window.SOSW && SOSW.seedDemoBase) { SOSW.seedDemoBase(); }   /* re-sème LLL222 / MMM333 (IHM 2 / 15) */
+    }
 
     /* Parcours B (doublon) : statut de la 1re demande -> message (tableau diapo 28) */
     var DOUBLON_ROUTES = {

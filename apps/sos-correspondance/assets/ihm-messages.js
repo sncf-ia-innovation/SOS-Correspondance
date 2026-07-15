@@ -1,8 +1,8 @@
 /* SOS Correspondance — wordings IHM (source unique, JSON).
-   Source : « SOS Correspondance - grille validation wordings.xlsx »,
-   onglet « IHM Rassurance pour validation », colonne « Version du 30-06 »
-   (la plus récente ; VALIDATION SNCF VOYAGEURS prévue le 03/07 — en attente).
+   Source : « SOS Corr-messages démo pour D.Wattez.xlsx » — Consensus du 03 & 08/07
+   (réinitialisation demandée le 15/07/2026 ; remplace la « Version du 30-06 »).
    21 écrans numérotés : IHM 1 à 22, sans IHM 10 (supprimé, décision OP 16-03).
+   IHM 11 (ZOU!→ZOU!) et IHM 20 : absents du fichier consensus — wordings 30-06 conservés.
 
    Le corps est du TEXTE SIMPLE (pas de HTML) avec un balisage léger :
      **gras**            -> <strong>
@@ -15,11 +15,11 @@
    Modèle éditable dans Excel : assets/ihm-messages.csv (généré depuis ces défauts). */
 window.SOS_IHM_DEFAULTS = {
   "1": {
-    "label": "IHM 1 — Autres cas / voyage perturbé",
-    "titre": "Selon votre correspondance :",
+    "label": "IHM 1 — Autres cas / autres transporteurs",
+    "titre": "Si votre voyage comprend une correspondance entre 2 trains TGV INOUI, OUIGO, INTERCITÉS ou TGV Lyria, et que vous nous avez transmis vos coordonnées lors de l'achat du billet, vous recevrez les informations sur la poursuite de votre voyage par SMS et / ou mail, au plus tard 10 min avant votre arrivée en gare.",
     "corps": [
-      "- si votre voyage combine **deux trains à réservation obligatoire** (TGV INOUI, OUIGO, INTERCITÉS, TGV Lyria…), vous recevrez les informations sur la poursuite de votre voyage par SMS et / ou mail, utilisé lors de l'achat, au plus tard 10 min avant votre arrivée en gare de correspondance.\n- si votre voyage combine **deux trains régionaux**, votre billet ZOU! vous permet de voyager à bord du prochain train ZOU! desservant votre destination. Soyez attentif aux annonces sonores et consultez les écrans d'information.",
-      "Votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner."
+      "Si votre voyage comprend une correspondance entre 2 trains régionaux, votre billet reste valable toute la journée. Vous pourrez emprunter le train régional de votre choix pour rejoindre votre destination.\nSoyez attentif aux annonces sonores et consultez les écrans d'information.",
+      "Si besoin, votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -27,11 +27,10 @@ window.SOS_IHM_DEFAULTS = {
   },
   "2": {
     "label": "IHM 2 — Doublon : demande déjà faite, en attente de traitement",
-    "titre": "Votre demande est en cours de traitement",
+    "titre": "Rassurez-vous, nous avons bien pris en compte votre nouvelle sollicitation. Votre demande est déjà enregistrée et en cours de traitement.",
     "corps": [
-      "Nous avons bien pris en compte votre nouvelle sollicitation. Votre demande est déjà enregistrée et en cours de traitement.",
-      "Vous recevrez les informations pour poursuivre votre voyage **par SMS et / ou mail**, utilisé lors de l'achat, au plus tard 10 min avant votre arrivée en gare de correspondance.",
-      "Votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner."
+      "Au plus tard 10 min avant votre arrivée en gare, vous allez recevoir les informations pour poursuivre votre voyage (par SMS et / ou mail selon les coordonnées que vous nous avez communiquées lors de l'achat du billet).",
+      "Si besoin, votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -39,47 +38,55 @@ window.SOS_IHM_DEFAULTS = {
   },
   "3": {
     "label": "IHM 3 — DV non connu",
-    "titre": "La référence de votre dossier voyage et/ou le nom de famille saisis ne nous permettent pas de retrouver votre voyage.",
+    "titre": "Nous sommes désolés mais nous ne retrouvons pas votre voyage avec la référence de votre dossier voyage et / ou le nom de famille saisis.",
     "corps": [
-      "Nous vous invitons à les vérifier et à les corriger.",
-      "Si vous rencontrez toujours des difficultés, votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner.",
+      "Nous vous invitons à les vérifier et les corriger.",
+      "Si vous rencontrez toujours des difficultés, votre chef de bord et le personnel en gare sont à votre disposition pour vous aider.",
       "Merci de votre compréhension."
     ],
     "signature": "L'équipe SNCF Voyageurs",
-    "bouton": { "texte": "Modifier ma demande", "href": "client.html" },
+    "bouton": {
+      "texte": "Modifier ma demande",
+      "href": "client.html"
+    },
     "note": null
   },
   "4": {
     "label": "IHM 4 — Aucun train ZOU! connu (horaire + gare saisis)",
-    "titre": "L'horaire et/ou la gare de départ saisis ne nous permettent pas de retrouver votre train ZOU!.",
+    "titre": "Nous sommes désolés mais l'horaire et / ou la gare de départ saisis ne nous permettent pas de retrouver votre voyage en train ZOU!.",
     "corps": [
-      "Merci de vérifier les informations saisies et de les corriger.",
-      "En cas de difficulté, votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner.",
+      "Nous vous invitons à les vérifier et les corriger.",
+      "Si vous rencontrez toujours des difficultés, votre chef de bord et le personnel en gare sont à votre disposition pour vous aider.",
       "Merci de votre compréhension."
     ],
     "signature": "L'équipe SNCF Voyageurs",
-    "bouton": { "texte": "Modifier ma demande", "href": "client.html" },
+    "bouton": {
+      "texte": "Modifier ma demande",
+      "href": "client.html"
+    },
     "note": null
   },
   "5": {
     "label": "IHM 5 — Aucun train identifié par le client dans la liste des 6",
     "titre": "Vous ne retrouvez pas votre trajet ?",
     "corps": [
-      "Merci de vérifier et de corriger l'horaire et / ou la gare de départ que vous avez saisis.",
-      "En cas de difficulté, votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner.",
+      "Merci de vérifier l'horaire et / ou la gare de départ que vous avez saisis.",
+      "En cas de difficulté, votre chef de bord et le personnel en gare sont à votre disposition pour vous aider.",
       "Merci de votre compréhension."
     ],
     "signature": "L'équipe SNCF Voyageurs",
-    "bouton": { "texte": "Modifier ma demande", "href": "form.html" },
+    "bouton": {
+      "texte": "Modifier ma demande",
+      "href": "form.html"
+    },
     "note": null
   },
   "6": {
     "label": "IHM 6 — Demande prise en compte, va être traitée",
-    "titre": "Votre demande est bien prise en compte",
+    "titre": "Merci, votre demande a bien été prise en compte. Elle est en cours de traitement.",
     "corps": [
-      "Nous avons bien enregistré votre demande. Elle est en cours de traitement.",
-      "Vous recevrez les informations pour poursuivre votre voyage **par SMS et/ou mail**, utilisé lors de l'achat, au plus tard 10 min avant votre arrivée en gare de correspondance.",
-      "Votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner."
+      "Au plus tard 10 min avant votre arrivée en gare, vous allez recevoir les informations pour poursuivre votre voyage (par SMS et / ou mail selon les coordonnées que vous nous avez communiquées lors de l'achat du billet).",
+      "Votre chef de bord et le personnel en gare sont à votre disposition pour vous aider."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -87,30 +94,38 @@ window.SOS_IHM_DEFAULTS = {
   },
   "7": {
     "label": "IHM 7 — Renvoi sur le personnel (gare équipée)",
-    "titre": "Vous allez être pris en charge en gare.",
+    "titre": "Afin de vous assurer une correspondance, vous allez être pris en charge lors de votre arrivée en gare par un de nos agents.",
     "corps": [
-      "Dès votre arrivée en gare de correspondance, **rapprochez-vous du personnel**. Il vous accompagnera pour trouver une solution adaptée. Et si besoin, contactez nos conseillers au 3635*."
+      "Dès l'arrivée de votre train à la gare, rapprochez-vous d'un agent (chef de bord, agent au guichet ou dans la gare). Ils vont vous accompagner pour vous proposer une solution vous permettant de poursuivre votre voyage.",
+      "Vous pouvez également téléphoner au 3635, nos conseillers sont disponibles pour vous aider 7j/7 de 8h à 20h pour vous aider (service gratuit + prix d'un appel)."
     ],
     "signature": "L'équipe SNCF Voyageurs",
-    "bouton": null,
-    "note": "*Disponible 7j/7 de 8h à 20h (service gratuit + prix d'un appel)"
+    "bouton": {
+      "texte": "Appeler le 3635",
+      "href": "tel:3635"
+    },
+    "note": null
   },
   "8": {
     "label": "IHM 8 — Renvoi 3635 (pas de personnel en gare)",
-    "titre": "Contactez nos conseillers au 3635* pour obtenir une aide sur votre demande.",
+    "titre": "Afin de vous assurer une correspondance, un agent du service client va vous aider par téléphone.",
     "corps": [
-      "Ils vous accompagneront pour trouver une solution adaptée à votre situation."
+      "Pour cela, merci de nous contacter dès maintenant par téléphone au 3635, nos conseillers vous répondrons 7j/7 de 8h à 20h pour vous aider et trouver une solution vous permettant de poursuivre votre voyage (service gratuit + prix d'un appel)."
     ],
     "signature": "L'équipe SNCF Voyageurs",
-    "bouton": { "texte": "Appeler le 3635", "href": "tel:3635" },
-    "note": "*Disponible 7j/7 de 8h à 20h (service gratuit + prix d'un appel)"
+    "bouton": {
+      "texte": "Appeler le 3635",
+      "href": "tel:3635"
+    },
+    "note": null
   },
   "9": {
     "label": "IHM 9 — TGV vers ZOU! : report prochain train ZOU!",
-    "titre": "Votre billet ZOU! vous permet de voyager sur le prochain train ZOU! desservant votre destination.",
+    "titre": "Nous sommes désolés mais le retard actuel de votre train ne vous permettra pas de monter à bord du train ZOU! prévu pour la suite de votre voyage.",
     "corps": [
-      "Plus d'info [ici](https://www.sncf-voyageurs.com/fr/voyagez-avec-nous/horaires-et-itineraires/horaires-en-gare/).",
-      "Si plus aucun train ZOU! ne dessert votre destination ce jour, rapprochez-vous du personnel en gare de correspondance pour trouver une solution adaptée."
+      "Néanmoins, votre billet vous permettra de prendre le train ZOU! suivant.",
+      "Vous pouvez consulter [ici](https://www.sncf-voyageurs.com/fr/voyagez-avec-nous/horaires-et-itineraires/horaires-en-gare/) les horaires des autres trains ZOU! circulant aujourd'hui vers votre destination.",
+      "Si malheureusement plus aucun train ZOU! ne dessert votre destination aujourd'hui, merci de vous rapprocher d'un agent dans votre gare de correspondance, qui trouvera une solution adaptée pour la poursuite de votre voyage."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -129,10 +144,10 @@ window.SOS_IHM_DEFAULTS = {
   },
   "12": {
     "label": "IHM 12 — Message TIC TAC envoyé + RC00 envoyé (nouveau billet)",
-    "titre": "Votre nouveau billet vous a été envoyé.",
+    "titre": "Pour vous permettre de poursuivre votre voyage vers votre destination, nous vous avons envoyé un nouveau billet de train par mail, à l'adresse que vous nous avez communiquée lors de l'achat du billet.",
     "corps": [
-      "Retrouvez-le dans votre **boîte mail utilisée lors de l'achat**.",
-      "Pour toute question, le personnel en gare reste à votre disposition pour vous accompagner."
+      "Une place vous a été réservée dans un nouveau train. Si vous avez une question sur la suite de votre trajet, des agents sont à votre disposition en gare pour vous répondre.",
+      "Bon voyage,"
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -140,11 +155,9 @@ window.SOS_IHM_DEFAULTS = {
   },
   "13": {
     "label": "IHM 13 — Message TIC TAC envoyé, pas de place attribuée (train complet)",
-    "titre": "Votre nouveau billet vous a été envoyé.",
+    "titre": "Pour vous permettre de poursuivre votre voyage vers votre destination, nous vous avons envoyé un mail, à l'adresse que vous nous avez communiquée lors de l'achat du billet. Ce mail vous permettra d'accéder à votre nouveau train.",
     "corps": [
-      "Retrouvez-le dans votre **boîte mail utilisée lors de l'achat**.",
-      "Le train étant complet, nous ne pouvons malheureusement pas vous garantir une place assise.",
-      "Pour toute question, votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner."
+      "Malheureusement, nous ne sommes pas en mesure de vous garantir une place assise à bord de ce train. Votre chef de bord et les agents en gare sont à votre disposition pour vous accompagner."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -152,21 +165,20 @@ window.SOS_IHM_DEFAULTS = {
   },
   "14": {
     "label": "IHM 14 — Message TIC TAC envoyé mais e-mail manquant (seul SMS envoyé)",
-    "titre": "Dès votre arrivée en gare de correspondance, rapprochez-vous du personnel.",
+    "titre": "Pour vous permettre de poursuivre votre voyage vers votre destination, nous vous avons envoyé un SMS, selon les coordonnées que vous nous avez communiquées lors de l'achat du billet. Ce SMS vous permettra d'accéder à votre nouveau train.",
     "corps": [
-      "Il vous accompagnera pour trouver une solution adaptée.",
-      "Pour un prochain voyage, pensez à **renseigner votre adresse mail** lors de l'achat de votre billet, nous pourrons vous envoyer votre nouveau billet."
+      "Malheureusement, nous ne sommes pas en mesure de vous garantir une place assise à bord de ce train. Votre chef de bord et les agents en gare sont à votre disposition pour vous accompagner."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
     "note": null
   },
   "15": {
-    "label": "IHM 15 — Correspondance initiale OK, déjà traité",
-    "titre": "Votre correspondance initiale est maintenue.",
+    "label": "IHM 15 — Maintien de correspondance — déjà traité par SOS Correspondance",
+    "titre": "Rassurez-vous, votre correspondance est bien maintenue.",
     "corps": [
-      "Retrouvez les informations de votre trajet dans votre **boîte mail utilisée lors de l'achat**.",
-      "Pour toute question, le personnel en gare reste à votre disposition pour vous accompagner."
+      "Vous pouvez retrouver les informations sur votre trajet dans le mail reçu lors de la confirmation de votre achat. Pour toute question, des agents en gare restent à votre disposition pour vous accompagner.",
+      "Bon voyage,"
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -174,9 +186,10 @@ window.SOS_IHM_DEFAULTS = {
   },
   "16": {
     "label": "IHM 16 — À traiter par le personnel (déjà traité par SOS correspondance)",
-    "titre": "Dès votre arrivée en gare de correspondance, rapprochez-vous du personnel.",
+    "titre": "Afin de vous assurer une correspondance, vous allez être pris en charge lors de votre arrivée en gare par un agent.",
     "corps": [
-      "Il vous accompagnera pour trouver une solution adaptée."
+      "Dès l'arrivée de votre train à la gare, rapprochez-vous d'un agent (chef de bord, agent au guichet ou dans la gare). Ils vont vous accompagner pour vous proposer une solution vous permettant de poursuivre votre voyage.",
+      "Vous pouvez également téléphoner au 3635, nos conseillers sont disponibles pour vous aider 7j/7 de 8h à 20h (service gratuit + prix d'un appel)."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -184,9 +197,10 @@ window.SOS_IHM_DEFAULTS = {
   },
   "17": {
     "label": "IHM 17 — Déjà traité mais non traité par supervision (abandonné)",
-    "titre": "Dès votre arrivée en gare de correspondance, rapprochez-vous du personnel.",
+    "titre": "Afin de vous assurer une correspondance, vous allez être pris en charge lors de votre arrivée en gare par un agent.",
     "corps": [
-      "Il vous accompagnera pour trouver une solution adaptée."
+      "Dès l'arrivée de votre train à la gare, rapprochez-vous d'un agent (chef de bord, agent au guichet ou dans la gare). Ils vont vous accompagner pour vous proposer une solution vous permettant de poursuivre votre voyage.",
+      "Vous pouvez également téléphoner au 3635, nos conseillers sont disponibles pour vous aider 7j/7 de 8h à 20h (service gratuit + prix d'un appel)."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -194,10 +208,11 @@ window.SOS_IHM_DEFAULTS = {
   },
   "18": {
     "label": "IHM 18 — TGV → ZOU! : doublon, report sur train ZOU! suivant",
-    "titre": "Votre billet ZOU! vous permet de voyager sur le prochain train ZOU! desservant votre destination.",
+    "titre": "Nous sommes désolés mais le retard actuel de votre train ne vous permettra pas de monter à bord du train ZOU! prévu pour la suite de votre voyage.",
     "corps": [
-      "Plus d'info [ici](https://www.sncf-voyageurs.com/fr/voyagez-avec-nous/horaires-et-itineraires/horaires-en-gare/).",
-      "Si plus aucun train ZOU! ne dessert votre destination ce jour, rapprochez-vous du personnel en gare pour trouver une solution adaptée."
+      "Néanmoins, votre billet vous permettra de prendre le train ZOU! suivant.",
+      "Vous pouvez consulter [ici](https://www.sncf-voyageurs.com/fr/voyagez-avec-nous/horaires-et-itineraires/horaires-en-gare/) les horaires des autres trains ZOU! circulant aujourd'hui vers votre destination.",
+      "Si malheureusement plus aucun train ZOU! ne dessert votre destination aujourd'hui, merci de vous rapprocher d'un agent dans votre gare de correspondance, qui trouvera une solution adaptée pour la poursuite de votre voyage."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -207,8 +222,8 @@ window.SOS_IHM_DEFAULTS = {
     "label": "IHM 19 — TGV → ZOU! : message TIC TAC envoyé, cas report",
     "titre": "Votre nouveau billet vous a été envoyé.",
     "corps": [
-      "Retrouvez-le dans votre **boîte mail utilisée lors de l'achat**.",
-      "Pour toute question, le personnel en gare reste à votre disposition pour vous accompagner."
+      "Retrouvez-le dans votre boîte mail utilisée lors de l'achat.",
+      "Pour toute question, le personnel en gare reste à votre disposition pour vous accompagner et vous proposer un hébergement, si besoin."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -227,9 +242,11 @@ window.SOS_IHM_DEFAULTS = {
   },
   "21": {
     "label": "IHM 21 — Message TIC TAC envoyé : SMS accompagnement & information",
-    "titre": "Dès votre arrivée en gare de correspondance, rapprochez-vous du personnel.",
+    "titre": "Nous sommes désolés mais le retard actuel de votre train ne vous permettra pas de monter à bord du train ZOU! prévu pour la suite de votre voyage.",
     "corps": [
-      "Il vous accompagnera pour trouver une solution adaptée."
+      "Néanmoins, votre billet vous permettra de prendre le train ZOU! suivant.",
+      "Vous pouvez consulter [ici](https://www.sncf-voyageurs.com/fr/voyagez-avec-nous/horaires-et-itineraires/horaires-en-gare/) les horaires des autres trains ZOU! circulant aujourd'hui vers votre destination.",
+      "Si malheureusement plus aucun train ZOU! ne dessert votre destination aujourd'hui, merci de vous rapprocher d'un agent dans votre gare de correspondance, qui trouvera une solution adaptée pour la poursuite de votre voyage."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -237,9 +254,10 @@ window.SOS_IHM_DEFAULTS = {
   },
   "22": {
     "label": "IHM 22 — DIGIPEC : hébergement + report J+1 envoyés par TIC TAC",
-    "titre": "Vous avez reçu un nouveau billet pour demain ainsi qu'une proposition d'hébergement dans votre boîte mail utilisée lors de l'achat.",
+    "titre": "Nous sommes désolés mais plus aucun train ne circule vers votre destination aujourd'hui. Nous vous proposons une solution d'hébergement pour la nuit et un nouveau billet de train pour demain.",
     "corps": [
-      "Nous vous invitons à **confirmer cette proposition**."
+      "Si vous avez renseigné une adresse mail lors de l'achat, vous avez reçu par mail une proposition d'hébergement pour ce soir et un nouveau billet pour demain. Merci de confirmer cette proposition en cliquant sur le lien présent dans le mail qui vous a été envoyé.",
+      "Si vous n'avez pas renseigné d'adresse mail, vous avez reçu une proposition d'hébergement pour ce soir par SMS. Nous vous invitons à confirmer cette proposition en cliquant sur le lien présent dans le SMS. Dès votre arrivée en gare, rapprochez-vous d'un agent qui vous indiquera la marche à suivre pour prendre un train dès demain."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -248,11 +266,10 @@ window.SOS_IHM_DEFAULTS = {
   "crise": {
     "label": "Bandeau — site indisponible (crise / événement exceptionnel)",
     "alerte": true,
-    "titre": "Le site « Assistance correspondance » est momentanément indisponible.",
+    "titre": "En raison d'un événement exceptionnel, nous ne pouvons traiter vos demandes en ligne sur le site “Assistance correspondance”.",
     "corps": [
-      "En raison d'un événement exceptionnel, le trafic ferroviaire est fortement perturbé et nous ne pouvons traiter vos demandes en ligne.",
-      "Nos équipes sont pleinement mobilisées pour vous accompagner **en gare et à bord** afin de trouver les meilleures solutions pour poursuivre votre voyage.",
-      "Veuillez nous excuser pour la gêne occasionnée."
+      "Le trafic ferroviaire est fortement perturbé et les agents sont mobilisés pour vous accompagner en gare et à bord afin de trouver les meilleures solutions pour poursuivre votre voyage.",
+      "Merci de votre compréhension."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
@@ -261,10 +278,10 @@ window.SOS_IHM_DEFAULTS = {
   "bug": {
     "label": "Bandeau — site indisponible (incident technique)",
     "alerte": true,
-    "titre": "Le site « Assistance correspondance » est momentanément indisponible en raison d'un incident technique.",
+    "titre": "En raison d'un incident technique, nous ne pouvons actuellement pas traiter vos demandes en ligne sur le site “Assistance correspondance”.",
     "corps": [
-      "Nos équipes sont pleinement mobilisées pour vous accompagner **en gare et à bord** afin de trouver les meilleures solutions pour poursuivre votre voyage.",
-      "Veuillez nous excuser pour la gêne occasionnée."
+      "Les agents en gare et à bord restent disponibles pour vous accompagner afin de trouver les meilleures solutions pour poursuivre votre voyage.",
+      "Nous regrettons cette situation et mettons tout en œuvre pour y remédier."
     ],
     "signature": "L'équipe SNCF Voyageurs",
     "bouton": null,
