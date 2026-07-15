@@ -214,11 +214,15 @@
   function seedDemoBase() {
     try {
       if (localStorage.getItem(BASE_KEY) !== null) { return; }
+      var now = new Date();
+      var today = String(now.getDate()).padStart(2, '0') + '/' + String(now.getMonth() + 1).padStart(2, '0') + '/' + now.getFullYear();
       localStorage.setItem(BASE_KEY, JSON.stringify({
         'LLL222': { statut: 'a-traiter-supervision', sens: 'zou-tgv', gare: 'Toulon',
-                    heure: '14:30', train: '17452', mail: true, ihm: '6', demo: true },
+                    heure: '14:30', train: '17452', mail: true, ihm: '6', demo: true,
+                    pax: 2, type: 'PMR / PSH', tgv: '8901', transp: 'INOUI', dest: 'Paris-Gare-de-Lyon', date: today },
         'MMM333': { statut: 'traitee-corr-ok', sens: 'zou-tgv', gare: 'Cannes',
-                    heure: '09:15', train: '17468', mail: true, demo: true }
+                    heure: '09:15', train: '17468', mail: true, demo: true,
+                    pax: 1, type: 'Client T', tgv: '8907', transp: 'INOUI', dest: 'Paris-Gare-de-Lyon', date: today }
       }));
     } catch (e) { /* localStorage indisponible (navigation privée) : démo dégradée */ }
   }

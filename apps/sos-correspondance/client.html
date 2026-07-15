@@ -950,6 +950,12 @@
     var BASE_KEY = 'sos-demandes';
     function baseGet() { try { return JSON.parse(localStorage.getItem(BASE_KEY)) || {}; } catch (err) { return {}; } }
     function baseSet(b) { localStorage.setItem(BASE_KEY, JSON.stringify(b)); }
+    /* date de la demande (contrat temps 2) */
+    function sosToday() {
+      var d = new Date();
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+    }
     if (/(?:\?|&)reset(?:=|&|$)/.test(window.location.search)) {
       localStorage.removeItem(BASE_KEY);
       if (window.SOSW && SOSW.seedDemoBase) { SOSW.seedDemoBase(); }   /* re-sème LLL222 / MMM333 (IHM 2 / 15) */
@@ -1098,7 +1104,7 @@
         if (pao.tictac) {
           var codeZT = (pao.code && pao.code['zou-tgv']) || (pao.mail ? '12' : '14');
           var base = baseGet();
-          base[dv] = { statut: 'traitee-poursuite-tgv', sens: 'zou-tgv', gare: gareVal, mail: pao.mail, code: codeZT };
+          base[dv] = { statut: 'traitee-poursuite-tgv', sens: 'zou-tgv', gare: gareVal, mail: pao.mail, code: codeZT, tgv: pao.tgv, dest: pao.dest, pax: pao.pax, type: pao.type, transp: pao.transp, date: sosToday() };
           baseSet(base);
           window.location.href = 'messages.html?' + codeZT;
           return;
@@ -1154,7 +1160,7 @@
         if (pao29.tictac) {
           var codeTZ = (pao29.code && pao29.code['tgv-zou']) || (pao29.mail ? '19' : '21');
           var b29 = baseGet();
-          b29[dv29] = { statut: 'traitee-poursuite-ter', sens: 'tgv-zou', gare: gareVal, mail: pao29.mail, code: codeTZ };
+          b29[dv29] = { statut: 'traitee-poursuite-ter', sens: 'tgv-zou', gare: gareVal, mail: pao29.mail, code: codeTZ, tgv: pao29.tgv, dest: pao29.dest, pax: pao29.pax, type: pao29.type, transp: pao29.transp, date: sosToday() };
           baseSet(b29);
           window.location.href = 'messages.html?' + codeTZ;
           return;
@@ -1171,7 +1177,13 @@
           sens: 'tgv-zou',
           gare: gareVal,
           heure: heureZouVal || null,
-          mail: pao29.mail
+          mail: pao29.mail,
+          tgv: pao29.tgv,
+          dest: pao29.dest,
+          pax: pao29.pax,
+          type: pao29.type,
+          transp: pao29.transp,
+          date: sosToday()
         };
         baseSet(base29);
         window.location.href = 'messages.html?9';   /* IHM 9 dans les deux cas (diapo 29) */

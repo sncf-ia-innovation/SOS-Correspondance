@@ -742,6 +742,7 @@
          · 17481-2, 17481-3 -> non éligible, gare sans agents        -> IHM 8 (statut : Typo à traiter Escale)
        Le statut est enregistré dans la « base SOS Corr » (localStorage) : resoumettre la même
        Référence sur client.html déclenche le parcours doublon (IHM 2 / 15 / 16 / 17). -->
+  <script src="assets/pao.js"></script>
   <script>
   (function () {
     'use strict';
@@ -820,6 +821,9 @@
       if (ref) {
         var base;
         try { base = JSON.parse(localStorage.getItem(BASE_KEY)) || {}; } catch (err) { base = {}; }
+        var paoRec = (window.SOS_PAO || {})[ref.toUpperCase()] || {};
+        var today = new Date();
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
         base[ref.toUpperCase()] = {
           statut: STATUTS[ihm],
           sens: 'zou-tgv',
@@ -827,7 +831,13 @@
           gare: gareDepart,
           heure: params.get('heure') || '09:00',
           train: (train || TRAINS[1].val).replace(/-\d$/, ''),
-          ihm: ihm
+          ihm: ihm,
+          tgv: paoRec.tgv,
+          dest: paoRec.dest,
+          pax: paoRec.pax,
+          type: paoRec.type,
+          transp: paoRec.transp,
+          date: pad(today.getDate()) + '/' + pad(today.getMonth() + 1) + '/' + today.getFullYear()
         };
         localStorage.setItem(BASE_KEY, JSON.stringify(base));
       }
