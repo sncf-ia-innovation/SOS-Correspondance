@@ -1,3 +1,4 @@
 .DS_Store
 .agentation/
 node_modules/
+.playwright-mcp/

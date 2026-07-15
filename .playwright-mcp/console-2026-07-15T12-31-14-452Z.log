@@ -1,7 +1,0 @@
-[      32ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8487/curated/ligne-de-tableau/ligne-de-tableau.css:0
-[      33ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8487/curated/boutons-inoui/boutons-inoui.css:0
-[      33ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8487/dist/tokens.css:0
-[      33ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8487/curated/suggestion-liste/suggestion-liste.css:0
-[      34ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8487/curated/component-1/component-1.css:0
-[      34ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8487/curated/sticky-desktop/sticky-desktop.css:0
-[      53ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8487/favicon.ico:0
