@@ -890,19 +890,21 @@
 
   <script src="assets/gares.js"></script>
   <script src="assets/sos-widgets.js"></script>
+  <script src="assets/statuts.js"></script>
   <script>
-    // --- Mapping statut -> { variant badge, libellé, type } ---
-    var STATUTS = {
-      report:   { cls:'ds-status-badge--report',   label:'Traité report' },
-      corresp:  { cls:'ds-status-badge--valid',    label:'Maintien corresp.' },
-      pursuit:  { cls:'ds-status-badge--pursuit',  label:'Poursuite TGV*' },
-      todoSup:  { cls:'ds-status-badge--todo-sup', label:'À traiter sup.' },
-      todoEsc:  { cls:'ds-status-badge--todo-esc', label:'À traiter escale' },
-      typoEsc:  { cls:'ds-status-badge--todo-esc', label:'Typo à traiter escale' },
-      nonTraitee:{ cls:'ds-status-badge--todo-esc', label:'Non traitée par sup.' },
-      journee:  { cls:'ds-status-badge--pursuit',  label:'Corresp. en journée' },
-      traiteEsc:{ cls:'ds-status-badge--report',   label:'Traitée escale' }
+    // --- Mapping statut -> { variant badge, libellé, type } (labels issus du catalogue assets/statuts.js) ---
+    var STATUT_CLS = {
+      report:'ds-status-badge--report',    corresp:'ds-status-badge--valid',
+      pursuit:'ds-status-badge--pursuit',  todoSup:'ds-status-badge--todo-sup',
+      todoEsc:'ds-status-badge--todo-esc', typoEsc:'ds-status-badge--typo-esc',
+      nonTraitee:'ds-status-badge--non-traitee', journee:'ds-status-badge--journee',
+      traiteEsc:'ds-status-badge--traite-esc'
     };
+    var STATUTS = {};
+    Object.keys(SOS_STATUTS).forEach(function(k){
+      var s = SOS_STATUTS[k];
+      STATUTS[s.badge] = { cls: STATUT_CLS[s.badge], label: s.label };
+    });
     /* Diapos 39-40 : états que l'agent d'escale peut basculer vers « Traitée en Escale » */
     var MODIFIABLES = { todoEsc: true, typoEsc: true, nonTraitee: true };
 
@@ -915,19 +917,9 @@
       var d = new Date();
       return ('0'+d.getDate()).slice(-2) + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + d.getFullYear();
     }
-    /* statut de la demande (base) -> clé de badge consultation */
-    var DEMANDE_ST = {
-      'a-traiter-supervision':   'todoSup',
-      'typo-escale':             'typoEsc',
-      'a-traiter-escale':        'todoEsc',
-      'traitee-escale':          'traiteEsc',
-      'traitee-report':          'report',
-      'traitee-corr-ok':         'corresp',
-      'non-traitee-supervision': 'nonTraitee',
-      'traitee-poursuite-tgv':   'pursuit',
-      'traitee-poursuite-ter':   'pursuit',
-      'correspondance-en-journee': 'journee'
-    };
+    /* statut de la demande (base) -> clé de badge consultation (dérivé du catalogue assets/statuts.js) */
+    var DEMANDE_ST = {};
+    Object.keys(SOS_STATUTS).forEach(function(k){ DEMANDE_ST[k] = SOS_STATUTS[k].badge; });
     function clientRows(sensWanted) {
       var base = baseGet();
       var rows = [];
@@ -945,7 +937,7 @@
           gare: recSens === 'tgv-zou' ? '—' : (rec.gare || '—'),
           dest: recSens === 'tgv-zou' ? (rec.gare || '—') : (rec.dest || 'Marseille-St-Charles'),
           pax: rec.pax || 1, type: rec.type || 'PMR / PSH', st: st, transp: rec.transp || 'INOUI',
-          jour: rec.date || today(), date: '—', com: ''
+          jour: rec.date || today(), date: '—', com: rec.traiteLe ? 'Traitée le ' + rec.traiteLe : ''
         });
       });
       return rows;
@@ -1113,8 +1105,10 @@
         var base = baseGet();
         var rec = base[r.ref];
         if (rec) {
-          if (typeof rec === 'string') { base[r.ref] = { statut: 'traitee-escale' }; }
-          else { rec.statut = 'traitee-escale'; }
+          if (typeof rec === 'string') { rec = base[r.ref] = { statut: rec }; }
+          rec.prevStatut = rec.statut;
+          rec.traiteLe = today();
+          rec.statut = 'traitee-escale';
           baseSet(base);
         }
       } else {
@@ -1140,9 +1134,14 @@
                     document.getElementById('f-typo'),
                     ['Toutes', 'PMR / PSH', 'Groupes', 'Mineur', 'Client T'],
                     { allLabel: 'Toutes' });
+    var statutOptions = ['Tous'];
+    Object.keys(SOS_STATUTS).forEach(function(k){
+      var label = SOS_STATUTS[k].label;
+      if (statutOptions.indexOf(label) === -1) { statutOptions.push(label); }
+    });
     SOSW.selectMenu(document.getElementById('f-statut').closest('.sos-input'),
                     document.getElementById('f-statut'),
-                    ['Tous', 'À traiter sup.', 'À traiter escale', 'Typo à traiter escale', 'Corresp. en journée', 'Maintien corresp.', 'Poursuite TGV*', 'Traité report', 'Traitée escale', 'Non traitée par sup.']);
+                    statutOptions);
 
     // --- Filtrer / Réinitialiser ---
     document.querySelector('.sos-filters').addEventListener('submit', function(){

@@ -1,0 +1,209 @@
+- generic [active] [ref=f5e1]:
+  - banner [ref=f5e2]:
+    - link "SOS Correspondance — accueil" [ref=f5e3] [cursor=pointer]:
+      - /url: index.html
+    - button "Mon compte" [ref=f5e7] [cursor=pointer]
+  - main [ref=f5e10]:
+    - heading "Consultation" [level=1] [ref=f5e12]
+    - navigation "Sens de correspondance" [ref=f5e13]:
+      - button "ZOU! vers TGV*" [ref=f5e14] [cursor=pointer]
+      - button "TGV* vers ZOU!" [ref=f5e15] [cursor=pointer]
+    - generic [ref=f5e16]:
+      - generic [ref=f5e17]:
+        - generic [ref=f5e18]: Date
+        - textbox "Date" [ref=f5e20]:
+          - /placeholder: jj/mm/aaaa
+      - generic [ref=f5e23]:
+        - generic [ref=f5e24]: Heure départ TGV*
+        - textbox "Heure départ TGV*" [ref=f5e26]
+      - generic [ref=f5e27]:
+        - generic [ref=f5e28]: N° ZOU!
+        - textbox "N° ZOU!" [ref=f5e30]:
+          - /placeholder: "Ex : 90199"
+      - generic [ref=f5e31]:
+        - generic [ref=f5e32]: N° TGV*
+        - textbox "N° TGV*" [ref=f5e34]:
+          - /placeholder: "Ex : 9010"
+      - generic [ref=f5e35]:
+        - generic [ref=f5e36]: Gare de correspondance
+        - combobox "Gare de correspondance" [ref=f5e38]
+      - generic [ref=f5e39]:
+        - generic [ref=f5e40]: Destination
+        - combobox "Destination" [ref=f5e42]
+      - generic [ref=f5e43]:
+        - generic [ref=f5e44]: Transporteur
+        - textbox "Transporteur" [ref=f5e46] [cursor=pointer]:
+          - /placeholder: Sélectionner
+      - generic [ref=f5e49]:
+        - generic [ref=f5e50]: Typologie client
+        - textbox "Typologie client" [ref=f5e52] [cursor=pointer]:
+          - /placeholder: Toutes
+      - generic [ref=f5e55]:
+        - generic [ref=f5e56]: Statut
+        - textbox "Statut" [ref=f5e58] [cursor=pointer]:
+          - /placeholder: Sélectionner
+      - generic [ref=f5e61]:
+        - button "Filtrer" [ref=f5e62] [cursor=pointer]
+        - button "Réinitialiser" [ref=f5e63] [cursor=pointer]
+    - paragraph [ref=f5e64]: "*TGV INOUI, OUIGO, INTERCITÉS et TGV LYRIA"
+    - generic [ref=f5e65]:
+      - paragraph [ref=f5e66]: 7 demandes / 18 passagers
+      - button "Exporter en .csv" [ref=f5e67] [cursor=pointer]
+    - table [ref=f5e71]:
+      - rowgroup [ref=f5e72]:
+        - row [ref=f5e73]:
+          - columnheader "N° ZOU!" [ref=f5e74]
+          - columnheader "N° TGV* initial" [ref=f5e75]
+          - columnheader [ref=f5e76]:
+            - button "Horaire" [ref=f5e77] [cursor=pointer]
+          - columnheader "Gare de correspondance" [ref=f5e80]
+          - columnheader "Destination" [ref=f5e81]
+          - columnheader "Pax" [ref=f5e82]
+          - columnheader "Type" [ref=f5e83]
+          - columnheader "Statut" [ref=f5e84]
+          - columnheader "Date départ report" [ref=f5e85]
+          - columnheader "Commentaire" [ref=f5e86]
+      - rowgroup [ref=f5e87]:
+        - row [ref=f5e88]:
+          - cell "17400" [ref=f5e89]
+          - cell "8901" [ref=f5e90]
+          - cell "06:00" [ref=f5e91]
+          - cell "Marseille-St-Charles" [ref=f5e92]
+          - cell "Paris-Gare-de-Lyon" [ref=f5e93]
+          - cell "1" [ref=f5e94]
+          - cell "PMR / PSH" [ref=f5e95]
+          - cell "Traité report" [ref=f5e96]
+          - cell "01/03/2026" [ref=f5e99]
+          - cell "Train 6210" [ref=f5e100]
+        - row [ref=f5e101]:
+          - cell "17407" [ref=f5e102]
+          - cell "7801" [ref=f5e103]
+          - cell "06:47" [ref=f5e104]
+          - cell "Aix-en-Provence-TGV" [ref=f5e105]
+          - cell "Paris-Austerlitz" [ref=f5e106]
+          - cell "4" [ref=f5e107]
+          - cell "Groupes" [ref=f5e108]
+          - cell "À traiter sup." [ref=f5e109]
+          - cell "—" [ref=f5e112]
+          - cell "—" [ref=f5e113]
+        - row [ref=f5e114]:
+          - cell "17414" [ref=f5e115]
+          - cell "4761" [ref=f5e116]
+          - cell "07:34" [ref=f5e117]
+          - cell "Toulon" [ref=f5e118]
+          - cell "Paris-Gare-de-Lyon" [ref=f5e119]
+          - cell "2" [ref=f5e120]
+          - cell "Client T" [ref=f5e121]
+          - cell "Maintien corresp." [ref=f5e122]
+          - cell "—" [ref=f5e125]
+          - cell "—" [ref=f5e126]
+        - row [ref=f5e127]:
+          - cell "17421" [ref=f5e128]
+          - cell "9261" [ref=f5e129]
+          - cell "08:21" [ref=f5e130]
+          - cell "Nice-Ville" [ref=f5e131]
+          - cell "Paris-Austerlitz" [ref=f5e132]
+          - cell "5" [ref=f5e133]
+          - cell "PMR / PSH" [ref=f5e134]
+          - cell "À traiter escale" [ref=f5e135]:
+            - generic "Marquer « Traitée en escale »" [ref=f5e138] [cursor=pointer]:
+              - checkbox [ref=f5e139]
+          - cell "—" [ref=f5e143]
+          - cell "—" [ref=f5e144]
+        - row [ref=f5e145]:
+          - cell "17428" [ref=f5e146]
+          - cell "8907" [ref=f5e147]
+          - cell "09:08" [ref=f5e148]
+          - cell "Cannes" [ref=f5e149]
+          - cell "Paris-Gare-de-Lyon" [ref=f5e150]
+          - cell "3" [ref=f5e151]
+          - cell "Mineur" [ref=f5e152]
+          - cell "Poursuite TGV*" [ref=f5e153]
+          - cell "—" [ref=f5e156]
+          - cell "—" [ref=f5e157]
+        - row [ref=f5e158]:
+          - cell "17468 (MMM333)" [ref=f5e159]
+          - cell "8907" [ref=f5e160]
+          - cell "09:15" [ref=f5e161]
+          - cell "Cannes" [ref=f5e162]
+          - cell "Paris-Gare-de-Lyon" [ref=f5e163]
+          - cell "1" [ref=f5e164]
+          - cell "Client T" [ref=f5e165]
+          - cell "Maintien corresp." [ref=f5e166]
+          - cell "—" [ref=f5e169]
+          - cell "—" [ref=f5e170]
+        - row [ref=f5e171]:
+          - cell "17452 (LLL222)" [ref=f5e172]
+          - cell "8901" [ref=f5e173]
+          - cell "14:30" [ref=f5e174]
+          - cell "Toulon" [ref=f5e175]
+          - cell "Paris-Gare-de-Lyon" [ref=f5e176]
+          - cell "2" [ref=f5e177]
+          - cell "PMR / PSH" [ref=f5e178]
+          - cell "À traiter sup." [ref=f5e179]
+          - cell "—" [ref=f5e182]
+          - cell "—" [ref=f5e183]
+    - generic [ref=f5e184]:
+      - generic [ref=f5e185]:
+        - combobox "Éléments par page" [ref=f5e187] [cursor=pointer]:
+          - option "10" [selected]
+          - option "25"
+          - option "50"
+        - generic [ref=f5e188]: éléments par page
+      - generic [ref=f5e189]: 7 éléments
+      - generic [ref=f5e190]:
+        - button "Première page" [disabled] [ref=f5e191]: «
+        - button "Page précédente" [disabled] [ref=f5e192]: ‹
+        - generic [ref=f5e193]: 1 sur 1
+        - button "Page suivante" [disabled] [ref=f5e194]: ›
+        - button "Dernière page" [disabled] [ref=f5e195]: »
+  - region "Récapitulatif" [ref=f5e196]:
+    - generic [ref=f5e197]:
+      - generic [ref=f5e198]: Récapitulatif
+      - button "Réduire" [expanded] [ref=f5e199] [cursor=pointer]
+    - generic [ref=f5e202]:
+      - generic [ref=f5e203]:
+        - generic [ref=f5e205]:
+          - generic [ref=f5e206]:
+            - strong [ref=f5e207]: "7"
+            - generic [ref=f5e208]: demandes
+          - generic [ref=f5e209]:
+            - strong [ref=f5e210]: "18"
+            - generic [ref=f5e211]: pax
+        - generic [ref=f5e214]: total
+      - generic [ref=f5e215]:
+        - generic [ref=f5e217]:
+          - generic [ref=f5e218]:
+            - strong [ref=f5e219]: "4"
+            - generic [ref=f5e220]: demandes
+          - generic [ref=f5e221]:
+            - strong [ref=f5e222]: "7"
+            - generic [ref=f5e223]: pax
+        - generic [ref=f5e227]: correspondances assurées
+      - generic [ref=f5e228]:
+        - generic [ref=f5e230]:
+          - generic [ref=f5e231]:
+            - strong [ref=f5e232]: "0"
+            - generic [ref=f5e233]: demandes
+          - generic [ref=f5e234]:
+            - strong [ref=f5e235]: "0"
+            - generic [ref=f5e236]: pax
+        - generic [ref=f5e239]: Traitée escale
+      - generic [ref=f5e240]:
+        - generic [ref=f5e242]:
+          - generic [ref=f5e243]:
+            - strong [ref=f5e244]: "2"
+            - generic [ref=f5e245]: demandes
+          - generic [ref=f5e246]:
+            - strong [ref=f5e247]: "6"
+            - generic [ref=f5e248]: pax
+        - generic [ref=f5e251]: à traiter supervision
+      - generic [ref=f5e252]:
+        - generic [ref=f5e254]:
+          - generic [ref=f5e255]:
+            - strong [ref=f5e256]: "1"
+            - generic [ref=f5e257]: demandes
+          - generic [ref=f5e258]:
+            - strong [ref=f5e259]: "5"
+            - generic [ref=f5e260]: pax
+        - generic [ref=f5e263]: à prendre en charge

@@ -126,6 +126,10 @@
 .sos-cell-statut .ds-status-badge--todo-sup  { background: #ffd245; color: #5a3d00; } /* jaune — texte brun */
 .sos-cell-statut .ds-status-badge--todo-sup .ds-status-badge__label { color: #5a3d00; } /* TODO: pas de token brun */
 .sos-cell-statut .ds-status-badge--todo-esc  { background: var(--color-accent-17); } /* #ff3c00 rouge — à traiter escale */
+.sos-cell-statut .ds-status-badge--typo-esc    { background: #b45309; } /* orange foncé — typo à traiter escale */
+.sos-cell-statut .ds-status-badge--non-traitee { background: #4b5563; } /* gris — non traitée par sup. (abandonnée) */
+.sos-cell-statut .ds-status-badge--journee     { background: #0e7490; } /* cyan — corresp. en journée */
+.sos-cell-statut .ds-status-badge--traite-esc  { background: #166534; } /* vert sombre — traitée escale */
 
 /* ---------- Barre Récapitulatif : cartes colorées (réf. Figma Frame 48096731) ---------- */
 .sos-recap {

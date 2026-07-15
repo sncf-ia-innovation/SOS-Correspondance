@@ -932,6 +932,7 @@
 
   <script src="assets/gares.js"></script>
   <script src="assets/sos-widgets.js"></script>
+  <script src="assets/statuts.js"></script>
   <script>
     // --- Jeux de données démo par sens (gares réelles — references/liste-des-gares.csv).
     //     17 demandes ZOU→TGV et 4 TGV→ZOU (= compteurs des onglets). ---
@@ -1300,7 +1301,9 @@
       var toast = document.getElementById('confirm-toast');
       var count = document.getElementById('confirm-count');
       var close = document.getElementById('confirm-close');
-      /* Motif de traitement -> statut de la demande (tableau doublon diapo 28) */
+      /* Motif de traitement -> statut de la demande (tableau doublon diapo 28).
+         Catalogue canonique des statuts (label/badge/IHM) : assets/statuts.js (SOS_STATUTS) — les
+         valeurs ci-dessous sont les clés SOS_STATUTS ; IHM en commentaire = SOS_STATUTS[clé].ihm. */
       var MOTIF_STATUT = {
         report: 'traitee-report',            /* -> IHM 12 (contrôle message TIC TAC) */
         escale: 'a-traiter-escale',          /* -> IHM 16 */
@@ -1332,8 +1335,11 @@
             if (ref && base[ref]) {
               /* demande client : nouveau statut dans la base partagée -> quitte la file,
                  visible dans la consultation avec son badge */
-              if (typeof base[ref] === 'string') { base[ref] = { statut: statut }; }
-              else { base[ref].statut = statut; }
+              if (typeof base[ref] === 'string') { base[ref] = { statut: base[ref] }; }
+              var prevStatut = base[ref].statut;
+              base[ref].prevStatut = prevStatut;
+              base[ref].traiteLe = today();
+              base[ref].statut = statut;
             } else {
               /* ligne de démo : traitée -> retirée de la file (et du compteur d'onglet) */
               var row = lastSlice[+tr.dataset.i];
