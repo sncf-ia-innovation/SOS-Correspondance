@@ -958,6 +958,7 @@
     }
     if (/(?:\?|&)reset(?:=|&|$)/.test(window.location.search)) {
       localStorage.removeItem(BASE_KEY);
+      localStorage.removeItem('sos-ihm-overrides');                    /* messages -> défauts consensus (anciens overrides masquants) */
       if (window.SOSW && SOSW.seedDemoBase) { SOSW.seedDemoBase(); }   /* re-sème LLL222 / MMM333 (IHM 2 / 15) */
     }
 
