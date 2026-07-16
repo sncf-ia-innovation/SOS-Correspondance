@@ -734,6 +734,7 @@
           <li role="option"><label class="sos-menu__item"><input type="checkbox" value="INOUI"><span class="sos-menu__check" aria-hidden="true"></span>TGV INOUI</label></li>
           <li role="option"><label class="sos-menu__item"><input type="checkbox" value="OUIGO"><span class="sos-menu__check" aria-hidden="true"></span>OUIGO</label></li>
           <li role="option"><label class="sos-menu__item"><input type="checkbox" value="INTERCITÉS"><span class="sos-menu__check" aria-hidden="true"></span>INTERCITÉS</label></li>
+          <li role="option"><label class="sos-menu__item"><input type="checkbox" value="INTERCITÉS DE NUIT"><span class="sos-menu__check" aria-hidden="true"></span>INTERCITÉS DE NUIT</label></li>
           <li role="option"><label class="sos-menu__item"><input type="checkbox" value="TGV LYRIA"><span class="sos-menu__check" aria-hidden="true"></span>TGV LYRIA</label></li>
         </ul>
       </div>
@@ -765,7 +766,7 @@
         <button type="reset" class="sos-link-reset">Réinitialiser</button>
       </div>
     </form>
-    <p class="sos-legend">*TGV INOUI, OUIGO, INTERCITÉS et TGV LYRIA</p>
+    <p class="sos-legend">*TGV INOUI, OUIGO, INTERCITÉS, INTERCITÉS DE NUIT et TGV LYRIA</p>
 
     <!-- 5. Compteur + gérer colonnes -->
     <div class="sos-tablebar">
@@ -814,7 +815,7 @@
       <div class="sos-pagination__left">
         <div class="sos-input sos-input--select sos-perpage">
           <select class="sos-input__el sos-perpage__select" aria-label="Éléments par page">
-            <option>10</option><option>25</option><option>50</option>
+            <option>10</option><option>25</option><option>50</option><option>100</option>
           </select>
         </div>
         <span class="sos-pagination__txt">éléments par page</span>
@@ -921,8 +922,8 @@
         <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
       <span class="sos-confirm__text">
-        <strong class="sos-confirm__title">Confirmation d'envoi</strong>
-        <span class="sos-confirm__sub"><span id="confirm-count">10</span> demandes ont été traitées</span>
+        <strong class="sos-confirm__title" id="confirm-title">Traitement OK</strong>
+        <span class="sos-confirm__sub" id="confirm-sub"><span id="confirm-count">10</span> demandes ont été traitées</span>
       </span>
       <button type="button" class="sos-confirm__close" id="confirm-close" aria-label="Fermer">
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -943,12 +944,13 @@
     // Générateur déterministe de données démo variées (gares réelles du CSV)
     var G_GARES = ['Marseille-St-Charles','Aix-en-Provence-TGV','Toulon','Nice-Ville','Cannes','Antibes'];
     var G_DESTS = ['Paris-Gare-de-Lyon','Lyon-Part-Dieu','Paris-Austerlitz','Paris-Est'];
-    var G_TGVS  = ['8901','7801','4761','9261','8907','7805','8915','8923'];
+    var G_TGVS  = ['8901','7801','4761','9261','8907','7805','8915','8923','3811'];
     var G_TYPES = ['PMR / PSH','PMR / PSH','PMR / PSH','Groupes','Mineur','Client T'];
     var G_DATES = ['01/03/2026','02/03/2026','03/03/2026'];
     function transpOf(tgv) {
       if (tgv.charAt(0) === '7') return 'OUIGO';
       if (tgv.charAt(0) === '4') return 'INTERCITÉS';
+      if (tgv.charAt(0) === '3') return 'INTERCITÉS DE NUIT';
       if (tgv.charAt(0) === '9') return 'TGV LYRIA';
       return 'INOUI';
     }
@@ -976,6 +978,10 @@
       return rows;
     }
     var DATA = { 'zou-tgv': gen(5, 0), 'tgv-zou': gen(5, 3) };   /* 5 exemples par sens : les demandes client (REF) ressortent */
+    /* Clé stable par ligne démo (indépendante de l'ordre/splice) : sert à faire persister
+       la sélection à travers la pagination (diapo 4 : « Valider » agit sur toutes les
+       lignes cochées, même sur plusieurs pages). */
+    Object.keys(DATA).forEach(function(sn){ DATA[sn].forEach(function(r, i){ r._key = 'd:' + sn + ':' + i; }); });
 
     // --- État : sens, filtres, tri, pagination, colonnes masquées ---
     var sens = 'zou-tgv';
@@ -985,6 +991,7 @@
     var perPage = 10;
     var tgvChipVals = [];        // chips N° TGV*
     var colHidden = {};          // index colonne data -> true si masquée
+    var selected = {};           // _key -> true, persiste la sélection à travers la pagination
 
     // --- « Base SOS Corr » partagée avec client.html/form.html (localStorage).
     //     Les demandes créées côté client avec statut « a-traiter-supervision »
@@ -1006,7 +1013,7 @@
         var recSens = (rec && rec.sens) || 'zou-tgv';
         if (statut !== 'a-traiter-supervision' || recSens !== sensWanted) return; /* file = à traiter */
         rows.push({
-          ref: ref,
+          ref: ref, _key: 'c:' + ref,
           zou: (rec.train || '—'), tgv: rec.tgv || (recSens === 'tgv-zou' ? '8902' : '8901'),
           h: (rec.heure || '—'),
           /* gare saisie par le client (plus de valeurs codées en dur) */
@@ -1019,9 +1026,9 @@
     }
 
     var SPRITE = '';   /* sprite inliné */
-    function checkCellHtml() {
+    function checkCellHtml(checked) {
       return '<td class="ds-ligne-tableau__cell sos-cell-check">'
-        + '<label class="sos-check"><input type="checkbox" class="sos-check__input sos-row-check">'
+        + '<label class="sos-check"><input type="checkbox" class="sos-check__input sos-row-check"'+(checked ? ' checked' : '')+'>'
         + '<span class="sos-check__box" aria-hidden="true">'
         + '<svg class="sos-check__icon sos-check__icon--on" viewBox="0 0 16 16"><use href="'+SPRITE+'#check-on"/></svg>'
         + '<svg class="sos-check__icon sos-check__icon--off" viewBox="0 0 16 16"><use href="'+SPRITE+'#check-off"/></svg>'
@@ -1079,10 +1086,11 @@
       lastSlice = slice;
       slice.forEach(function(r, i){
         var tr = document.createElement('tr');
-        tr.className = 'ds-ligne-tableau__row sos-row';
+        tr.className = 'ds-ligne-tableau__row sos-row' + (selected[r._key] ? ' sos-row--selected' : '');
         tr.dataset.i = i;
+        tr.dataset.key = r._key;
         if (r.ref) { tr.dataset.ref = r.ref; }
-        tr.innerHTML = checkCellHtml()
+        tr.innerHTML = checkCellHtml(!!selected[r._key])
           + '<td class="ds-ligne-tableau__cell">'+r.zou+(r.ref ? ' <small>('+r.ref+')</small>' : '')+'</td>'
           + '<td class="ds-ligne-tableau__cell">'+r.tgv+'</td>'
           + '<td class="ds-ligne-tableau__cell">'+r.h+'</td>'
@@ -1106,27 +1114,31 @@
       refreshSummary();
     }
 
-    // --- Sélection ligne / synchro états visuels ---
+    // --- Sélection ligne / synchro états visuels (persiste à travers la pagination via `selected`) ---
+    function selectedRows(){
+      var pool = clientRows(sens).concat(DATA[sens]);
+      return pool.filter(function(r){ return selected[r._key]; });
+    }
     function refreshSummary(){
-      var checks = Array.prototype.slice.call(document.querySelectorAll('.sos-row-check'));
-      var rows = checks.filter(function(c){return c.checked;});
+      var rows = selectedRows();
       var pax = 0;
-      rows.forEach(function(c){
-        var cell = c.closest('tr').querySelector('.sos-cell-num');
-        pax += parseInt(cell.textContent, 10) || 0;
-      });
+      rows.forEach(function(r){ pax += r.pax || 0; });
       document.getElementById('sel-demandes').textContent = rows.length;
       document.getElementById('sel-pax').textContent = pax;
     }
     tbody.addEventListener('change', function(e){
       if (!e.target.classList.contains('sos-row-check')) return;
-      e.target.closest('tr').classList.toggle('sos-row--selected', e.target.checked);
+      var tr = e.target.closest('tr');
+      if (e.target.checked) { selected[tr.dataset.key] = true; } else { delete selected[tr.dataset.key]; }
+      tr.classList.toggle('sos-row--selected', e.target.checked);
       refreshSummary();
     });
     document.getElementById('check-all').addEventListener('change', function(e){
       document.querySelectorAll('.sos-row-check').forEach(function(c){
         c.checked = e.target.checked;
-        c.closest('tr').classList.toggle('sos-row--selected', e.target.checked);
+        var tr = c.closest('tr');
+        if (e.target.checked) { selected[tr.dataset.key] = true; } else { delete selected[tr.dataset.key]; }
+        tr.classList.toggle('sos-row--selected', e.target.checked);
       });
       refreshSummary();
     });
@@ -1288,18 +1300,20 @@
         if (window.__updateReportFields) { window.__updateReportFields(); }
         sens = btn.getAttribute('data-sens');
         page = 1;
+        selected = {};   /* onglet = file différente : la sélection ne traverse pas les sens */
         render();
       });
     });
 
     render();
 
-    // --- Valider → Confirmation d'envoi (masque le contenu de la barre, affiche le toast) ---
+    // --- Valider → garde-fous (diapo 4/5) + envoi TIC TAC + toast différencié OK / partiel ---
     (function(){
       var bar = document.getElementById('action-bar');
       var validate = document.getElementById('bar-validate');
       var toast = document.getElementById('confirm-toast');
-      var count = document.getElementById('confirm-count');
+      var title = document.getElementById('confirm-title');
+      var sub = document.getElementById('confirm-sub');
       var close = document.getElementById('confirm-close');
       /* Motif de traitement -> statut de la demande (tableau doublon diapo 28).
          Catalogue canonique des statuts (label/badge/IHM) : assets/statuts.js (SOS_STATUTS) — les
@@ -1310,11 +1324,15 @@
         ok:     'traitee-corr-ok',           /* -> IHM 15 */
         non:    'non-traitee-supervision'    /* -> IHM 17 */
       };
+      /* Déclencheur démo : N° de train de report = un de ces codes -> TIC TAC renvoie un
+         traitement partiel (train complet, pas de place attribuée -> IHM 13) au lieu d'un OK. */
+      var REPORT_FAIL_TRIGGERS = ['0000', '9999'];
       /* Après la confirmation, la barre revient à l'état formulaire (motifs + champs vidés) */
       var restoreTimer = null;
       function restoreBar(){
         clearTimeout(restoreTimer);
         toast.hidden = true;
+        toast.classList.remove('sos-confirm--partial');
         bar.classList.remove('is-confirmed');
         document.querySelectorAll('input[name="traitement"]').forEach(function(r){ r.checked = false; });
         document.getElementById('bar-date').value = '';
@@ -1323,15 +1341,35 @@
         if (window.__updateReportFields) { window.__updateReportFields(); }
       }
       validate.addEventListener('click', function(){
-        var checked = document.querySelectorAll('.sos-row-check:checked');
-        count.textContent = checked.length;
+        var rows = selectedRows();
+        if (!rows.length) { window.alert('Aucune demande sélectionnée.'); return; }
         var motif = (document.querySelector('input[name="traitement"]:checked') || {}).value;
+        if (!motif) { window.alert('Choisissez un motif de traitement.'); return; }
+        var reportTrain = document.getElementById('bar-train').value.trim();
+        var reportVisible = !reportFields.classList.contains('is-hidden');
+        if (reportVisible && !/^\d{2,6}$/.test(reportTrain)) {
+          /* N° de TGV* de report : un seul n°, vérifié au moment de la validation (diapo 5) */
+          window.alert('N° de train de report invalide : un seul numéro (2 à 6 chiffres).');
+          return;
+        }
+        // Garde-fous diapo 4 : sélection sur plusieurs pages / plusieurs OD différentes
+        var visibleKeys = lastSlice.map(function(r){ return r._key; });
+        var spansPages = rows.some(function(r){ return visibleKeys.indexOf(r._key) === -1; });
+        var odSet = {};
+        rows.forEach(function(r){ odSet[r.gare + ' → ' + r.dest] = true; });
+        var multiOD = Object.keys(odSet).length > 1;
+        var msg = 'Action définitive : l\'information sera transmise aux clients via TIC TAC. Impossible de revenir en arrière.';
+        if (spansPages) { msg += '\n\nAttention : la sélection (' + rows.length + ' demandes) s\'étend sur plusieurs pages — « Valider » s\'appliquera à toutes.'; }
+        if (multiOD) { msg += '\n\nAttention : la sélection couvre ' + Object.keys(odSet).length + ' gares/destinations différentes.'; }
+        msg += '\n\nConfirmer l\'envoi ?';
+        if (!window.confirm(msg)) { return; }
+
         var statut = MOTIF_STATUT[motif];
+        var isPartial = motif === 'report' && REPORT_FAIL_TRIGGERS.indexOf(reportTrain) !== -1;
         if (statut) {
           var base = baseGet();
-          checked.forEach(function(c){
-            var tr = c.closest('tr');
-            var ref = tr.dataset.ref;
+          rows.forEach(function(r){
+            var ref = r.ref;
             if (ref && base[ref]) {
               /* demande client : nouveau statut dans la base partagée -> quitte la file,
                  visible dans la consultation avec son badge */
@@ -1340,19 +1378,29 @@
               base[ref].prevStatut = prevStatut;
               base[ref].traiteLe = today();
               base[ref].statut = statut;
+              if (isPartial) { base[ref].tictacPartiel = true; }
             } else {
               /* ligne de démo : traitée -> retirée de la file (et du compteur d'onglet) */
-              var row = lastSlice[+tr.dataset.i];
-              var idx = DATA[sens].indexOf(row);
+              var idx = DATA[sens].indexOf(r);
               if (idx > -1) { DATA[sens].splice(idx, 1); }
             }
           });
           baseSet(base);
         }
+        // Retour d'envoi TIC TAC différencié (diapo 5/6) : Traitement OK vs partiel/pas abouti
+        if (isPartial) {
+          title.textContent = 'Traitement partiel';
+          sub.innerHTML = '<span id="confirm-count">' + rows.length + '</span> demande(s) : aucune place attribuée sur le train de report — information transmise par SMS uniquement (retour TIC TAC).';
+        } else {
+          title.textContent = 'Traitement OK';
+          sub.innerHTML = '<span id="confirm-count">' + rows.length + '</span> demandes ont été traitées';
+        }
+        toast.classList.toggle('sos-confirm--partial', isPartial);
         toast.hidden = false;
         bar.classList.add('is-confirmed');
+        selected = {};   /* la sélection traitée quitte la file */
         render();   /* les demandes traitées quittent la file « A traiter supervision » */
-        restoreTimer = setTimeout(restoreBar, 2500);   /* retour auto au formulaire */
+        restoreTimer = setTimeout(restoreBar, isPartial ? 4000 : 2500);   /* retour auto au formulaire */
       });
       close.addEventListener('click', restoreBar);     /* la croix du toast ramène aussi le formulaire */
     })();

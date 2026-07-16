@@ -566,6 +566,9 @@ button.sos-input--select .sos-chips::-webkit-scrollbar-thumb {
 .sos-confirm__text { display: flex; flex-direction: column; gap: 2px; margin-right: var(--space-24); }
 .sos-confirm__title { color: var(--color-brand); font-weight: 800; font-size: var(--text-lg); line-height: 1.25; }
 .sos-confirm__sub { color: var(--color-gray-46); font-size: var(--text-base); }
+/* Retour TIC TAC partiel (train de report indisponible) : bascule orange crise (diapo 5/6) */
+.sos-confirm--partial .sos-confirm__icon { background: var(--color-accent-17); }
+.sos-confirm--partial .sos-confirm__title { color: var(--color-accent-17); }
 .sos-confirm__close {
   margin-left: auto;
   display: inline-flex; align-items: center; justify-content: center;

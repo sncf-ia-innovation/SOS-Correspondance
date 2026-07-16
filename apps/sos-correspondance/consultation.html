@@ -723,35 +723,45 @@
         <label class="sos-field__label" for="f-dest">Destination</label>
         <div class="sos-input sos-ac"><input class="sos-input__el" id="f-dest" type="text" placeholder="Ex : Paris-Gare-de-Lyon" autocomplete="off"></div>
       </div>
-      <!-- saut de ligne : Transporteur / Typologie / Statut sur la rangée du bas -->
+      <!-- saut de ligne : Transporteur / Typologie / Statut sur la rangée du bas
+           (multi-sélection — diapo 8 : « Transporteurs / Typo Client / Statut : multi sélection ») -->
       <div class="sos-filters__break" aria-hidden="true"></div>
-      <div class="sos-field sos-field--sm">
+      <div class="sos-field sos-field--dropdown" id="transp-field">
         <label class="sos-field__label" for="f-transp">Transporteur</label>
-        <div class="sos-input sos-input--select">
-          <input class="sos-input__el" id="f-transp" type="text" placeholder="Sélectionner">
+        <button type="button" class="sos-input sos-input--chips sos-input--select" id="f-transp"
+                aria-haspopup="listbox" aria-expanded="false">
+          <span class="sos-chips" id="transp-chips"></span>
+          <span class="sos-input__placeholder" id="transp-ph" hidden>Tous les transporteurs</span>
           <svg class="sos-input__caret" viewBox="0 0 8 8" aria-hidden="true"><path d="M0 2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
+        </button>
+        <ul class="sos-menu" id="transp-menu" role="listbox" aria-label="Transporteur" aria-multiselectable="true" hidden></ul>
       </div>
-      <div class="sos-field sos-field--sm">
+      <div class="sos-field sos-field--dropdown" id="typo-field">
         <label class="sos-field__label" for="f-typo">Typologie client</label>
-        <div class="sos-input sos-input--select">
-          <input class="sos-input__el" id="f-typo" type="text" placeholder="Toutes">
+        <button type="button" class="sos-input sos-input--chips sos-input--select" id="f-typo"
+                aria-haspopup="listbox" aria-expanded="false">
+          <span class="sos-chips" id="typo-chips"></span>
+          <span class="sos-input__placeholder" id="typo-ph" hidden>Toutes</span>
           <svg class="sos-input__caret" viewBox="0 0 8 8" aria-hidden="true"><path d="M0 2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
+        </button>
+        <ul class="sos-menu" id="typo-menu" role="listbox" aria-label="Typologie client" aria-multiselectable="true" hidden></ul>
       </div>
-      <div class="sos-field sos-field--statut">
+      <div class="sos-field sos-field--dropdown sos-field--statut" id="statut-field">
         <label class="sos-field__label" for="f-statut">Statut</label>
-        <div class="sos-input sos-input--select">
-          <input class="sos-input__el" id="f-statut" type="text" placeholder="Sélectionner">
+        <button type="button" class="sos-input sos-input--chips sos-input--select" id="f-statut"
+                aria-haspopup="listbox" aria-expanded="false">
+          <span class="sos-chips" id="statut-chips"></span>
+          <span class="sos-input__placeholder" id="statut-ph" hidden>Sélectionner</span>
           <svg class="sos-input__caret" viewBox="0 0 8 8" aria-hidden="true"><path d="M0 2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
+        </button>
+        <ul class="sos-menu" id="statut-menu" role="listbox" aria-label="Statut" aria-multiselectable="true" hidden></ul>
       </div>
       <div class="sos-field sos-field--actions">
         <button type="submit" class="ds-bouton ds-bouton--primary sos-btn-filter">Filtrer</button>
         <button type="reset" class="sos-link-reset">Réinitialiser</button>
       </div>
     </form>
-    <p class="sos-legend">*TGV INOUI, OUIGO, INTERCITÉS et TGV LYRIA</p>
+    <p class="sos-legend">*TGV INOUI, OUIGO, INTERCITÉS, INTERCITÉS DE NUIT et TGV LYRIA</p>
 
     <!-- 5. Compteur + export -->
     <div class="sos-tablebar">
@@ -796,7 +806,7 @@
       <div class="sos-pagination__left">
         <div class="sos-input sos-input--select sos-perpage">
           <select class="sos-input__el sos-perpage__select" aria-label="Éléments par page">
-            <option>10</option><option>25</option><option>50</option>
+            <option>10</option><option>25</option><option>50</option><option>100</option>
           </select>
         </div>
         <span class="sos-pagination__txt">éléments par page</span>
@@ -946,13 +956,14 @@
     // --- Données de démo générées (déterministes, gares réelles du CSV) ---
     var G_GARES = ['Marseille-St-Charles','Aix-en-Provence-TGV','Toulon','Nice-Ville','Cannes','Antibes'];
     var G_DESTS = ['Paris-Gare-de-Lyon','Lyon-Part-Dieu','Paris-Austerlitz','Paris-Est'];
-    var G_TGVS  = ['8901','7801','4761','9261','8907','7805','8915','8923'];
+    var G_TGVS  = ['8901','7801','4761','9261','8907','7805','8915','8923','3811'];
     var G_TYPES = ['PMR / PSH','PMR / PSH','Groupes','Mineur','Client T'];
     var G_DATES = ['01/03/2026','02/03/2026','03/03/2026'];
     var G_STS   = ['report','corresp','pursuit','todoSup','todoEsc'];
     function transpOf(tgv) {
       if (tgv.charAt(0) === '7') return 'OUIGO';
       if (tgv.charAt(0) === '4') return 'INTERCITÉS';
+      if (tgv.charAt(0) === '3') return 'INTERCITÉS DE NUIT';
       if (tgv.charAt(0) === '9') return 'TGV LYRIA';
       return 'INOUI';
     }
@@ -1038,9 +1049,9 @@
         if (filters.tgv && r.tgv.indexOf(filters.tgv) === -1) return false;
         if (filters.gare && SOSW.norm(r.gare).indexOf(SOSW.norm(filters.gare)) === -1) return false;
         if (filters.dest && SOSW.norm(r.dest).indexOf(SOSW.norm(filters.dest)) === -1) return false;
-        if (filters.transp && r.transp !== filters.transp) return false;
-        if (filters.typo && r.type !== filters.typo) return false;
-        if (filters.statut && STATUTS[r.st].label !== filters.statut) return false;
+        if (filters.transp.length && filters.transp.indexOf(r.transp) === -1) return false;
+        if (filters.typo.length && filters.typo.indexOf(r.type) === -1) return false;
+        if (filters.statut.length && filters.statut.indexOf(STATUTS[r.st].label) === -1) return false;
         return true;
       });
     }
@@ -1123,25 +1134,69 @@
     btnLast.addEventListener('click', function(){ goTo(Infinity); });
     perPageSel.addEventListener('change', function(){ perPage = parseInt(this.value, 10) || 10; page = 1; render(); });
 
-    // --- Widgets filtres : datepicker, autocomplete gares réelles, menus Transporteur / Statut ---
+    // --- Widgets filtres : datepicker, autocomplete gares réelles ---
     SOSW.datepicker(document.getElementById('f-date-input'), document.getElementById('f-date'));
     SOSW.autocomplete(document.getElementById('f-gare'));
     SOSW.autocomplete(document.getElementById('f-dest'));
-    SOSW.selectMenu(document.getElementById('f-transp').closest('.sos-input'),
-                    document.getElementById('f-transp'),
-                    ['Tous', 'INOUI', 'OUIGO', 'INTERCITÉS', 'TGV LYRIA']);
-    SOSW.selectMenu(document.getElementById('f-typo').closest('.sos-input'),
-                    document.getElementById('f-typo'),
-                    ['Toutes', 'PMR / PSH', 'Groupes', 'Mineur', 'Client T'],
-                    { allLabel: 'Toutes' });
-    var statutOptions = ['Tous'];
+
+    // --- Menus multi-sélection Transporteur / Typologie / Statut (diapo 8 : « multi sélection »)
+    //     Case à cocher + chips, même pattern que le Transporteur de supervision.html. ---
+    function multiSelectMenu(fieldId, triggerId, menuId, chipsId, phId, options, phText){
+      var field = document.getElementById(fieldId);
+      var trigger = document.getElementById(triggerId);
+      var menu = document.getElementById(menuId);
+      var chipsBox = document.getElementById(chipsId);
+      var placeholder = document.getElementById(phId);
+      placeholder.textContent = phText;
+      options.forEach(function(opt){
+        var li = document.createElement('li');
+        li.setAttribute('role', 'option');
+        li.innerHTML = '<label class="sos-menu__item"><input type="checkbox" value="'+opt+'">'
+          + '<span class="sos-menu__check" aria-hidden="true"></span>'+opt+'</label>';
+        menu.appendChild(li);
+      });
+      var boxes = Array.prototype.slice.call(menu.querySelectorAll('input[type="checkbox"]'));
+      function renderChips(){
+        chipsBox.innerHTML = '';
+        var sel = boxes.filter(function(b){ return b.checked; });
+        placeholder.hidden = sel.length > 0;
+        sel.forEach(function(b){
+          var chip = document.createElement('span');
+          chip.className = 'sos-chip';
+          chip.textContent = b.value + ' ';
+          var closeBtn = document.createElement('button');
+          closeBtn.type = 'button';
+          closeBtn.className = 'sos-chip__close';
+          closeBtn.setAttribute('aria-label', 'Retirer ' + b.value);
+          closeBtn.innerHTML = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+          closeBtn.addEventListener('click', function(e){ e.stopPropagation(); b.checked = false; renderChips(); });
+          chip.appendChild(closeBtn);
+          chipsBox.appendChild(chip);
+        });
+      }
+      function openMenu(){ menu.hidden = false; trigger.setAttribute('aria-expanded', 'true'); }
+      function closeMenu(){ menu.hidden = true; trigger.setAttribute('aria-expanded', 'false'); }
+      trigger.addEventListener('click', function(){ if (menu.hidden) { openMenu(); } else { closeMenu(); } });
+      boxes.forEach(function(b){ b.addEventListener('change', renderChips); });
+      document.addEventListener('click', function(e){ if (!field.contains(e.target)) { closeMenu(); } });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !menu.hidden) { closeMenu(); trigger.focus(); } });
+      renderChips();
+      return {
+        getValues: function(){ return boxes.filter(function(b){ return b.checked; }).map(function(b){ return b.value; }); },
+        clear: function(){ boxes.forEach(function(b){ b.checked = false; }); renderChips(); }
+      };
+    }
+    var transpMulti = multiSelectMenu('transp-field', 'f-transp', 'transp-menu', 'transp-chips', 'transp-ph',
+                        ['INOUI', 'OUIGO', 'INTERCITÉS', 'INTERCITÉS DE NUIT', 'TGV LYRIA'], 'Tous les transporteurs');
+    var typoMulti = multiSelectMenu('typo-field', 'f-typo', 'typo-menu', 'typo-chips', 'typo-ph',
+                        ['PMR / PSH', 'Groupes', 'Mineur', 'Client T'], 'Toutes');
+    var statutOptions = [];
     Object.keys(SOS_STATUTS).forEach(function(k){
       var label = SOS_STATUTS[k].label;
       if (statutOptions.indexOf(label) === -1) { statutOptions.push(label); }
     });
-    SOSW.selectMenu(document.getElementById('f-statut').closest('.sos-input'),
-                    document.getElementById('f-statut'),
-                    statutOptions);
+    var statutMulti = multiSelectMenu('statut-field', 'f-statut', 'statut-menu', 'statut-chips', 'statut-ph',
+                        statutOptions, 'Sélectionner');
 
     // --- Filtrer / Réinitialiser ---
     document.querySelector('.sos-filters').addEventListener('submit', function(){
@@ -1152,15 +1207,18 @@
         tgv:    document.getElementById('f-tgv').value.trim(),
         gare:   document.getElementById('f-gare').value.trim(),
         dest:   document.getElementById('f-dest').value.trim(),
-        transp: document.getElementById('f-transp').value.trim(),
-        typo:   document.getElementById('f-typo').value.trim(),
-        statut: document.getElementById('f-statut').value.trim()
+        transp: transpMulti.getValues(),
+        typo:   typoMulti.getValues(),
+        statut: statutMulti.getValues()
       };
       page = 1;
       render();
     });
     document.querySelector('.sos-link-reset').addEventListener('click', function(){
-      setTimeout(function(){ filters = null; page = 1; render(); }, 0);
+      setTimeout(function(){
+        transpMulti.clear(); typoMulti.clear(); statutMulti.clear();
+        filters = null; page = 1; render();
+      }, 0);
     });
 
     // --- Tri Horaire (asc/desc) ---
