@@ -1,0 +1,327 @@
+/* Formulaire de contact OUIGO — parcours réclamation (mobile, 3 écrans une page).
+   100% tokens (var(--...)). Aucun hex hors TODO commenté.
+
+   NOTE THÈME : dans Figma la marque OUIGO 🔴 est en thème rouge. Les frames
+   rendues (références exactes de ce parcours) utilisent le thème teal SNCF
+   Voyageurs. On suit les frames → thème teal (--color-brand #065654).
+
+   Patterns repris de design-system/apps/sos-correspondance/client.css :
+   .sos-header / .sos-header__logo-plate (plaque logo), .sos-titre,
+   .sos-field / .sos-field__input / .sos-field__help / .sos-req,
+   .sos-option (cartes-choix, surcharge curated/radio), CTA teal pleine largeur. */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-gray-95); /* fond hors cadre mobile (token) */
+  font-family: var(--font-sans); /* Avenir */
+  color: var(--color-brand);
+}
+
+/* Cadre mobile centré (repris de .sos) */
+.ouigo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--color-white);
+}
+
+/* ---------- 1. En-tête teal + plaque logo SNCF Voyageurs ---------- */
+.ouigo-header {
+  position: relative;
+  background: var(--color-brand);
+}
+.ouigo-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-16) var(--space-20);
+}
+.ouigo-header__logo {
+  display: inline-flex;
+  align-self: flex-start;
+  text-decoration: none;
+}
+/* Plaque blanche collée au bord haut (coins haut carrés / bas arrondis) */
+.ouigo-header__logo-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: calc(-1 * var(--space-16)); /* annule le padding-top du header */
+  padding: var(--space-16) var(--space-12) var(--space-12);
+  background: var(--color-white);
+  border-radius: 0 0 var(--radius-r8) var(--radius-r8);
+}
+.ouigo-header__logo-svg { display: block; color: var(--color-accent-4); }
+.ouigo-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+.ouigo-header__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-white);
+  cursor: pointer;
+}
+.ouigo-header__icon-btn:hover,
+.ouigo-header__icon-btn:focus-visible { opacity: .85; outline: none; }
+
+/* ---------- Écrans (navigation JS) ---------- */
+.ouigo-screen { display: none; }
+.ouigo-screen.is-active { display: block; }
+
+.ouigo-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  padding: var(--space-20) var(--space-20) var(--space-24);
+}
+
+/* ---------- Titre principal (repris de .sos-titre) ---------- */
+.ouigo-titre {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-2xl); /* 20px — gros titre de question/écran */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.25;
+}
+
+.ouigo-asterisk-note {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-sm); /* 12px */
+}
+.ouigo-req { color: var(--color-accent-4); /* astérisque obligatoire */ }
+
+/* ---------- Champs (repris de .sos-field) ---------- */
+.ouigo-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.ouigo-field__label {
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 500;
+}
+.ouigo-field__input {
+  width: 100%;
+  height: var(--space-48);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-accent-1); /* contour teal clair (cf. frames) */
+  border-radius: var(--radius-r6); /* 8px */
+  background: var(--color-white);
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-md); /* 16px */
+}
+.ouigo-field__input::placeholder { color: var(--color-gray-46); }
+.ouigo-field__input:focus-visible {
+  border-color: var(--color-brand);
+  outline: 2px solid var(--color-brand);
+  outline-offset: 1px;
+}
+.ouigo-field__help {
+  margin: 0;
+  color: var(--color-gray-31);
+  font-size: var(--text-sm); /* 12px */
+  line-height: 1.35;
+}
+
+/* ---------- Cartes-choix (surcharge curated/radio, style .sos-option) ---------- */
+.ouigo-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.ouigo-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  width: 100%;
+  padding: var(--space-16);
+  border: 1px solid var(--color-accent-1); /* bordure brand arrondie */
+  border-radius: var(--radius-r8); /* 16px */
+  background: var(--color-white);
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.ouigo-option__icon {
+  flex: 0 0 auto;
+  width: var(--space-24);
+  height: var(--space-24);
+  color: var(--color-brand);
+}
+.ouigo-option__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.3;
+}
+.ouigo-option:hover {
+  background: var(--color-accent-18); /* #e3f3ef voile teal clair */
+  border-color: var(--color-brand);
+}
+.ouigo-option:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-color: var(--color-brand);
+}
+
+/* ---------- Select indicatif (réutilise .ouigo-field__input) ---------- */
+.ouigo-field__select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: var(--space-48);
+  /* chevron teal inline (couleur = --color-brand #065654) ; TODO token URL inexistant */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23065654' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-16) center;
+  background-size: var(--space-16) var(--space-16);
+  cursor: pointer;
+}
+
+/* ---------- Liste de cartes-sujets « Précisez votre demande » ---------- */
+.ouigo-subjects {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.ouigo-subject {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  width: 100%;
+  padding: var(--space-16);
+  border: 1px solid var(--color-accent-1); /* bordure brand arrondie */
+  border-radius: var(--radius-r8);
+  background: var(--color-white);
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.ouigo-subject__icon {
+  flex: 0 0 auto;
+  width: var(--space-24);
+  height: var(--space-24);
+  color: var(--color-brand);
+}
+.ouigo-subject__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.3;
+}
+.ouigo-subject:hover {
+  background: var(--color-accent-18); /* voile teal clair */
+  border-color: var(--color-brand);
+}
+.ouigo-subject:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-color: var(--color-brand);
+}
+
+/* ---------- Grille coordonnées (1 col mobile) ---------- */
+.ouigo-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+.ouigo-actions { display: flex; }
+
+/* ---------- CTA teal pleine largeur (repris de .sos-cta) ---------- */
+.ouigo-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--space-48);
+  margin-top: var(--space-4);
+  padding: 0 var(--space-24);
+  border: 2px solid var(--color-brand);
+  border-radius: var(--radius-r10); /* pill */
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl); /* 18px */
+  font-weight: 800; /* Avenir Heavy */
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.ouigo-cta:hover,
+.ouigo-cta:focus-visible {
+  background: var(--color-accent-2); /* #002b28 */
+  border-color: var(--color-accent-2);
+  outline: none;
+}
+
+/* ---------- Lien "← Retour" ---------- */
+.ouigo-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  cursor: pointer;
+}
+.ouigo-back__icon { flex: 0 0 auto; width: var(--space-20); height: var(--space-20); }
+.ouigo-back:hover { text-decoration: underline; }
+.ouigo-back:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* ---------- Desktop ≥768px : écran coordonnées en 2 colonnes ---------- */
+@media (min-width: 768px) {
+  /* L'écran coordonnées s'affiche pleine largeur (la maquette desk est large) */
+  .ouigo:has(#screen-coordonnees.is-active) {
+    max-width: 960px;
+  }
+
+  /* Grille 2 colonnes : Nom|Prénom, Email|Confirmez, Indicatif|Téléphone */
+  .ouigo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-24);
+    row-gap: var(--space-20);
+  }
+
+  /* Bouton « Suivant » aligné à droite, largeur contenu */
+  .ouigo-actions { justify-content: flex-end; }
+  #screen-coordonnees .ouigo-cta {
+    width: auto;
+    min-width: var(--space-136); /* 136px */
+  }
+}
+
+/* ---------- Garde anti-débordement horizontal (mobile) ---------- */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }

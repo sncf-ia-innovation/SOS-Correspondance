@@ -1,0 +1,785 @@
+/* Écran client "SOS Correspondance" — page unique progressive (mobile) */
+/* Tokens uniquement. Aucun hex sauf TODO commenté. */
+/* NB: form.html réutilise .sos, .sos-header*, .sos-footer*, .sos-section-titre,
+   .sos-titre, .sos-body — ces sélecteurs DOIVENT rester stables. */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-gray-95); /* fond hors cadre mobile */
+  font-family: var(--font-sans); /* Avenir */
+  color: var(--color-brand);
+}
+
+/* Cadre mobile centré */
+.sos {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--color-gray-98); /* #f1fcf0 — fond vert très clair (cf. Figma) */
+}
+
+/* ---------- 1. En-tête teal ---------- */
+.sos-header {
+  position: relative;
+  background: var(--color-brand);
+}
+
+.sos-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-16) var(--space-20);
+}
+
+/* Plaque blanche logo SNCF Voyageurs collée au bord haut (coins haut carrés / bas arrondis) */
+.sos-header__logo {
+  display: inline-flex;
+  align-self: flex-start;
+  text-decoration: none;
+}
+
+.sos-header__logo-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* annule le padding-top du header pour coller au bord supérieur */
+  margin-top: calc(-1 * var(--space-16));
+  padding: var(--space-16) var(--space-12) var(--space-12);
+  background: var(--color-white);
+  border-radius: 0 0 var(--radius-r8) var(--radius-r8);
+}
+
+.sos-header__logo-svg { display: block; color: var(--color-accent-4); }
+
+.sos-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+
+.sos-header__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.sos-header__icon-btn:hover,
+.sos-header__icon-btn:focus-visible {
+  opacity: .85;
+  outline: none;
+}
+
+/* Bande rayée décorative conservée pour compat form.html (masquée sur cet écran) */
+.sos-header__stripes {
+  height: var(--space-20);
+  /* TODO: bleu rayure hors palette tokens */
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #2d7bd6 0,            /* TODO: bleu rayure (hors palette tokens) */
+    #2d7bd6 6px,
+    var(--color-brand) 6px,
+    var(--color-brand) 12px
+  );
+}
+.sos--client .sos-header__stripes { display: none; } /* le proto n'a pas de rayures */
+
+/* ---------- Titre principal (réutilisé par form.html) ---------- */
+.sos-titre {
+  margin: 0;
+  padding: var(--space-16) var(--space-20) var(--space-12);
+  color: var(--color-brand);
+  font-size: var(--text-xl); /* 18px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.25;
+}
+
+/* ---------- Corps ---------- */
+.sos-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  padding: var(--space-20) var(--space-20) var(--space-24);
+}
+
+/* ---------- 2. Bandeau vert dépliable ---------- */
+.sos-bandeau {
+  border-radius: var(--radius-r8);
+  background: var(--color-accent-7); /* #bbffbe — vert clair */
+  color: var(--color-accent-2); /* #002b28 */
+  padding: var(--space-16);
+}
+
+.sos-bandeau__title {
+  margin: 0;
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.3;
+}
+
+/* Forme réduite : titre + "Lire plus" sur une ligne */
+.sos-bandeau__head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+
+.sos-bandeau__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  margin-top: var(--space-12);
+  font-size: var(--text-base); /* 14px */
+  line-height: 1.45;
+}
+.sos-bandeau__body p { margin: 0; }
+.sos-bandeau__body strong { font-weight: 800; }
+
+/* Bouton-lien Lire plus / Lire moins (vrai bouton pour l'a11y) */
+.sos-bandeau__toggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-accent-2);
+  font: inherit;
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.sos-bandeau__toggle:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Toggle JS : "Lire plus" dans l'en-tête (replié), "Lire moins" en bas du corps (déplié) */
+.sos-bandeau__body { display: none; }
+.sos-bandeau.is-open .sos-bandeau__body { display: flex; }
+.sos-bandeau.is-open .sos-bandeau__more { display: none; }
+.sos-bandeau__less { align-self: flex-start; margin-top: var(--space-4); }
+
+/* ---------- 3. Titre de section (réutilisé par form.html) ---------- */
+.sos-section-titre {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-xl); /* 18px */
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+/* ---------- 4. Cartes-options (surcharge ds-radio) ---------- */
+.sos-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.sos-option {
+  align-items: flex-start;
+  gap: var(--space-12);
+  padding: var(--space-16);
+  background: var(--color-white); /* carte blanche sur fond vert clair */
+  border-color: var(--color-brand);
+  border-radius: var(--radius-r8); /* 16px */
+  color: var(--color-brand);
+}
+
+.sos-option .ds-radio__control {
+  margin-top: var(--space-2);
+  color: var(--color-brand);
+}
+
+.sos-option__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-12);
+  min-width: 0;
+}
+
+.sos-option__label {
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.3;
+}
+
+.sos-option--simple { align-items: center; }
+
+.sos-option:hover {
+  background: var(--color-accent-18); /* #e3f3ef */
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+.sos-option:hover .ds-radio__control { color: var(--color-brand); }
+
+/* Sélection : toute la carte se REMPLIT en brand (vert SNCF foncé, = couleur de la bordure).
+   Contenu et logos en blanc pour rester nets sur le fond foncé. */
+.sos-option:has(.ds-radio__input:checked) {
+  background: var(--color-brand); /* #065654 vert foncé */
+  border-color: var(--color-brand);
+}
+.sos-option:has(.ds-radio__input:checked) .ds-radio__control,
+.sos-option:has(.ds-radio__input:checked) .ds-radio__label,
+.sos-option:has(.ds-radio__input:checked) .sos-option__label,
+.sos-option:has(.ds-radio__input:checked) .sos-arrow {
+  color: var(--color-white);
+}
+/* Groupe de logos de marque : un SEUL fond BLANC arrondi (chip) derrière tous les
+   logos après la flèche (fond uni continu), pour rester nets sur le fond foncé sélectionné. */
+/* padding/forme TOUJOURS présents (fond transparent par défaut) → aucun décalage
+   des logos entre l'état normal et sélectionné ; seul le fond passe en blanc. */
+.sos-logo-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-r6); /* carré à coins doux */
+  background: transparent;
+}
+.sos-option:has(.ds-radio__input:checked) .sos-logo-group {
+  background: var(--color-white);
+}
+
+.sos-option:focus-within {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* ---------- Pastilles marques (faute d'assets logos dans le sprite) ---------- */
+.sos-logos {
+  display: flex;
+  flex-wrap: nowrap; /* tout sur une seule ligne (ZOU! → logos) */
+  align-items: center;
+  gap: var(--space-6);
+}
+.sos-arrow {
+  color: var(--color-brand);
+  font-size: var(--text-md);
+  font-weight: 800;
+}
+.sos-logo {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-sm); /* 12px */
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+.sos-logo--zou {
+  color: #2d7bd6; /* TODO: bleu ZOU! (pas de token bleu dans le DS) */
+  font-size: var(--text-md);
+  font-style: italic;
+  /* chip blanc comme le groupe de logos : padding/forme toujours là → pas de décalage */
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-r6);
+  background: transparent;
+}
+/* sélectionné : fond blanc derrière ZOU! (le texte reste bleu, lisible) */
+.sos-option:has(.ds-radio__input:checked) .sos-logo--zou {
+  background: var(--color-white);
+}
+/* Logos de marque = vrais SVG du sprite (couleurs propres), pas de pastille texte */
+.sos-logo--inoui svg,
+.sos-logo--ouigo svg,
+.sos-logo--ic svg,
+.sos-logo--lyria svg { display: block; height: 13px; width: auto; } /* petit → tient sur une ligne */
+
+/* ---------- 5. Formulaire révélé (page unique progressive) ---------- */
+.sos-reveal {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+.sos-reveal.is-visible { display: flex; }
+
+.sos-asterisk-note {
+  margin: 0;
+  color: var(--color-gray-31); /* #4d4f53 */
+  font-size: var(--text-base);
+}
+
+.sos-fieldblock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.sos-block-titre {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-xl); /* 18px */
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.sos-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.sos-field__label {
+  color: var(--color-brand);
+  font-size: var(--text-base); /* 14px */
+  font-weight: 700;
+}
+.sos-req { color: var(--color-accent-4); /* #9b2743 astérisque obligatoire */ }
+
+.sos-field__input {
+  width: 100%;
+  height: var(--space-48);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-brand); /* bordure vert foncé */
+  border-radius: var(--radius-r6); /* 8px */
+  background: var(--color-gray-98); /* même fond que la page (vert très clair), pas blanc */
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-md); /* 16px */
+}
+.sos-field__input::placeholder { color: var(--color-gray-46); /* #747678 */ }
+.sos-field__input:focus-visible {
+  border-color: var(--color-brand);
+  outline: 2px solid var(--color-brand);
+  outline-offset: 1px;
+}
+
+.sos-field__help {
+  margin: 0;
+  color: var(--color-gray-31); /* #4d4f53 */
+  font-size: var(--text-sm); /* 12px */
+  line-height: 1.35;
+}
+
+/* Erreur de champ (wordings validés : « Le champ est requis », formats…) */
+.sos-field__input.is-invalid {
+  border-color: var(--color-accent-4); /* #9b2743 — même rouge que l'astérisque obligatoire */
+  outline: 1px solid var(--color-accent-4);
+}
+.sos-field__error {
+  margin: 0;
+  color: var(--color-accent-4);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* Lien "Où trouver la référence dossier ?" */
+.sos-help-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brand);
+  font: inherit;
+  font-size: var(--text-base);
+  font-weight: 800; /* Avenir Heavy */
+  cursor: pointer;
+}
+.sos-help-link:hover { text-decoration: underline; }
+.sos-help-link:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+/* Pastille info "i" ronde (brand pleine, lettre blanche) */
+.sos-help-link__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-16);
+  height: var(--space-16);
+  border-radius: var(--radius-r12); /* cercle */
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-size: var(--text-xs); /* 10px */
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1;
+}
+
+/* ---------- Autocomplete (réutilise ds-suggestion-liste) ---------- */
+.sos-autocomplete { position: relative; }
+.sos-autocomplete .ds-suggestion-liste {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + var(--space-4));
+  left: 0;
+  right: 0;
+  padding: var(--space-4);
+  gap: 0; /* en dropdown, items jointifs (l'itemSpacing 4 du curated vaut pour la liste posée) */
+  border: 1px solid var(--color-gray-84);
+  border-radius: var(--radius-r6);
+  background: var(--color-white);
+  box-shadow: var(--shadow-md, 0 4px 12px rgba(0,0,0,.12)); /* TODO: ombre dropdown */
+}
+.sos-autocomplete .ds-suggestion-liste[hidden] { display: none; }
+
+/* ---------- Action principale (CTA teal pleine largeur) ---------- */
+.sos-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--space-48);
+  margin-top: var(--space-4);
+  padding: 0 var(--space-24);
+  border: 2px solid var(--color-brand);
+  border-radius: var(--radius-r10); /* pill */
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-size: var(--text-xl); /* 18px */
+  font-weight: 800; /* Avenir Heavy */
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.sos-cta:hover,
+.sos-cta:focus-visible {
+  background: var(--color-accent-2); /* #002b28 */
+  border-color: var(--color-accent-2);
+  outline: none;
+}
+
+/* ---------- État d'erreur IHM 3 (DV/nom non identifiés) ---------- */
+.sos-form-entry.is-hidden { display: none; }
+
+.sos-erreur {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.sos-erreur[hidden] { display: none; }
+
+.sos-erreur__title {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-2xl); /* 22px — titre IHM 3 */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.25;
+}
+.sos-erreur__title:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.sos-erreur__lead {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.4;
+}
+
+.sos-erreur__text {
+  margin: 0;
+  color: var(--color-gray-31); /* #4d4f53 */
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.4;
+}
+
+.sos-erreur__signature {
+  margin: 0;
+  color: var(--color-gray-31);
+  font-size: var(--text-md);
+  line-height: 1.4;
+}
+
+.sos-erreur .sos-cta { margin-top: var(--space-16); }
+
+/* ---------- Écrans « site indisponible » (crise / technique) — encadré orange ---------- */
+.sos-indispo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.sos-indispo[hidden] { display: none; }
+.sos-alert-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: var(--space-20);
+  border-radius: var(--radius-r8);
+  background: var(--color-accent-17); /* #ff3c00 — orange crise (seul orange du DS) */
+  color: var(--color-white);
+}
+.sos-alert-box__title {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 800;
+  line-height: 1.35;
+}
+.sos-alert-box__text {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: 1.5;
+}
+.sos-alert-box__text strong { font-weight: 800; }
+.sos-alert-box__signature {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 500;
+}
+
+
+/* ---------- 6. Footer (réutilisé par form.html) ---------- */
+.sos-footer {
+  margin-top: auto;
+  padding: var(--space-24) var(--space-20) var(--space-32);
+  text-align: center;
+}
+.sos-footer__heading {
+  margin: 0 0 var(--space-12);
+  color: var(--color-gray-31); /* #4d4f53 */
+  font-size: var(--text-sm); /* 12px */
+  font-weight: 500;
+}
+.sos-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+}
+.sos-footer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--color-brand);
+  font-size: var(--text-base); /* 14px */
+  font-weight: 800; /* Avenir Heavy */
+  text-decoration: none;
+}
+.sos-footer__link:hover,
+.sos-footer__link:focus-visible { text-decoration: underline; }
+.sos-footer__sep { color: var(--color-gray-46); /* #747678 */ }
+.sos-footer__arrow { flex: 0 0 auto; color: var(--color-brand); }
+.sos-footer__link--block { flex-basis: 100%; justify-content: center; }
+.sos-footer__demo { margin-top: var(--space-16); }
+.sos-footer__demo-link {
+  display: inline-block;
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--color-brand);
+  border-radius: var(--radius-pill);
+  color: var(--color-brand);
+  font-size: var(--text-sm); /* 12px */
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--color-white);
+}
+.sos-footer__demo-link:hover,
+.sos-footer__demo-link:focus-visible { background: var(--color-accent-18); }
+
+/* ---------- 5b. Popin "Où trouver la référence dossier ?" ---------- */
+.sos-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-20);
+  overflow-y: auto;
+  /* TODO: voile backdrop (overlay noir 50% — pas de token dédié) */
+  background: rgba(0, 0, 0, .5);
+}
+.sos-modal.is-open { display: flex; }
+
+.sos-modal__dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 360px;
+  margin: auto;
+  padding: var(--space-24);
+  border-radius: var(--radius-r8);
+  background: var(--color-white);
+  color: var(--color-brand);
+}
+
+.sos-modal__close {
+  position: absolute;
+  top: var(--space-16);
+  right: var(--space-16);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-32);
+  height: var(--space-32);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brand);
+  cursor: pointer;
+}
+.sos-modal__close:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: var(--radius-r6);
+}
+
+.sos-modal__title {
+  margin: 0 var(--space-32) var(--space-16) 0;
+  font-size: var(--text-xl); /* 18px */
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.sos-modal__text {
+  margin: 0 0 var(--space-16);
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.45;
+}
+
+/* Illustration billet schématique (placeholder propre) */
+/* E-billet réel exporté de Figma (Popin avetissement mobile → Image) */
+.sos-ticket-img {
+  margin: 0 0 var(--space-24);
+}
+.sos-ticket-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-gray-84);
+  border-radius: var(--radius-r6);
+}
+
+.sos-modal__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;              /* bouton à droite */
+  width: auto;                        /* taille selon le contenu (plus petit) */
+  padding: var(--space-8) var(--space-20);
+  border: 2px solid var(--color-brand);
+  border-radius: var(--radius-r10);
+  background: var(--color-white);
+  color: var(--color-brand);
+  font-size: var(--text-base);
+  font-weight: 800;
+  cursor: pointer;
+}
+.sos-modal__cta:hover,
+.sos-modal__cta:focus-visible {
+  background: var(--color-accent-18); /* #e3f3ef */
+  outline: none;
+}
+
+body.sos-modal-open { overflow: hidden; }
+
+/* ---------- Garde anti-débordement horizontal (mobile) ---------- */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ---------- Bouton "Mon compte" (header desktop) ---------- */
+/* Markup réutilisé de supervision.css. Caché par défaut (mobile), affiché en ≥768px. */
+.sos-header__account {
+  display: none; /* mobile : on garde les icônes recherche/menu */
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--color-white);
+  border-radius: var(--radius-r10);
+  background: transparent;
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 800;
+  cursor: pointer;
+}
+.sos-header__account svg { fill: currentColor; }
+.sos-header__account:hover,
+.sos-header__account:focus-visible {
+  background: var(--color-accent-2); /* #002b28 */
+  outline: none;
+}
+
+/* ====================================================================
+   DESKTOP ≥768px — layout élargi, en-tête edge-to-edge, corps centré.
+   Le rendu mobile (<768px) reste inchangé : tout est ici, en min-width.
+   ==================================================================== */
+@media (min-width: 768px) {
+  /* Conteneur principal : pleine largeur (l'en-tête teal va edge-to-edge).
+     Le centrage ~960px est appliqué aux blocs internes via leur padding. */
+  .sos {
+    max-width: none;
+  }
+
+  /* Popin « Où trouver la référence » : plus large sur desktop */
+  .sos-modal__dialog { max-width: 560px; }
+
+  /* En-tête : barre centrée à ~960px (le teal reste pleine largeur). */
+  .sos-header__bar {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-24);
+  }
+  /* Icônes mobiles masquées, bouton "Mon compte" affiché. */
+  .sos-header__icon-btn { display: none; }
+  .sos-header__account { display: inline-flex; }
+
+  /* Corps : conteneur centré ~960px avec padding latéral. */
+  .sos-body {
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+    padding: var(--space-32) var(--space-24) var(--space-32);
+    gap: var(--space-24);
+  }
+
+  /* Cartes sens : grille 2 colonnes. */
+  .sos-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
+  }
+  /* La carte "Autres cas" (simple) reste pleine largeur sous la grille. */
+  .sos-option--simple { grid-column: 1 / -1; }
+
+  /* Formulaire révélé : pleine largeur (aligné sur les cartes au-dessus), champs par PAIRES. */
+  .sos-reveal {
+    max-width: none; /* même largeur que les cartes sens (~960px) */
+    width: 100%;
+  }
+  .sos-fieldblock {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16) var(--space-20);
+    align-items: start;
+  }
+  .sos-block-titre { grid-column: 1 / -1; } /* le titre du bloc reste pleine largeur */
+  /* 2e bloc (Réf dossier | Nom) : la référence est un code court → colonne plus étroite (1/3). */
+  .sos-fieldblock + .sos-fieldblock {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  /* Footer : centré sous le même conteneur ~960px. */
+  .sos-footer {
+    max-width: 960px;
+    margin: auto auto 0;
+    width: 100%;
+    padding-left: var(--space-24);
+    padding-right: var(--space-24);
+  }
+}
+
+/* Champ heure natif : même rendu que les autres inputs, picker du navigateur */
+.sos-field__input--time { appearance: none; -webkit-appearance: none; }
+.sos-field__input--time::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .7; }
+.sos-field__input--time::-webkit-datetime-edit { color: var(--color-brand); }

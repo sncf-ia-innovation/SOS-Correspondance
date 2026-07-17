@@ -1,0 +1,65 @@
+/* Parcours "Cartes, passes et abonnements" (réclamation SNCF), multi-écrans,
+   mobile ~400px. Réutilise reclamation.css (.recl-*, .recl-header, .recl-choice,
+   .recl-field, .recl-cta, .recl-back, .recl-screen) et train-supprime.css
+   (écran "Connectez-vous", bandeau "Mon Identifiant SNCF", œil, checkbox, CTA
+   outline). Ce fichier n'ajoute QUE la variante cartes-choix "compacte"
+   (icône + libellé brand, sans description, centrée verticalement).
+   100% tokens (var(--...)). Aucun hex hors TODO commenté. Thème teal SNCF. */
+
+/* ---------- Cartes-choix "type de carte / abonnement" (sans description) ---------- */
+.recl-choice--card {
+  align-items: center; /* icône + libellé centrés verticalement (cf. réf) */
+}
+.recl-choice--card .recl-choice__body {
+  justify-content: center;
+}
+
+/* ---------- Écran "objet de la demande" : description grise ---------- */
+.recl-choice__desc {
+  color: var(--color-gray-46); /* texte secondaire gris (cf. réf) */
+}
+/* Pictogramme "lien externe" accolé au libellé */
+.recl-choice__ext {
+  display: inline-block;
+  vertical-align: -2px;
+  margin-left: var(--space-6);
+  color: var(--color-brand);
+}
+
+/* ---------- Écran "région" (Abonnement régional TER) ---------- */
+.recl-region-map {
+  display: flex;
+  justify-content: center;
+  margin: var(--space-8) 0 var(--space-16);
+  color: var(--color-brand);
+}
+.recl-region-toggle {
+  margin-bottom: var(--space-16);
+}
+.recl-region-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-24);
+}
+.recl-region-item {
+  width: 100%;
+  padding: var(--space-12) 0;
+  border: none;
+  border-bottom: 1px solid var(--color-accent-1);
+  background: transparent;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+.recl-region-item:hover {
+  text-decoration: underline;
+}
+.recl-region-item:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}

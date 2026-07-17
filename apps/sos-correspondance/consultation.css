@@ -1,0 +1,282 @@
+/* SOS Correspondance — écran Consultation.
+   Surcharges au-dessus de supervision.css. 100% via tokens (var(--...)).
+   Aucun hex hors TODO commenté. */
+
+/* ---------- Sélecteur de date (calendrier, thème DS) ---------- */
+.sos-field--date { flex: 0 0 148px; min-width: 148px; } /* jj/mm/aaaa + icône, un peu plus compact */
+.sos-field--statut { flex: 0 0 190px; min-width: 190px; } /* Statut : largeur fixe, ne s'étire pas */
+.sos-field--dp { position: relative; }
+.sos-dp {
+  position: absolute;
+  top: calc(100% + var(--space-4));
+  left: 0;
+  z-index: 40;
+  width: 288px;
+  padding: var(--space-12);
+  background: var(--color-white);
+  border: 1px solid var(--color-accent-1);
+  border-radius: var(--radius-r8);
+  box-shadow: 0 8px 24px rgba(6, 86, 84, .15);
+}
+.sos-dp[hidden] { display: none; }
+.sos-dp__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+}
+.sos-dp__month {
+  font-size: var(--text-base);
+  font-weight: 800;
+  color: var(--color-brand);
+  text-transform: capitalize;
+}
+.sos-dp__nav {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--space-32); height: var(--space-32);
+  border: 0; border-radius: var(--radius-r6);
+  background: transparent;
+  color: var(--color-brand);
+  font-size: var(--text-xl);
+  line-height: 1;
+  cursor: pointer;
+}
+.sos-dp__nav:hover { background: var(--color-accent-18); }
+.sos-dp__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.sos-dp__dow {
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-gray-46);
+  padding: var(--space-4) 0;
+}
+.sos-dp__day {
+  aspect-ratio: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: var(--radius-r6);
+  background: transparent;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+.sos-dp__day:hover { background: var(--color-accent-18); }
+.sos-dp__day--empty { visibility: hidden; pointer-events: none; }
+.sos-dp__day.is-today { box-shadow: inset 0 0 0 1.5px var(--color-brand); }
+.sos-dp__day.is-selected { background: var(--color-brand); color: var(--color-white); }
+
+/* ---------- Lien Exporter (.xlsx) : sans cadre, juste texte + icône télécharger à gauche ---------- */
+.sos-link-export {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 400;
+  cursor: pointer;
+}
+.sos-link-export:hover { text-decoration: underline; }
+.sos-link-export__icon { width: 16px; height: 16px; flex: 0 0 auto; color: var(--color-brand); }
+
+/* ---------- Compteur : "200 demandes / 215 passagers" ---------- */
+.sos-count__sub {
+  font-weight: 500;
+  color: var(--color-gray-46);
+}
+
+/* ---------- Tableau de consultation ---------- */
+/* En-tête : on garde le gabarit ligne-de-tableau (fond brand, texte blanc). */
+.sos-table--consult .ds-ligne-tableau__row--entete > .ds-ligne-tableau__cell {
+  white-space: nowrap;
+}
+/* Lignes data : pas de sélection ici → fond blanc uniforme + survol léger. */
+.sos-table--consult .sos-row > .ds-ligne-tableau__cell {
+  background: var(--color-white);
+  color: var(--color-gray-31);
+}
+.sos-table--consult .sos-row:hover > .ds-ligne-tableau__cell {
+  background: var(--color-accent-18); /* #e3f3ef — voile teal très clair au survol */
+}
+.sos-cell-type { color: var(--color-gray-46); }
+.sos-cell-com  { color: var(--color-gray-46); }
+.sos-cell-statut { white-space: nowrap; }
+
+/* ---------- Status = PILL plein : fond = couleur du statut, texte blanc ----------
+   (réf. Figma « Sélection type de train desktop » dans Frame 48096732) */
+.sos-cell-statut .ds-status-badge {
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-r10); /* pill */
+  gap: 0;
+  color: var(--color-white);
+  font-size: var(--text-sm);
+  font-weight: 500; /* texte plus fin */
+  white-space: nowrap;
+}
+.sos-cell-statut .ds-status-badge__dot { display: none; } /* plus de pastille, le fond porte la couleur */
+.sos-cell-statut .ds-status-badge__label { color: var(--color-white); }
+
+/* Couleurs de fond par statut (texte blanc lisible) */
+.sos-cell-statut .ds-status-badge--report   { background: #1f9d57; }               /* vert — traité report */
+.sos .sos-cell-statut .ds-status-badge--valid { background: var(--color-accent-16); } /* #00997c teal — corresp. OK */
+.sos-cell-statut .ds-status-badge--pursuit   { background: #3a5ba0; }               /* bleu — poursuite TGV* */
+.sos-cell-statut .ds-status-badge--todo-sup  { background: #ffd245; color: #5a3d00; } /* jaune — texte brun */
+.sos-cell-statut .ds-status-badge--todo-sup .ds-status-badge__label { color: #5a3d00; } /* TODO: pas de token brun */
+.sos-cell-statut .ds-status-badge--todo-esc  { background: var(--color-accent-17); } /* #ff3c00 rouge — à traiter escale */
+.sos-cell-statut .ds-status-badge--typo-esc    { background: #b45309; } /* orange foncé — typo à traiter escale */
+.sos-cell-statut .ds-status-badge--non-traitee { background: #4b5563; } /* gris — non traitée par sup. (abandonnée) */
+.sos-cell-statut .ds-status-badge--journee     { background: #0e7490; } /* cyan — corresp. en journée */
+.sos-cell-statut .ds-status-badge--traite-esc  { background: #166534; } /* vert sombre — traitée escale */
+
+/* ---------- Barre Récapitulatif : cartes colorées (réf. Figma Frame 48096731) ---------- */
+.sos-recap {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-16);
+  padding-left: 0;   /* la barre blanche reste pleine largeur ; le contenu est centré */
+  padding-right: 0;
+}
+/* Contenu (en-tête + cartes) aligné sur le même conteneur ~1180px que le tableau */
+.sos-recap__head,
+.sos-recap__cards {
+  width: 100%;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-32);
+  padding-right: var(--space-32);
+}
+.sos-recap__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sos-recap__title {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--color-brand);
+}
+.sos-recap__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  border: 0;
+  background: transparent;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 700;
+  cursor: pointer;
+}
+.sos-recap__toggle:hover { text-decoration: underline; }
+.sos-recap__toggle-icon { width: 16px; height: 16px; }
+/* réduit : le « − » devient « + » (on montre la barre verticale) et le texte change */
+.sos-recap .sos-recap__plus-v { display: none; }
+.sos-recap:not(.is-open) .sos-recap__plus-v { display: inline; }
+
+/* Rangée de cartes */
+.sos-recap__cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+.sos-recap:not(.is-open) .sos-recap__cards { display: none; }
+
+.sos-recap-card {
+  flex: 1 1 180px;
+  max-width: 240px;
+  min-height: 132px;            /* cartes un peu plus hautes */
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-16);
+  border-radius: var(--radius-r8);
+  color: var(--color-accent-2); /* #002b28 texte foncé lisible sur toutes les couleurs */
+}
+.sos-recap-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-12);
+}
+.sos-recap-card__stats { display: flex; gap: var(--space-16); }
+.sos-recap-card__stat { display: flex; flex-direction: column; line-height: 1.1; }
+.sos-recap-card__stat strong { font-size: 26px; font-weight: 800; } /* TODO: pas de token > 20px */
+.sos-recap-card__stat span { font-size: var(--text-sm); }
+.sos-recap-card__icon { width: 24px; height: 24px; flex: 0 0 auto; color: currentColor; }
+.sos-recap-card__badge {
+  flex: 0 0 auto;
+  width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--color-accent-2);
+  color: var(--color-white);
+}
+.sos-recap-card__badge svg { width: 13px; height: 13px; }
+.sos-recap-card__label {
+  display: block;
+  margin-top: auto;              /* étiquette poussée en bas de la carte */
+  padding-top: var(--space-12);
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+/* Couleurs des cartes (réf. Figma) */
+.sos-recap-card--total  { background: #b3ccff; }              /* bleu */
+.sos-recap-card--green  { background: var(--color-accent-7); } /* #bbffbe vert */
+.sos-recap-card--yellow { background: #ffd245; }              /* jaune */
+.sos-recap-card--red    { background: #ff6833; color: var(--color-white); } /* rouge, texte blanc */
+.sos-recap-card--red .sos-recap-card__badge { background: var(--color-white); color: #ff6833; }
+
+/* ---------- Responsive léger ---------- */
+@media (max-width: 900px) {
+  .sos-recap-card { flex-basis: 140px; }
+}
+
+/* ---------- Tableau : toutes les colonnes (Commentaire inclus) visibles sans swipe ---------- */
+.sos-table-wrap { overflow-x: visible; }        /* plus de scroll horizontal */
+.sos-table--consult { width: 100%; min-width: 0; table-layout: fixed; }
+.sos-table--consult .ds-ligne-tableau__cell {
+  padding-left: var(--space-8);
+  padding-right: var(--space-8);
+  font-size: var(--text-sm);
+  white-space: normal;          /* le texte long passe à la ligne au lieu de déborder */
+  word-break: break-word;
+  vertical-align: middle;
+}
+.sos-table--consult .ds-ligne-tableau__row--entete > .ds-ligne-tableau__cell {
+  white-space: normal;
+  font-size: var(--text-sm);
+}
+/* Largeurs de colonnes serrées (10 colonnes) : num/pax étroites, textes souples */
+.sos-table--consult .sos-cell-num { width: 3.5%; }
+.sos-table--consult .sos-cell-statut { width: 17%; }
+.sos-table--consult .sos-cell-com { width: 10%; }
+/* le pill s'adapte au contenu et ne se fait pas rogner */
+.sos-table--consult .sos-cell-statut .ds-status-badge { max-width: 100%; }
+
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Rangée du bas des filtres : Transporteur / Typologie client / Statut */
+.sos-filters__break { flex-basis: 100%; height: 0; margin: 0; padding: 0; }
+
+/* Case à cocher « Traitée en escale » à côté du badge (l'agent d'escale modifie l'état — diapos 39-40) */
+.sos-esc-check {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: var(--space-8);
+  cursor: pointer;
+}
+/* badge + case sur la même ligne, sans déborder sur la colonne voisine :
+   pill compacte quand une case l'accompagne, case rapprochée et réduite */
+.sos-table--consult .sos-cell-statut { white-space: nowrap; }
+.sos-esc-check { margin-top: 0; margin-left: var(--space-4); }
+.sos-esc-check .sos-check__box,
+.sos-esc-check .sos-check__icon { width: 15px; height: 15px; }
+.sos-cell-statut:has(.sos-esc-check) .ds-status-badge {
+  padding: 2px var(--space-6);
+  font-size: var(--text-xs);
+}

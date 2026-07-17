@@ -1,0 +1,56 @@
+/* Suggestion liste — liste d'autocomplete, 2 variants Figma: Default / Variant2 (item sélectionné) */
+
+.ds-suggestion-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4); /* itemSpacing 4 (entre items) */
+}
+
+/* --- Item (base) = variant Default : fond blanc, libellé brand --- */
+.ds-suggestion-liste__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4); /* itemSpacing 4 (label / detail) */
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-r6); /* cornerRadius 8 */
+  background: var(--color-white);
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  cursor: pointer;
+  user-select: none;
+}
+
+.ds-suggestion-liste__label {
+  font-weight: 700; /* Avenir Heavy dans le variant sélectionné; gras léger en survol */
+}
+
+/* En Default, le libellé suit la graisse courante (pas de Heavy forcé) */
+.ds-suggestion-liste__item:not(.ds-suggestion-liste__item--selected) .ds-suggestion-liste__label {
+  font-weight: 400;
+}
+
+.ds-suggestion-liste__detail {
+  font-weight: 400;
+}
+
+/* --- État hover / focus --- */
+.ds-suggestion-liste__item:hover,
+.ds-suggestion-liste__item:focus-visible {
+  background: var(--color-accent-3); /* #0656540d : voile brand léger */
+  outline: none;
+}
+
+/* --- Variant2 = item sélectionné : fond brand, texte blanc --- */
+.ds-suggestion-liste__item--selected {
+  background: var(--color-brand);
+  color: var(--color-white);
+}
+
+.ds-suggestion-liste__item--selected:hover,
+.ds-suggestion-liste__item--selected:focus-visible {
+  background: var(--color-brand);
+}

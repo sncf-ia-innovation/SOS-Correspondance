@@ -1,0 +1,186 @@
+/* Parcours "Confort, services et options" (réclamation SNCF), multi-écrans, mobile ~400px.
+   Réutilise reclamation.css (.recl-*, .recl-header, .recl-choice, .recl-field,
+   .recl-cta, .recl-back, .recl-screen). Ce fichier n'ajoute QUE les variantes
+   propres au parcours (écran "Connectez-vous", bandeau login "Mon Identifiant SNCF",
+   champ mot de passe + œil, checkbox, double bouton, autocomplete gare).
+   Patterns login repris à l'identique de train-supprime.css ; autocomplete repris de
+   apps/sos-correspondance/client.css (.ds-suggestion-liste).
+   100% tokens (var(--...)). Aucun hex hors TODO commenté. Thème teal SNCF. */
+
+/* ---------- Écran "Connectez-vous" : texte d'intro ---------- */
+.recl-lead {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.45;
+}
+
+/* ---------- Boutons empilés (Se connecter / Créer un compte / sans compte) ---------- */
+.recl-btn-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+/* Variante CTA "contour" (fond blanc, bordure teal) — réutilise la base .recl-cta */
+.recl-cta--outline {
+  background: var(--color-white);
+  color: var(--color-brand);
+}
+.recl-cta--outline:hover,
+.recl-cta--outline:focus-visible {
+  background: var(--color-accent-18); /* voile teal clair */
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+
+/* Rangée de deux boutons côte à côte (Annuler / Me connecter) */
+.recl-actions--pair {
+  display: flex;
+  gap: var(--space-16);
+}
+.recl-actions--pair .recl-cta { margin-top: 0; }
+
+/* ---------- Bandeau teal "Bienvenue sur Mon Identifiant SNCF" ---------- */
+.recl-login-banner {
+  margin: calc(-1 * var(--space-20)) calc(-1 * var(--space-20)) 0;
+  padding: var(--space-16) var(--space-20);
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.3;
+}
+.recl-login-banner strong { font-weight: 800; /* Avenir Heavy */ }
+
+/* Titre centré "Connexion à mon compte" */
+.recl-titre--center { text-align: center; }
+
+/* Texte d'intro login (centré) */
+.recl-login-intro {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-base); /* 14px */
+  line-height: 1.45;
+  text-align: center;
+}
+.recl-login-intro strong { font-weight: 800; }
+
+/* "* champs obligatoires" aligné à droite (cf. frame login) */
+.recl-asterisk-note--right { text-align: right; }
+
+/* ---------- Champ mot de passe avec œil (toggle) ---------- */
+.recl-field--password { position: relative; }
+.recl-field--password .recl-field__input { padding-right: var(--space-48); }
+.recl-eye {
+  position: absolute;
+  right: var(--space-12);
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-48);
+  height: var(--space-48);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brand);
+  cursor: pointer;
+}
+.recl-eye:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: var(--radius-r6);
+}
+/* l'œil "barré" est masqué tant que le mot de passe est caché */
+.recl-eye .recl-eye__off { display: none; }
+.recl-field--password.is-revealed .recl-eye .recl-eye__on { display: none; }
+.recl-field--password.is-revealed .recl-eye .recl-eye__off { display: block; }
+
+/* ---------- Ligne "Se souvenir de moi" + "Mot de passe oublié >" ---------- */
+.recl-login-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+/* Checkbox custom (label cliquable) */
+.recl-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  cursor: pointer;
+}
+.recl-check__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.recl-check__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--space-20);
+  height: var(--space-20);
+  border: 2px solid var(--color-accent-1);
+  border-radius: var(--radius-r6);
+  background: var(--color-white);
+  color: var(--color-white);
+}
+.recl-check__box svg { display: none; }
+.recl-check__input:checked + .recl-check__box {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+}
+.recl-check__input:checked + .recl-check__box svg { display: block; }
+.recl-check__input:focus-visible + .recl-check__box {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Lien "Mot de passe oublié >" */
+.recl-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  text-decoration: none;
+  cursor: pointer;
+}
+.recl-link:hover { text-decoration: underline; }
+.recl-link:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Note bas de page (** identifiants uniques valables sur…) */
+.recl-fineprint {
+  margin: 0;
+  color: var(--color-gray-31); /* gris texte secondaire */
+  font-size: var(--text-sm); /* 12px */
+  line-height: 1.4;
+}
+
+/* ---------- Autocomplete gare (réutilise .ds-suggestion-liste) ---------- */
+.recl-autocomplete { position: relative; }
+.recl-autocomplete .ds-suggestion-liste {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + var(--space-4));
+  left: 0;
+  right: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-gray-84);
+  border-radius: var(--radius-r6);
+  background: var(--color-white);
+  box-shadow: var(--shadow-md, 0 4px 12px rgba(0,0,0,.12)); /* TODO: ombre dropdown */
+}
+.recl-autocomplete .ds-suggestion-liste[hidden] { display: none; }

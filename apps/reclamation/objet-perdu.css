@@ -1,0 +1,41 @@
+/* Parcours "Objet perdu" (réclamation SNCF) — multi-écrans mobile, navigation JS.
+   100% tokens (var(--...)). Aucun hex hors TODO commenté.
+   Réutilise reclamation.css (.recl-*, en-tête plaque logo, cartes-choix, CTA, Retour).
+   Ce fichier ne porte que les variantes propres au parcours "Objet perdu". */
+
+/* ---------- Carte-choix "sélectionnée" : teal plein (cf. frames f.png) ----------
+   Dans les images, la 1re carte de chaque écran apparaît en teal plein
+   (état hover/selected). On le rend sur :hover et via .is-selected. */
+.recl-choice.is-selected,
+.recl-choice.is-selected:hover {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: var(--color-white);
+}
+.recl-choice.is-selected .recl-choice__icon,
+.recl-choice.is-selected .recl-choice__label,
+.recl-choice.is-selected .recl-choice__desc {
+  color: var(--color-white);
+}
+
+/* ---------- Bloc de texte d'orientation (écrans France / étranger) ---------- */
+.recl-prose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.recl-prose p {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.5;
+}
+.recl-prose strong { font-weight: 800; /* Avenir Heavy */ }
+
+/* Lien externe (flèche ↗) dans le CTA — réutilise .recl-cta */
+.recl-cta__ext {
+  flex: 0 0 auto;
+  width: var(--space-20);
+  height: var(--space-20);
+  margin-left: var(--space-8);
+}

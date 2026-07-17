@@ -1,0 +1,10 @@
+/* Parcours "Compte, programme fidélité" (réclamation SNCF), multi-écrans, mobile ~400px.
+   Réutilise reclamation.css (.recl-*, .recl-header, .recl-choice, .recl-field,
+   .recl-cta, .recl-back, .recl-screen) et train-supprime.css (.recl-login-banner,
+   .recl-cta--outline, .recl-check, .recl-eye, .recl-link, .recl-fineprint…).
+   Ce fichier n'ajoute QUE l'ajustement des cartes-choix sans description
+   (libellé seul → icône + label centrés verticalement).
+   100% tokens (var(--...)). Aucun hex hors TODO commenté. Thème teal SNCF. */
+
+/* Écran 1 : cartes-choix à libellé unique (pas de description) → alignement centré */
+#screen-demande .recl-choice { align-items: center; }

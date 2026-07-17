@@ -1,0 +1,318 @@
+/* HUB de réclamation SNCF — "Quel est le motif de votre demande ?" (mobile, 1 écran).
+   100% tokens (var(--...)). Aucun hex hors TODO commenté.
+
+   THÈME teal SNCF Voyageurs (--color-brand #065654).
+   Patterns repris de :
+   - apps/sos-correspondance/supervision.css : .sos-header__logo-plate (plaque blanche
+     collée au bord haut, coins haut carrés / bas arrondis).
+   - apps/contact-ouigo/ouigo.css : en-tête teal, cartes (bordure teal arrondie),
+     CTA teal, lien Retour, champs tokenisés.
+   train-retarde.css réutilise ce fichier (.recl-* sont partagés). */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-gray-95); /* fond hors cadre mobile (token) */
+  font-family: var(--font-sans); /* Avenir */
+  color: var(--color-brand);
+}
+
+/* Cadre mobile centré (repris de .ouigo) */
+.recl {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--color-white);
+}
+
+/* ---------- 1. En-tête teal + plaque logo SNCF Voyageurs ---------- */
+.recl-header {
+  position: relative;
+  background: var(--color-brand);
+}
+.recl-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-16) var(--space-20);
+}
+.recl-header__logo {
+  display: inline-flex;
+  align-self: flex-start;
+  text-decoration: none;
+}
+/* Plaque blanche collée au bord haut (coins haut carrés / bas arrondis) — cf. .sos-header__logo-plate */
+.recl-header__logo-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: calc(-1 * var(--space-16)); /* annule le padding-top du header */
+  padding: var(--space-16) var(--space-12) var(--space-12);
+  background: var(--color-white);
+  border-radius: 0 0 var(--radius-r8) var(--radius-r8);
+}
+.recl-header__logo-svg { display: block; color: var(--color-accent-4); }
+.recl-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+.recl-header__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-white);
+  cursor: pointer;
+}
+.recl-header__icon-btn:hover,
+.recl-header__icon-btn:focus-visible { opacity: .85; outline: none; }
+
+/* ---------- Corps ---------- */
+.recl-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  padding: var(--space-20) var(--space-20) var(--space-32);
+}
+
+/* ---------- Titre principal (repris de .ouigo-titre) ---------- */
+.recl-titre {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-2xl); /* 20px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.25;
+}
+
+.recl-asterisk-note {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-sm); /* 12px */
+}
+.recl-req { color: var(--color-accent-4); /* astérisque obligatoire */ }
+
+/* ---------- 2. Liste de cartes-motifs ---------- */
+.recl-motifs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.recl-motif {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+  width: 100%;
+  padding: var(--space-16);
+  border: 1px solid var(--color-accent-1); /* bordure teal clair arrondie */
+  border-radius: var(--radius-r8); /* 16px */
+  background: var(--color-white);
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.recl-motif__icon {
+  flex: 0 0 auto;
+  width: var(--space-32);
+  height: var(--space-32);
+  color: var(--color-brand);
+}
+.recl-motif__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 0;
+}
+.recl-motif__label {
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.3;
+}
+.recl-motif__desc {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-base); /* 14px */
+  line-height: 1.45;
+}
+.recl-motif:hover {
+  background: var(--color-accent-18); /* #e3f3ef voile teal clair */
+  border-color: var(--color-brand);
+}
+.recl-motif:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-color: var(--color-brand);
+}
+
+/* ============================================================
+   ÉCRANS du parcours "Train retardé" (train-retarde.html)
+   ============================================================ */
+
+/* Écrans (navigation JS) */
+.recl-screen { display: none; }
+.recl-screen.is-active { display: block; }
+
+/* ---------- Cartes-choix de trajet (icône + titre + desc) ---------- */
+.recl-choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.recl-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+  width: 100%;
+  padding: var(--space-16);
+  border: 1px solid var(--color-accent-1);
+  border-radius: var(--radius-r8);
+  background: var(--color-white);
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.recl-choice__icon {
+  flex: 0 0 auto;
+  width: var(--space-32);
+  height: var(--space-32);
+  color: var(--color-brand);
+}
+.recl-choice__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.recl-choice__label {
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800;
+  line-height: 1.3;
+}
+.recl-choice__desc {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-base); /* 14px */
+  line-height: 1.45;
+}
+.recl-choice:hover {
+  background: var(--color-accent-18);
+  border-color: var(--color-brand);
+}
+.recl-choice:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-color: var(--color-brand);
+}
+
+/* ---------- Champs (repris de .ouigo-field) ---------- */
+.recl-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.recl-field__label {
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 500;
+}
+.recl-field__input {
+  width: 100%;
+  height: var(--space-48);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-accent-1); /* contour teal clair (cf. frames) */
+  border-radius: var(--radius-r6); /* 8px */
+  background: var(--color-white);
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-md); /* 16px */
+}
+.recl-field__input::placeholder { color: var(--color-gray-46); }
+.recl-field__input:focus-visible {
+  border-color: var(--color-brand);
+  outline: 2px solid var(--color-brand);
+  outline-offset: 1px;
+}
+.recl-field__help {
+  margin: 0;
+  color: var(--color-gray-31);
+  font-size: var(--text-sm); /* 12px */
+  line-height: 1.35;
+}
+
+/* ---------- Grille coordonnées (1 col mobile) ---------- */
+.recl-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+.recl-actions { display: flex; }
+
+/* ---------- CTA teal pleine largeur (repris de .ouigo-cta) ---------- */
+.recl-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--space-48);
+  margin-top: var(--space-4);
+  padding: 0 var(--space-24);
+  border: 2px solid var(--color-brand);
+  border-radius: var(--radius-r10); /* pill */
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl); /* 18px */
+  font-weight: 800; /* Avenir Heavy */
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.recl-cta:hover,
+.recl-cta:focus-visible {
+  background: var(--color-accent-2); /* #002b28 */
+  border-color: var(--color-accent-2);
+  outline: none;
+}
+
+/* ---------- Lien "← Retour" (repris de .ouigo-back) ---------- */
+.recl-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  text-decoration: none;
+  cursor: pointer;
+}
+.recl-back__icon { flex: 0 0 auto; width: var(--space-20); height: var(--space-20); }
+.recl-back:hover { text-decoration: underline; }
+.recl-back:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* ---------- Garde anti-débordement horizontal (mobile) ---------- */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }

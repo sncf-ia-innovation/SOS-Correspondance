@@ -1,0 +1,278 @@
+/* Écran intro "Contravention" — parcours réclamation (mobile ~400px).
+   100% tokens (var(--...)). Aucun hex hors TODO commenté.
+
+   Thème teal SNCF Voyageurs (cf. frames de référence).
+   Patterns repris de :
+   - design-system/apps/sos-correspondance/supervision.css → .sos-header__logo-plate
+   - design-system/apps/contact-ouigo/ouigo.css → .ouigo-cta (CTA teal), .ouigo-back, header
+   - design-system/apps/sos-correspondance/client.css → .sos-modal* (popin) */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-gray-95); /* fond hors cadre mobile (token) */
+  font-family: var(--font-sans); /* Avenir */
+  color: var(--color-brand);
+}
+
+/* Cadre mobile centré */
+.contrav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--color-white);
+}
+
+/* ---------- 1. En-tête teal + plaque logo SNCF Voyageurs ---------- */
+.contrav-header {
+  position: relative;
+  background: var(--color-brand);
+}
+.contrav-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-16) var(--space-20);
+}
+.contrav-header__logo {
+  display: inline-flex;
+  align-self: flex-start;
+  text-decoration: none;
+}
+/* Plaque blanche collée au bord haut (coins haut carrés / bas arrondis) */
+.contrav-header__logo-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: calc(-1 * var(--space-16)); /* annule le padding-top du header */
+  padding: var(--space-16) var(--space-12) var(--space-12);
+  background: var(--color-white);
+  border-radius: 0 0 var(--radius-r8) var(--radius-r8);
+}
+.contrav-header__logo-svg { display: block; color: var(--color-accent-4); }
+.contrav-header__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+.contrav-header__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-white);
+  cursor: pointer;
+}
+.contrav-header__icon-btn:hover,
+.contrav-header__icon-btn:focus-visible { opacity: .85; outline: none; }
+
+/* ---------- 2. Corps ---------- */
+.contrav-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  padding: var(--space-24) var(--space-20) var(--space-32);
+}
+
+/* Titre principal (repris de .ouigo-titre) */
+.contrav-titre {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-2xl); /* 20px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.25;
+}
+
+/* Paragraphes courants */
+.contrav-text {
+  margin: 0;
+  color: var(--color-gray-31); /* #4d4f53 texte courant */
+  font-size: var(--text-base); /* 14px */
+  line-height: 1.5;
+}
+.contrav-text strong { color: var(--color-gray-31); font-weight: 800; }
+
+/* Liste à puces */
+.contrav-list {
+  margin: 0;
+  padding-left: var(--space-20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  color: var(--color-gray-31);
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+.contrav-list li { padding-left: var(--space-4); }
+.contrav-list strong { color: var(--color-gray-31); font-weight: 800; }
+
+/* CTA teal pleine largeur (repris de .ouigo-cta) */
+.contrav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  width: 100%;
+  height: var(--space-48);
+  margin-top: var(--space-4);
+  padding: 0 var(--space-24);
+  border: 2px solid var(--color-brand);
+  border-radius: var(--radius-r10); /* pill */
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl); /* 18px */
+  font-weight: 800; /* Avenir Heavy */
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.contrav-cta:hover,
+.contrav-cta:focus-visible {
+  background: var(--color-accent-2); /* #002b28 */
+  border-color: var(--color-accent-2);
+  outline: none;
+}
+.contrav-cta__icon { flex: 0 0 auto; }
+
+/* Lien "← Retour" (repris de .ouigo-back) */
+.contrav-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  text-decoration: none;
+  cursor: pointer;
+}
+.contrav-back__icon { flex: 0 0 auto; }
+.contrav-back:hover { text-decoration: underline; }
+.contrav-back:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* ---------- 3. Popin "Attention" (repris de .sos-modal*) ---------- */
+.contrav-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-20);
+  overflow-y: auto;
+  /* TODO: voile backdrop (overlay noir 50% — pas de token dédié) */
+  background: rgba(0, 0, 0, .5);
+}
+.contrav-modal[hidden] { display: none; }
+
+.contrav-modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  margin: auto;
+  padding: var(--space-32) var(--space-24) var(--space-24);
+  border-radius: var(--radius-r8);
+  background: var(--color-white);
+  color: var(--color-brand);
+}
+
+.contrav-modal__close {
+  position: absolute;
+  top: var(--space-16);
+  right: var(--space-16);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-32);
+  height: var(--space-32);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brand);
+  cursor: pointer;
+}
+.contrav-modal__close:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: var(--radius-r6);
+}
+
+.contrav-modal__title {
+  margin: 0 var(--space-32) var(--space-16) 0;
+  font-size: var(--text-2xl); /* 20px */
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.contrav-modal__text {
+  margin: 0 0 var(--space-24);
+  color: var(--color-gray-31); /* #4d4f53 */
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.45;
+}
+
+.contrav-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.contrav-modal__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: var(--space-48);
+  padding: 0 var(--space-20);
+  border: 2px solid var(--color-brand);
+  border-radius: var(--radius-r10); /* pill */
+  font-family: var(--font-sans);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+/* Secondaire : bordure teal, fond blanc */
+.contrav-modal__btn--secondary {
+  background: var(--color-white);
+  color: var(--color-brand);
+}
+.contrav-modal__btn--secondary:hover,
+.contrav-modal__btn--secondary:focus-visible {
+  background: var(--color-accent-18); /* #e3f3ef voile teal clair */
+  outline: none;
+}
+/* Primaire : teal plein */
+.contrav-modal__btn--primary {
+  background: var(--color-brand);
+  color: var(--color-white);
+}
+.contrav-modal__btn--primary:hover,
+.contrav-modal__btn--primary:focus-visible {
+  background: var(--color-accent-2); /* #002b28 */
+  border-color: var(--color-accent-2);
+  outline: none;
+}
+
+body.contrav-modal-open { overflow: hidden; }
+
+/* ---------- Garde anti-débordement horizontal (mobile) ---------- */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }

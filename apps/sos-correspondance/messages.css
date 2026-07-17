@@ -1,0 +1,179 @@
+/* Écrans de réponse (messages) — SOS Correspondance (mobile) */
+/* Réutilise client.css pour header/footer/conteneur. Tokens uniquement, aucun hex sauf TODO. */
+
+/* ---------- Corps ---------- */
+.msg-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  padding-top: var(--space-20);
+}
+
+/* ---------- Message texte (merci / prise-en-charge / deja) ---------- */
+.msg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+/* une seule variante visible à la fois (l'attribut hidden doit l'emporter sur .msg) */
+.msg[hidden] { display: none; }
+
+.msg__title {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-2xl); /* 20px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.3;
+}
+
+.msg__text {
+  margin: 0;
+  color: var(--color-brand); /* #4d4f53 corps de texte (sur fond blanc) */
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.5;
+}
+
+.msg__text strong { color: var(--color-brand); font-weight: 800; }
+
+.msg__text-link {
+  color: var(--color-brand);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.msg__signature {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: var(--text-md);
+  font-weight: 500;
+}
+
+/* ---------- Liste à puces (m=autres) ---------- */
+.msg__list {
+  margin: 0;
+  padding-left: var(--space-20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.msg__item {
+  color: var(--color-brand);
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.5;
+}
+
+.msg__item::marker { color: var(--color-brand); }
+.msg__item strong { color: var(--color-brand); font-weight: 800; }
+
+/* ---------- Bouton plein (m=introuvable : « Modifier ma demande ») ---------- */
+.msg__btn {
+  align-self: stretch;
+  margin-top: var(--space-8);
+  padding: var(--space-16) var(--space-24);
+  border: none;
+  border-radius: var(--radius-r8); /* 16px */
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: var(--text-md); /* 16px */
+  font-weight: 600; /* moins gras */
+  cursor: pointer;
+  text-align: center;      /* utilisable aussi comme <a> (ex. tel:3635) */
+  text-decoration: none;
+}
+
+.msg__btn:hover,
+.msg__btn:focus-visible {
+  background: var(--color-brand-2, var(--color-brand)); /* TODO : pas de teinte hover dédiée dans les tokens */
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* ---------- Note bas de variante (m=service-client) — gris sur fond blanc ---------- */
+.msg__note {
+  margin: 0;
+  color: var(--color-gray-46); /* #747678 — gris sur fond blanc, pas de gris-sur-couleur */
+  font-size: var(--text-sm); /* 12px */
+  line-height: 1.4;
+}
+
+/* ---------- Variante crise : encadré orange plein (m=indispo) ---------- */
+.msg-alert {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: var(--space-20);
+  border-radius: var(--radius-r8); /* 16px */
+  background: var(--color-accent-17); /* #ff3c00 — seul orange du DS (maquette : orange crise) */
+  color: var(--color-white); /* texte clair sur fond plein, pas de gris-sur-couleur */
+}
+
+.msg-alert__title {
+  margin: 0;
+  color: var(--color-white);
+  font-size: var(--text-md); /* 16px */
+  font-weight: 800; /* Avenir Heavy */
+  line-height: 1.35;
+}
+
+.msg-alert__text {
+  margin: 0;
+  color: var(--color-white);
+  font-size: var(--text-md); /* 16px */
+  line-height: 1.5;
+}
+
+.msg-alert__text strong { color: var(--color-white); font-weight: 800; }
+
+.msg-alert__signature {
+  margin: 0;
+  color: var(--color-white);
+  font-size: var(--text-md);
+  font-weight: 500;
+}
+
+/* ---------- Aperçu : bascule entre variantes ---------- */
+.msg-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-8);
+  margin-top: var(--space-12);
+  padding-top: var(--space-16);
+  border-top: 1px solid var(--color-accent-18); /* #e3f3ef séparateur léger */
+}
+
+.msg-switch__heading {
+  flex-basis: 100%;
+  color: var(--color-gray-46); /* #747678 */
+  font-size: var(--text-sm); /* 12px */
+  font-weight: 500;
+}
+
+.msg-switch__link {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-4) var(--space-12);
+  border: 1px solid var(--color-brand);
+  border-radius: var(--radius-r10); /* pill */
+  color: var(--color-brand);
+  font-size: var(--text-sm); /* 12px */
+  font-weight: 800; /* Avenir Heavy */
+  text-decoration: none;
+}
+
+.msg-switch__link:hover,
+.msg-switch__link:focus-visible {
+  background: var(--color-accent-18); /* #e3f3ef */
+  outline: none;
+}
+
+.msg-switch__link[aria-current="page"] {
+  background: var(--color-brand);
+  color: var(--color-white);
+}
+
+/* ---------- Garde anti-débordement horizontal (mobile) ---------- */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }

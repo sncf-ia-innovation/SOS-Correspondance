@@ -1,0 +1,77 @@
+﻿id;titre;corps;signature;bouton_texte;bouton_href;note
+"1";"Si votre voyage comprend une correspondance entre 2 trains TGV INOUI, OUIGO, INTERCITÉS ou TGV Lyria, et que vous nous avez transmis vos coordonnées lors de l'achat du billet, vous recevrez les informations sur la poursuite de votre voyage par SMS et / ou mail, au plus tard 10 min avant votre arrivée en gare.";"Si votre voyage comprend une correspondance entre 2 trains régionaux, votre billet reste valable toute la journée. Vous pourrez emprunter le train régional de votre choix pour rejoindre votre destination.
+Soyez attentif aux annonces sonores et consultez les écrans d'information.
+
+Si besoin, votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner.";"L'équipe SNCF Voyageurs";"";"";""
+"2";"Rassurez-vous, nous avons bien pris en compte votre nouvelle sollicitation. Votre demande est déjà enregistrée et en cours de traitement.";"Au plus tard 10 min avant votre arrivée en gare, vous allez recevoir les informations pour poursuivre votre voyage (par SMS et / ou mail selon les coordonnées que vous nous avez communiquées lors de l'achat du billet).
+
+Si besoin, votre chef de bord et le personnel en gare sont à votre disposition pour vous accompagner.";"L'équipe SNCF Voyageurs";"";"";""
+"3";"Nous sommes désolés mais nous ne retrouvons pas votre voyage avec la référence de votre dossier voyage et / ou le nom de famille saisis.";"Nous vous invitons à les vérifier et les corriger.
+
+Si vous rencontrez toujours des difficultés, votre chef de bord et le personnel en gare sont à votre disposition pour vous aider.
+
+Merci de votre compréhension.";"L'équipe SNCF Voyageurs";"Modifier ma demande";"client.html";""
+"4";"Nous sommes désolés mais l'horaire et / ou la gare de départ saisis ne nous permettent pas de retrouver votre voyage en train ZOU!.";"Nous vous invitons à les vérifier et les corriger.
+
+Si vous rencontrez toujours des difficultés, votre chef de bord et le personnel en gare sont à votre disposition pour vous aider.
+
+Merci de votre compréhension.";"L'équipe SNCF Voyageurs";"Modifier ma demande";"client.html";""
+"5";"Vous ne retrouvez pas votre trajet ?";"Merci de vérifier l'horaire et / ou la gare de départ que vous avez saisis.
+
+En cas de difficulté, votre chef de bord et le personnel en gare sont à votre disposition pour vous aider.
+
+Merci de votre compréhension.";"L'équipe SNCF Voyageurs";"Modifier ma demande";"form.html";""
+"6";"Merci, votre demande a bien été prise en compte. Elle est en cours de traitement.";"Au plus tard 10 min avant votre arrivée en gare, vous allez recevoir les informations pour poursuivre votre voyage (par SMS et / ou mail selon les coordonnées que vous nous avez communiquées lors de l'achat du billet).
+
+Votre chef de bord et le personnel en gare sont à votre disposition pour vous aider.";"L'équipe SNCF Voyageurs";"";"";""
+"7";"Afin de vous assurer une correspondance, vous allez être pris en charge lors de votre arrivée en gare par un de nos agents.";"Dès l'arrivée de votre train à la gare, rapprochez-vous d'un agent (chef de bord, agent au guichet ou dans la gare). Ils vont vous accompagner pour vous proposer une solution vous permettant de poursuivre votre voyage.
+
+Vous pouvez également téléphoner au 3635, nos conseillers sont disponibles pour vous aider 7j/7 de 8h à 20h pour vous aider (service gratuit + prix d'un appel).";"L'équipe SNCF Voyageurs";"Appeler le 3635";"tel:3635";""
+"8";"Afin de vous assurer une correspondance, un agent du service client va vous aider par téléphone.";"Pour cela, merci de nous contacter dès maintenant par téléphone au 3635, nos conseillers vous répondrons 7j/7 de 8h à 20h pour vous aider et trouver une solution vous permettant de poursuivre votre voyage (service gratuit + prix d'un appel).";"L'équipe SNCF Voyageurs";"Appeler le 3635";"tel:3635";""
+"9";"Nous sommes désolés mais le retard actuel de votre train ne vous permettra pas de monter à bord du train ZOU! prévu pour la suite de votre voyage.";"Néanmoins, votre billet vous permettra de prendre le train ZOU! suivant.
+
+Vous pouvez consulter [ici](https://www.sncf-voyageurs.com/fr/voyagez-avec-nous/horaires-et-itineraires/horaires-en-gare/) les horaires des autres trains ZOU! circulant aujourd'hui vers votre destination.
+
+Si malheureusement plus aucun train ZOU! ne dessert votre destination aujourd'hui, merci de vous rapprocher d'un agent dans votre gare de correspondance, qui trouvera une solution adaptée pour la poursuite de votre voyage.";"L'équipe SNCF Voyageurs";"";"";""
+"11";"Votre billet ZOU! vous permet de voyager sur le prochain train ZOU! desservant votre destination.";"Si plus aucun train ZOU! ne dessert votre destination ce jour, nous vous invitons à vous rapprocher du personnel en gare pour vous aider.
+
+Pour être informé en temps réel des solutions de poursuite du voyage, suivez le fil [@Transports_zou](https://twitter.com/Transports_zou) sur X/Twitter.";"L'équipe SNCF Voyageurs";"";"";""
+"12";"Pour vous permettre de poursuivre votre voyage vers votre destination, nous vous avons envoyé un nouveau billet de train par mail, à l'adresse que vous nous avez communiquée lors de l'achat du billet.";"Une place vous a été réservée dans un nouveau train. Si vous avez une question sur la suite de votre trajet, des agents sont à votre disposition en gare pour vous répondre.
+
+Bon voyage,";"L'équipe SNCF Voyageurs";"";"";""
+"13";"Pour vous permettre de poursuivre votre voyage vers votre destination, nous vous avons envoyé un mail, à l'adresse que vous nous avez communiquée lors de l'achat du billet. Ce mail vous permettra d'accéder à votre nouveau train.";"Malheureusement, nous ne sommes pas en mesure de vous garantir une place assise à bord de ce train. Votre chef de bord et les agents en gare sont à votre disposition pour vous accompagner.";"L'équipe SNCF Voyageurs";"";"";""
+"14";"Pour vous permettre de poursuivre votre voyage vers votre destination, nous vous avons envoyé un SMS, selon les coordonnées que vous nous avez communiquées lors de l'achat du billet. Ce SMS vous permettra d'accéder à votre nouveau train.";"Malheureusement, nous ne sommes pas en mesure de vous garantir une place assise à bord de ce train. Votre chef de bord et les agents en gare sont à votre disposition pour vous accompagner.";"L'équipe SNCF Voyageurs";"";"";""
+"15";"Rassurez-vous, votre correspondance est bien maintenue.";"Vous pouvez retrouver les informations sur votre trajet dans le mail reçu lors de la confirmation de votre achat. Pour toute question, des agents en gare restent à votre disposition pour vous accompagner.
+
+Bon voyage,";"L'équipe SNCF Voyageurs";"";"";""
+"16";"Afin de vous assurer une correspondance, vous allez être pris en charge lors de votre arrivée en gare par un agent.";"Dès l'arrivée de votre train à la gare, rapprochez-vous d'un agent (chef de bord, agent au guichet ou dans la gare). Ils vont vous accompagner pour vous proposer une solution vous permettant de poursuivre votre voyage.
+
+Vous pouvez également téléphoner au 3635, nos conseillers sont disponibles pour vous aider 7j/7 de 8h à 20h (service gratuit + prix d'un appel).";"L'équipe SNCF Voyageurs";"";"";""
+"17";"Afin de vous assurer une correspondance, vous allez être pris en charge lors de votre arrivée en gare par un agent.";"Dès l'arrivée de votre train à la gare, rapprochez-vous d'un agent (chef de bord, agent au guichet ou dans la gare). Ils vont vous accompagner pour vous proposer une solution vous permettant de poursuivre votre voyage.
+
+Vous pouvez également téléphoner au 3635, nos conseillers sont disponibles pour vous aider 7j/7 de 8h à 20h (service gratuit + prix d'un appel).";"L'équipe SNCF Voyageurs";"";"";""
+"18";"Nous sommes désolés mais le retard actuel de votre train ne vous permettra pas de monter à bord du train ZOU! prévu pour la suite de votre voyage.";"Néanmoins, votre billet vous permettra de prendre le train ZOU! suivant.
+
+Vous pouvez consulter [ici](https://www.sncf-voyageurs.com/fr/voyagez-avec-nous/horaires-et-itineraires/horaires-en-gare/) les horaires des autres trains ZOU! circulant aujourd'hui vers votre destination.
+
+Si malheureusement plus aucun train ZOU! ne dessert votre destination aujourd'hui, merci de vous rapprocher d'un agent dans votre gare de correspondance, qui trouvera une solution adaptée pour la poursuite de votre voyage.";"L'équipe SNCF Voyageurs";"";"";""
+"19";"Votre nouveau billet vous a été envoyé.";"Retrouvez-le dans votre boîte mail utilisée lors de l'achat.
+
+Pour toute question, le personnel en gare reste à votre disposition pour vous accompagner et vous proposer un hébergement, si besoin.";"L'équipe SNCF Voyageurs";"";"";""
+"20";"Votre nouveau billet vous a été envoyé.";"Retrouvez-le dans votre **boîte mail utilisée lors de l'achat**.
+
+Votre correspondance ne peut pas être assurée aujourd'hui. Dès votre arrivée en gare, rapprochez-vous du personnel pour vous proposer une solution adaptée.";"L'équipe SNCF Voyageurs";"";"";""
+"21";"Nous sommes désolés mais le retard actuel de votre train ne vous permettra pas de monter à bord du train ZOU! prévu pour la suite de votre voyage.";"Néanmoins, votre billet vous permettra de prendre le train ZOU! suivant.
+
+Vous pouvez consulter [ici](https://www.sncf-voyageurs.com/fr/voyagez-avec-nous/horaires-et-itineraires/horaires-en-gare/) les horaires des autres trains ZOU! circulant aujourd'hui vers votre destination.
+
+Si malheureusement plus aucun train ZOU! ne dessert votre destination aujourd'hui, merci de vous rapprocher d'un agent dans votre gare de correspondance, qui trouvera une solution adaptée pour la poursuite de votre voyage.";"L'équipe SNCF Voyageurs";"";"";""
+"22";"Nous sommes désolés mais plus aucun train ne circule vers votre destination aujourd'hui. Nous vous proposons une solution d'hébergement pour la nuit et un nouveau billet de train pour demain.";"Si vous avez renseigné une adresse mail lors de l'achat, vous avez reçu par mail une proposition d'hébergement pour ce soir et un nouveau billet pour demain. Merci de confirmer cette proposition en cliquant sur le lien présent dans le mail qui vous a été envoyé.
+
+Si vous n'avez pas renseigné d'adresse mail, vous avez reçu une proposition d'hébergement pour ce soir par SMS. Nous vous invitons à confirmer cette proposition en cliquant sur le lien présent dans le SMS. Dès votre arrivée en gare, rapprochez-vous d'un agent qui vous indiquera la marche à suivre pour prendre un train dès demain.";"L'équipe SNCF Voyageurs";"";"";""
+"crise";"En raison d'un événement exceptionnel, nous ne pouvons traiter vos demandes en ligne sur le site “Assistance correspondance”.";"Le trafic ferroviaire est fortement perturbé et les agents sont mobilisés pour vous accompagner en gare et à bord afin de trouver les meilleures solutions pour poursuivre votre voyage.
+
+Merci de votre compréhension.";"L'équipe SNCF Voyageurs";"";"";""
+"bug";"En raison d'un incident technique, nous ne pouvons actuellement pas traiter vos demandes en ligne sur le site “Assistance correspondance”.";"Les agents en gare et à bord restent disponibles pour vous accompagner afin de trouver les meilleures solutions pour poursuivre votre voyage.
+
+Nous regrettons cette situation et mettons tout en œuvre pour y remédier.";"L'équipe SNCF Voyageurs";"";"";""
